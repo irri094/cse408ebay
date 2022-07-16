@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ebaydb',
         'USER': 'root',
-        'PASSWORD': 'ppassword',
+        'PASSWORD': 'Password1.',
         'HOST': 'localhost',
         'PORT': '8000',
     }
