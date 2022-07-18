@@ -81,8 +81,8 @@ def logIn(request):
         pword = request.POST['password']
         print(uname)
         print(pword)
-        user = authenticate(username=uname, password=pword)
-        if user is not None:
+
+        if User.objects.filter(username=uname, password=pword).exists():
             request.session['username'] = uname
             # print("in authenticated")
             return redirect("/")
