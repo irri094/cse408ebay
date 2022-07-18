@@ -47,21 +47,24 @@ def seller_register(request):
         email = request.POST['email']
         address = request.POST['address']
         nid = request.POST['nid']
+        phone = request.POST['phone']
         bank = request.POST['bank']
         bank_acc = request.POST['bank_acc']
         password1 = request.POST['password1']
         password2 = request.POST['password2']
         print(request.POST)
+#'name': ['a'], 'shopname': ['asd'], 'email': ['a@v'], 'address': ['dhaka'], 'nid': ['25351'], 'bank': ['nhnhn'], 'bank_acc': ['3233'], 'phone': ['111'], 'password1': ['plm'], 'password2': ['plm']
 
-        # if password1 == password2 and not User.objects.filter(username=name).exists():
-        #
-        #     user_type = UserType.objects.get(type="customer")
-        #     newUser = User(username=name, password=password1, user_type=user_type)
-        #     #user_type = UserType.objects.get(type="customer")
-        #     hubid = Hub.objects.get(address="Dhaka")
-        #     newCustomer = Customer(name=name, address=address, NID=nid, phone=phone, wallet=0, delivery_address_hub=hubid)
-        #     newCustomer.save()
-        #     newUser.save()
+
+        if password1 == password2 and not User.objects.filter(username=name).exists():
+
+            user_type = UserType.objects.get(type="seller")
+            newUser = User(username=name, password=password1, user_type=user_type)
+            newUser.save()
+
+            hubid = Hub.objects.get(address="Dhaka")
+            newSeller = Seller(name=name, address=address, NID=nid, phone=phone, wallet=0, hub=hubid, shop_name=shopname, bank_name=bank, bank_acc=bank_acc)
+            newSeller.save()
 
 
 
