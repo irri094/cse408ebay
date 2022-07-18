@@ -5,6 +5,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.forms import inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns 
+from django.conf.urls.static import static
 
 from .models import*
 #from .forms import OrderForm
@@ -24,7 +26,7 @@ def logIn(request):
 
 def home(request):
     context={}
-    return render(request, 'global_controller/home.html',context)
+    return render(request, 'global_controller/home1.html',context)
 
 def user_home(request):
     context={}
