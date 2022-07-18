@@ -28,6 +28,10 @@ def register(request):
             # 'username': ['sfd'], 'email': ['a@f'], 'address': ['324'], 'nid': ['12321'], 'phone': ['235523'], 'password1': ['fqwf'], 'password2': ['fsa']}
             user_type = UserType.objects.get(type="customer")
             newUser = User(username=name, password=password1, user_type=user_type)
+            #user_type = UserType.objects.get(type="customer")
+            hubid = Hub.objects.get(address="Dhaka")
+            newCustomer = Customer(name=name, address=address, NID=nid, phone=phone, wallet=0, delivery_address_hub=hubid)
+            newCustomer.save()
             newUser.save()
 
     return render(request, 'global_controller/register.html',context)
@@ -43,13 +47,22 @@ def seller_register(request):
         email = request.POST['email']
         address = request.POST['address']
         nid = request.POST['nid']
-        bankname = request.POST['bankname']
+        bank = request.POST['bank']
         bank_acc = request.POST['bank_acc']
         password1 = request.POST['password1']
-        password21 = request.POST['password2']
-
-
+        password2 = request.POST['password2']
         print(request.POST)
+
+        # if password1 == password2 and not User.objects.filter(username=name).exists():
+        #
+        #     user_type = UserType.objects.get(type="customer")
+        #     newUser = User(username=name, password=password1, user_type=user_type)
+        #     #user_type = UserType.objects.get(type="customer")
+        #     hubid = Hub.objects.get(address="Dhaka")
+        #     newCustomer = Customer(name=name, address=address, NID=nid, phone=phone, wallet=0, delivery_address_hub=hubid)
+        #     newCustomer.save()
+        #     newUser.save()
+
 
 
 
