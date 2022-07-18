@@ -21,7 +21,8 @@ import global_controller.views as global_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', global_view.home),
-    path('login', global_view.logIn),
-    path('register', global_view.register),
-    path('seller_register', global_view.seller_register),
+    path('login/', global_view.logIn, name='login'),
+    path('register/', global_view.register, name='register'),
+    path('seller_register/', global_view.seller_register, name='seller_register'),
+    path("logout/", global_view.logout_request, name= "logout"),
 ]
