@@ -1,14 +1,10 @@
 from django.contrib.auth import authenticate, logout
 from django.shortcuts import render
-
-from multiprocessing import context
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.forms import inlineformset_factory
-from django.contrib.auth.forms import UserCreationForm
 
+import customer.views
 from .models import *
-
 
 # from .forms import OrderForm
 # from filters import OrderFilter
@@ -77,15 +73,23 @@ def logIn(request):
     if 'username' in request.session:
         return redirect("/")
     if request.method == "POST":
-        uname = request.POST['username']
-        pword = request.POST['password']
-        print(uname)
-        print(pword)
-        user = authenticate(username=uname, password=pword)
-        if user is not None:
-            request.session['username'] = uname
-            # print("in authenticated")
-            return redirect("/")
+        u_name = request.POST['username']
+        p_word = request.POST['password']
+        user = User.objects.get(username=u_name)
+        all_user_types = UserType.objects.all()
+        print(all_user_types)
+
+        print(user)
+        print(user.user_type)
+        if user.username == u_name and user.password == p_word:
+            print('inside')
+            if user.user_type.type == 'customer':
+                print('again')
+                return redirect(customer.views.load_customer)
+            elif user.user_type.type == 'seller':
+                pass
+            elif user.user_type.type == 'deliveryman':
+                pass
 
     return render(request, 'global_controller/login.html', context)
 

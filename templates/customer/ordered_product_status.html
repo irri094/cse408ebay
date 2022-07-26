@@ -1,0 +1,27 @@
+{% extends 'base/customer-base.html' %}
+
+{% block ordered_product_status %}
+
+    <h1 class="mt-4">Product Status</h1>
+
+    <div class="row my-4">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">Item</th>
+                <th class="text-center">Quantity</th>
+                <th class="text-center">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="text-center">1</td>
+                <td class="text-center">Razer Deathadder Elite</td>
+                <td class="text-center">1</td>
+                <td class="text-center">Waiting</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
