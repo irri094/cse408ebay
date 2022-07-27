@@ -2,8 +2,9 @@ from django.contrib.auth import authenticate, logout
 from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.urls import reverse
 
-import customer.views
+import customer.views as customer_views
 from .models import *
 
 # from .forms import OrderForm
@@ -85,7 +86,7 @@ def logIn(request):
             print('inside')
             if user.user_type.type == 'customer':
                 print('again')
-                return redirect(customer.views.load_customer)
+                return redirect(reverse('customer:home'))
             elif user.user_type.type == 'seller':
                 pass
             elif user.user_type.type == 'deliveryman':
