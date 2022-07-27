@@ -1,27 +1,36 @@
+{% load static %}
+
 <div class="row my-4">
     <table class="table table-striped">
         <thead>
         <tr>
             <th scope="col">#</th>
             <th scope="col">Item</th>
+            <th scope="col">Price</th>
             <th scope="col">Quantity</th>
             <th scope="col">Store</th>
-            <th scope="col">Price</th>
+            <th scope="col">Amount</th>
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>Razer Deathadder Elite</td>
-            <td>1</td>
-            <td>Ma Babar Doa</td>
-            <td>4500</td>
-        </tr>
+
+        {% for cart_product in cart %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ cart_product.inventory.product.name }}</td>
+                <td>{{ cart_product.inventory.product.price }}</td>
+                <td>{{ cart_product.quantity }}</td>
+                <td>{{ cart_product.inventory.seller.shop_name }}</td>
+                <td>{{ cart_product.amount }}</td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
     <div class="row">
         <div class="text-center">
-            <a type="button" class="btn btn-success" href="#">Buy</a>
+            <button type="button" class="btn btn-success" id="btn_buy_product">Buy</button>
         </div>
     </div>
 </div>
+
+<script src="{% static '/customer/js/ajax.js' %}" rel="javascript" type="text/javascript"></script>

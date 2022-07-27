@@ -130,9 +130,9 @@ class Order_Set(models.Model):
 
 class Order(models.Model):
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
-    product = models.OneToOneField(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     status = models.ForeignKey(Order_Status, on_delete=models.CASCADE)
-    deliveryman = models.OneToOneField(Deliveryman, on_delete=models.CASCADE)
+    deliveryman = models.ForeignKey(Deliveryman, on_delete=models.CASCADE)
     OTP = models.CharField(max_length=6)
     quantity = models.IntegerField()
     order_set = models.ForeignKey(Order_Set, on_delete=models.CASCADE)

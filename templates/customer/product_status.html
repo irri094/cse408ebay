@@ -11,16 +11,20 @@
                 <th class="text-center">#</th>
                 <th class="text-center">Item</th>
                 <th class="text-center">Quantity</th>
+                <th class="text-center">Order Date</th>
                 <th class="text-center">Status</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td class="text-center">1</td>
-                <td class="text-center">Razer Deathadder Elite</td>
-                <td class="text-center">1</td>
-                <td class="text-center">Waiting</td>
-            </tr>
+            {% for product in products %}
+                <tr>
+                    <td class="text-center">{{ forloop.counter }}</td>
+                    <td class="text-center">{{ product.product.name }}</td>
+                    <td class="text-center">{{ product.quantity }}</td>
+                    <td class="text-center">{{ product.order_set.date }}</td>
+                    <td class="text-center">{{ product.status }}</td>
+                </tr>
+            {% endfor %}
             </tbody>
         </table>
     </div>

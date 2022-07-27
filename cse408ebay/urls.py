@@ -16,16 +16,21 @@ Including another URLconf
 from django import views
 from django.contrib import admin
 from django.urls import path, include
+
+import customer
 import global_controller.views as global_view
 import customer.views as customer_views
+import global_controller.authentication_module
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', global_view.home),
     path('customer/', include('customer.urls', namespace='customer')),
-    path('login/', global_view.logIn, name='login'),
-    path('register/', global_view.register, name='register'),
-    path('seller_register/', global_view.seller_register, name='seller_register'),
-    path("logout/", global_view.logout_request, name="logout"),
-
+    path('login/', global_controller.authentication_module.logIn, name='login'),
+    path('register/', global_controller.authentication_module.register, name='register'),
+    path('seller_register/', global_controller.authentication_module.seller_register, name='seller_register'),
+    path("logout/", global_controller.authentication_module.logout_request, name="logout"),
+    path("details/<slug:ids>/", global_view.product_details, name="details"),
+    path("add_to_cart/", global_view.add_to_cart, name="add_to_cart"),
+    path("buy_product/", customer.views.buy_product, name="buy_product"),
 ]

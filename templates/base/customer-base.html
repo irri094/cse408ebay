@@ -9,6 +9,8 @@
     <meta name="description" content=""/>
     <meta name="author" content=""/>
     <title>Customer</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet"/>
     <link rel="stylesheet" href="{% static '/global_controller/css/base.css' %}">
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -27,7 +29,7 @@
         </span>
     <!-- Navbar-->
     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-        <a type="button" class="btn btn-danger" href="{% url 'logout' %}">Log Out</a>
+        <a type="button" class="btn btn-danger" href="{% url 'logout' %}"><i class="bi bi-box-arrow-left me-2"></i>Log Out</a>
     </ul>
 </nav>
 <div id="layoutSidenav">
@@ -41,21 +43,21 @@
                         Home
                     </a>
 
-                    <a class="nav-link" href="{% url 'customer:buying_history' %}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Buying History
-                    </a>
-
-                    <a class="nav-link" href="{% url 'customer:ordered_product_history' %}">
+                    <a class="nav-link" href="{% url 'customer:order_history' %}">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Order History
+                    </a>
+
+                    <a class="nav-link" href="{% url 'customer:product_status' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Product Status
                     </a>
 
                 </div>
             </div>
             <div class="sb-sidenav-footer">
                 <div class="small">Logged in as:</div>
-                { Customer Name }
+                {{ customer_name }}
             </div>
         </nav>
     </div>
