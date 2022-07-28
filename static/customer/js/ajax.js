@@ -1,10 +1,4 @@
 $('#btn_buy_product').click(function () {
-    console.log("button pressed")
-
-    mydata = {
-
-    }
-
     $.ajax(
         {
             url: "/buy_product",
@@ -15,7 +9,6 @@ $('#btn_buy_product').click(function () {
             }
         }
     )
-
 })
 
 

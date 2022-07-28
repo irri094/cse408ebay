@@ -65,7 +65,7 @@ def buy_product(request):
     else:
         cart = request.session['cart']
         total_price = 0
-
+        # Inventory update
         for inventory in cart:
             seller_id = inventory[0]
             product_id = inventory[1]
