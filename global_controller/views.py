@@ -36,6 +36,9 @@ def add_to_cart(request):
 
     print(request.session['cart'])
     context = {
-        "status": 1
+        "status": 1,
+        "cart_size": len(request.session['cart'])
     }
     return JsonResponse(context)
+
+

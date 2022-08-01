@@ -9,7 +9,7 @@ $('#add_to_cart').click(function () {
     mydata = {
         seller_id: seller_id,
         product_id: product_id,
-        quantity : product_quantity
+        quantity: product_quantity
     }
 
     console.log(mydata)
@@ -20,8 +20,12 @@ $('#add_to_cart').click(function () {
             method: 'GET',
             data: mydata,
             success: function (data) {
-                if (data.status == 1){
-                    console.log("data added to cart done")
+                if (data.status == 1) {
+                    document.getElementById('cartCount').innerHTML = data.cart_size
+                    document.getElementById('notification_head_strong_id').innerHTML = "Successful"
+                    document.getElementById('notification_body_id').innerHTML = "Product added to cart"
+                    $("#toast_id").toast("show")
+
                 }
             }
         }

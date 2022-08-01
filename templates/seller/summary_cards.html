@@ -1,0 +1,122 @@
+<div class="row">
+    <div class="d-flex justify-content-between">
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-success text-white mb-4">
+                <div class="card-body">
+                    <h3>Wallet</h3>
+                </div>
+                <div class="row mx-1">
+                    <div class="col-8">
+                        <h4>
+                            <div class="text-center text-dark">
+
+                                <div class="mb-3">
+                                    <label for="exampleFormControlInput1" class="form-label text-white-50">
+                                        <h5>
+                                            Transfer Amount
+                                        </h5>
+                                    </label>
+                                    <form action="">
+                                        {% csrf_token %}
+                                        <input type="number" class="form-control mb-3" id="bank_transfer_amount_id"
+                                               placeholder="Amount">
+                                        <button type="button" class="btn btn-dark" id="btn_transfer_button_id">Add
+                                        </button>
+                                    </form>
+
+                                </div>
+
+                            </div>
+                        </h4>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-success text-white mb-4">
+                <div class="card-body">
+                    <h3>Order Summary</h3>
+                    {#                    Summary Information #}
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="text-black-50">
+                                <div class="row">
+                                    <div class="text-center">Ordered</div>
+                                </div>
+                                <div class="row">
+                                    <div class="text-center">{{ no_of_cart_items }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="text-black-50">
+                                <div class="row">
+                                    <div class="text-center">Delivered</div>
+                                </div>
+                                <div class="row">
+                                    <div class="text-center">40</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="text-black-50">
+                                <div class="row">
+                                    <div class="text-center">Returned</div>
+                                </div>
+                                <div class="row">
+                                    <div class="text-center">30</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6">
+            <div class="card bg-success text-white mb-4">
+                <div class="card-body">
+                    <h3>Auction Summary</h3>
+                    {#                    Summary Information #}
+                    <div class="row">
+
+                        <div class="col-4">
+                            <div class="text-black-50">
+                                <div class="row">
+                                    <div class="text-center">In Auction</div>
+                                </div>
+                                <div class="row">
+                                    <div class="text-center">30</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="text-black-50">
+                                <div class="row">
+                                    <div class="text-center">Spent</div>
+                                </div>
+                                <div class="row">
+                                    <div class="text-center">40</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="text-black-50">
+                                <div class="row">
+                                    <div class="text-center">In Wallet</div>
+                                </div>
+                                <div class="row">
+                                    <div class="text-center">30</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

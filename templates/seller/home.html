@@ -1,4 +1,24 @@
 {% extends 'base/seller_base.html' %}
+{% load static %}
 
-{% block seller_landing_module %}
+{% block seller_home %}
+    <style>
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+
+    {% include 'seller/summary_cards.html' %}
+    {% include 'seller/inventory.html' %}
+
+    <script src="{% static 'seller/js/home.js' %}"></script>
+
 {% endblock %}

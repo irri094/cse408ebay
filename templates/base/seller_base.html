@@ -43,15 +43,15 @@
                         Inventory
                     </a>
 
-                    <a class="nav-link" href="{% url 'seller:order_history' %}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Order History
-                    </a>
+{#                    <a class="nav-link" href="{% url 'seller:order_history' %}">#}
+{#                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>#}
+{#                        Order History#}
+{#                    </a>#}
 
-                    <a class="nav-link" href="{% url 'seller:product_status' %}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Product Status
-                    </a>
+{#                    <a class="nav-link" href="{% url 'seller:product_status' %}">#}
+{#                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>#}
+{#                        Product Status#}
+{#                    </a>#}
 
                 </div>
             </div>
@@ -65,7 +65,10 @@
         <main>
             <div class="container-fluid px-4 mt-4">
 
+            {% block seller_home %}
 
+
+            {% endblock %}
 
             </div>
         </main>

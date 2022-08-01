@@ -33,6 +33,7 @@ def logIn(request):
             elif user.user_type.type == 'seller':
                 create_session(request, u_name)
                 print(f"seller found {u_name}")
+                return redirect(reverse('seller:home'))
             elif user.user_type.type == 'deliveryman':
                 create_session(request, u_name)
     print("coming down here")
