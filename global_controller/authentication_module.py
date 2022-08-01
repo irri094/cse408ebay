@@ -13,7 +13,7 @@ def logIn(request):
             return redirect(reverse('customer:home'))
         elif user.user_type.type == 'seller':
             print("redirecting to seller")
-            print(f"seller found {u_name}")
+            return redirect(reverse('seller:home'))
         elif user.user_type.type == 'deliveryman':
             print("redirecting to deliveryman")
             print(f"delivery man found {u_name}")
@@ -125,7 +125,7 @@ def go_to_corresponding_account(request):
         return redirect(reverse('customer:home'))
     elif user.user_type.type == 'seller':
         print("redirecting to seller")
-        print(f"seller found {u_name}")
+        return redirect(reverse('seller:home'))
     elif user.user_type.type == 'deliveryman':
         print("redirecting to deliveryman")
         print(f"delivery man found {u_name}")

@@ -24,8 +24,10 @@ import global_controller.authentication_module
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', global_view.home),
+    path('', global_view.home, name='global_home'),
     path('customer/', include('customer.urls', namespace='customer')),
+    path('employee/', include('employee.urls', namespace='employee')),
+    path('seller/', include('seller.urls', namespace='seller')),
     path('login/', global_controller.authentication_module.logIn, name='login'),
     path('register/', global_controller.authentication_module.register, name='register'),
     path('seller_register/', global_controller.authentication_module.seller_register, name='seller_register'),
