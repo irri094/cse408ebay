@@ -1,0 +1,28 @@
+<h1 class="mt-4">Delivery List</h1>
+
+<div class="row my-4">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th class="text-center">#</th>
+            <th class="text-center">seller</th>
+            <th class="text-center">product</th>
+            <th class="text-center">quantity</th>
+            <th class="text-center">customer</th>
+            <th class="text-center">status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in orderlist %}
+            <tr>
+                <td class="text-center">{{ forloop.counter }}</td>
+                <td class="text-center">{{ order.seller }}</td>
+                <td class="text-center">{{ order.product }}</td>
+                <td class="text-center">{{ order.quantity }}</td>
+                <td class="text-center">{{ order.order_set.customer }}</td>
+                <td class="text-center">{{ order.status }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

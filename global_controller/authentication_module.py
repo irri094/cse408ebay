@@ -17,13 +17,17 @@ def logIn(request):
         elif user.user_type.type == 'deliveryman':
             print("redirecting to deliveryman")
             print(f"delivery man found {u_name}")
+            return redirect(reverse('deliveryman:home'))
 
     elif request.method == "POST":
         print("processing authentication")
         u_name = request.POST['username']
         p_word = request.POST['password']
-        print('ioasdoiasud')
-        user = User.objects.get(username=u_name)
+        try:
+            user = User.objects.get(username=u_name)
+        except:
+            request.session.clear()
+            return render(request, 'global_controller/login.html')
         print(user)
         print("192739187238917")
         if user.username == u_name and user.password == p_word:
@@ -36,6 +40,7 @@ def logIn(request):
                 return redirect(reverse('seller:home'))
             elif user.user_type.type == 'deliveryman':
                 create_session(request, u_name)
+                return redirect(reverse('deliveryman:home'))
     print("coming down here")
     return render(request, 'global_controller/login.html')
 
