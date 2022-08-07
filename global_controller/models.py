@@ -14,7 +14,7 @@ class UserType(models.Model):
 
 
 class User(models.Model):
-    username = models.CharField(max_length=20, primary_key=True)
+    username = models.CharField(max_length=100, primary_key=True)
     password = models.CharField(max_length=30)
     user_type = models.ForeignKey(UserType, on_delete=models.CASCADE)
 
@@ -40,7 +40,7 @@ class Hubman(models.Model):
 
 class Customer(models.Model):
     delivery_address_hub = models.ForeignKey(Hub, models.CASCADE)
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=100)
     address = models.CharField(max_length=100)
     NID = models.CharField(max_length=20)
     phone = models.CharField(max_length=100)
@@ -130,9 +130,9 @@ class Order_Set(models.Model):
 
 class Order(models.Model):
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
-    product = models.OneToOneField(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
     status = models.ForeignKey(Order_Status, on_delete=models.CASCADE)
-    deliveryman = models.OneToOneField(Deliveryman, on_delete=models.CASCADE)
+    deliveryman = models.ForeignKey(Deliveryman, on_delete=models.CASCADE)
     OTP = models.CharField(max_length=6)
     quantity = models.IntegerField()
     order_set = models.ForeignKey(Order_Set, on_delete=models.CASCADE)

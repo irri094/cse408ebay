@@ -1,0 +1,64 @@
+{% load static %}
+
+<h1 class="mt-4">Cart</h1>
+
+<div class="row my-4">
+    <table class="table table-striped" id="cart_table_id">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Item</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Store</th>
+            <th scope="col">Amount</th>
+            <th scope="col"></th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for cart_product in cart %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ cart_product.inventory.product.name }}</td>
+                <td>{{ cart_product.inventory.product.price }}</td>
+{#                <td>{{ cart_product.quantity }}</td>#}
+                <td>
+                    <input class="form-control text-center me-3"
+                           id="input_quantity_{{ forloop.counter }}"
+                           type="number" min="0" value="{{ cart_product.quantity }}"
+                               style="max-width: 3rem"/>
+                </td>
+
+                <td>{{ cart_product.inventory.seller.shop_name }}</td>
+                <td>{{ cart_product.amount }}</td>
+                <td>
+
+                    <a class="btn-remove-cart-entry text-danger"
+                       href="#"
+                       data-history-detail="{{ forloop.counter }}">
+                        <i class="bi bi-trash"></i>
+                    </a>
+                    <a class="btn-update-cart text-success mx-3"
+                       href="#"
+                       data-cart-detail="{{ forloop.counter }}">
+                        <i class="bi bi-app-indicator"></i>
+                    </a>
+{#                    btn_update_cart#}
+{#                    <i class="bi bi-app-indicator"></i>#}
+                </td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="text-center">
+            <button type="button" class="btn btn-success" id="btn_buy_product">Buy</button>
+        </div>
+
+    </div>
+</div>
+
+<script src="{% static '/customer/js/ajax.js' %}" rel="javascript" type="text/javascript"></script>
