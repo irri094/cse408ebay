@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from global_controller.models import *
 import global_controller.authentication_module
 from datetime import date
+from django.urls import reverse
+
 from django.db.models import Q
 
 
@@ -35,25 +37,31 @@ def load_customer(request):
 
 # Fetches product's which is not delivered and sends them to frond-end
 def load_product_status(request):
-    user = Customer.objects.get(name=request.session['username'])
-    status = Order_Status.objects.get(id=1)
+    if 'username' not in request.session:
+        return redirect(global_controller.authentication_module.logIn)
+    else:
+        user = Customer.objects.get(name=request.session['username'])
+        status = Order_Status.objects.get(id=1)
 
-    ordered_product = Order.objects.filter(order_set__customer=user, status=status)
+        ordered_product = Order.objects.filter(order_set__customer=user, status=status)
 
-    print(ordered_product)
+        print(ordered_product)
 
-    context = {
-        'products': ordered_product
-    }
-    return render(request, 'customer/product_status.html', context)
+        context = {
+            'products': ordered_product
+        }
+        return render(request, 'customer/product_status.html', context)
 
 # Fetches the order history and sends them to the front-end to render
 def load_order_history(request):
-    return render(request, 'customer/order_history.html')
+    if 'username' not in request.session:
+        return redirect(global_controller.authentication_module.logIn)
+    else:
+        return render(request, 'customer/order_history.html')
 
 
 # When a product is bought from the customer module this function is invoked.
-# A order is executed in the following steps sequentially
+# a order is executed in the following steps sequentially
 #       1.  Update seller inventory with the new product count
 #       2.  Create new Transaction instance
 #       3.  Create new Order_Set instance
@@ -115,3 +123,36 @@ def buy_product(request):
         request.session['cart'] = []
 
         return JsonResponse({})
+
+
+def remove_from_cart(request):
+
+    print(request.GET)
+
+    remove_id = request.GET['remove_id']
+
+    cart = request.session['cart']
+    cart_element = cart[int(remove_id)-1]
+    cart.remove(cart_element)
+    request.session['cart'] = cart
+
+    return redirect(reverse('customer:home'))
+
+
+def update_to_cart(request):
+    print(request.GET)
+    update_id = request.GET['update_id']
+
+    new_quantity = request.GET['new_quantity']
+
+    cart = request.session['cart']
+
+    updated_cart = cart[int(update_id)-1]
+    updated_cart[2] = new_quantity
+
+    cart[int(update_id)-1] = updated_cart
+
+    request.session['cart'] = cart
+
+    return JsonResponse({})
+

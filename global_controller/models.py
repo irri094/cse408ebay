@@ -14,7 +14,7 @@ class UserType(models.Model):
 
 
 class User(models.Model):
-    username = models.CharField(max_length=20, primary_key=True)
+    username = models.CharField(max_length=100, primary_key=True)
     password = models.CharField(max_length=30)
     user_type = models.ForeignKey(UserType, on_delete=models.CASCADE)
 
@@ -40,7 +40,7 @@ class Hubman(models.Model):
 
 class Customer(models.Model):
     delivery_address_hub = models.ForeignKey(Hub, models.CASCADE)
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=100)
     address = models.CharField(max_length=100)
     NID = models.CharField(max_length=20)
     phone = models.CharField(max_length=100)

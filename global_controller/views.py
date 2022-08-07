@@ -24,7 +24,7 @@ def product_details(request, ids):
     }
     return render(request, 'global_controller/product_detail.html', context)
 
-
+# Cart is added in the session variable as a tuple of  (seller_id, product_id, quantity)
 def add_to_cart(request):
     seller_id = request.GET['seller_id']
     product_id = request.GET['product_id']
