@@ -30,3 +30,18 @@ def load_inventory(request):
 def test_functioon(request):
     print(request.POST)
     return JsonResponse({})
+
+
+def add_products(request):
+    context = {}
+    return render(request, 'seller/add_products.html', context)
+
+
+def current_order(request):
+    context = {}
+    return render(request, 'seller/current_order.html', context)
+
+
+def order_history(request):
+    context = {}
+    return render(request, 'seller/order_history.html', context)

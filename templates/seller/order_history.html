@@ -1,0 +1,51 @@
+{% extends 'base/seller_base.html' %}
+{% load static %}
+
+{% block seller_home %}
+    <style>
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+
+    {% include 'seller/summary_cards.html' %}
+    <h1 class="mt-4">Order History</h1>
+
+    <div class="row my-4">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">Product</th>
+                <th class="text-center">Category</th>
+                <th class="text-center">Brand</th>
+                <th class="text-center">Amount</th>
+                <th class="text-center">Quantity</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for inventory in inventories %}
+                <tr>
+                    <td class="text-center">{{ forloop.counter }}</td>
+                    <td class="text-center">{{ inventory.product.name }}</td>
+                    <td class="text-center">{{ inventory.product.category }}</td>
+                    <td class="text-center">{{ inventory.product.brand }}</td>
+                    <td class="text-center">{{ inventory.product.price }}</td>
+                    <td class="text-center">{{ inventory.quantity }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="{% static 'seller/js/home.js' %}"></script>
+
+{% endblock %}
