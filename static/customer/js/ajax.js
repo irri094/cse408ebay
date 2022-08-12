@@ -1,4 +1,5 @@
 $('#btn_buy_product').click(function () {
+    mydata = {}
     $.ajax(
         {
             url: "/buy_product",
@@ -12,7 +13,6 @@ $('#btn_buy_product').click(function () {
 })
 
 
-//
 $("#cart_table_id").on("click", ".btn-update-cart", function () {
     console.log("btn update pressed")
 
@@ -60,4 +60,19 @@ $("#cart_table_id").on("click", ".btn-remove-cart-entry", function () {
         }
     )
 
+})
+
+
+$('#btn_recharge_wallet').click(function () {
+    console.log('button pressed')
+
+    $.ajax(
+        {
+            url: "recharge_wallet/",
+            method: 'GET',
+            success: function (data) {
+                console.log("everything done properly and received")
+            }
+        }
+    )
 })

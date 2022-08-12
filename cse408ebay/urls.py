@@ -34,6 +34,8 @@ urlpatterns = [
     path("logout/", global_controller.authentication_module.logout_request, name="logout"),
     path("details/<slug:ids>/", global_view.product_details, name="details"),
     path("add_to_cart/", global_view.add_to_cart, name="add_to_cart"),
+
+    # customer stuffs
     path("buy_product/", customer.views.buy_product, name="buy_product"),
 
 

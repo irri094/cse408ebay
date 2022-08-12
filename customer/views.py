@@ -140,19 +140,19 @@ def remove_from_cart(request):
 
 
 def update_to_cart(request):
-    print(request.GET)
     update_id = request.GET['update_id']
-
     new_quantity = request.GET['new_quantity']
-
     cart = request.session['cart']
-
     updated_cart = cart[int(update_id)-1]
     updated_cart[2] = new_quantity
-
     cart[int(update_id)-1] = updated_cart
-
     request.session['cart'] = cart
 
     return JsonResponse({})
 
+# This is function is called when the 'recharge via bKash' is clicked. It takes
+# the recharge amount via request and updates the database. The current amount
+# is then displayed to the user.
+def recharge_wallet(request):
+
+    return JsonResponse({})
