@@ -24,7 +24,7 @@
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="#!">Bengal Bay</a>
+        <a class="navbar-brand" href="{% url 'global_home' %}">Bengal Bay</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
                 class="navbar-toggler-icon"></span></button>
@@ -40,19 +40,19 @@
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
-                        <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                        <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+                        <li><a class="dropdown-item" href="#">Popular Items</a></li>
+                        <li><a class="dropdown-item" href="#">New Arrivals</a></li>
                     </ul>
                 </li>
             </ul>
 
-            <button class="btn btn-outline-dark mx-1">
+            <a class="btn btn-outline-dark mx-1" href="{% url 'customer:home' %}">
                 <i class="bi-cart-fill me-1"></i>
                 Cart
                 <span class="badge bg-dark text-white ms-1 rounded-pill" id="cartCount">
-                    1
+                    {{ cart_size }}
                 </span>
-            </button>
+            </a>
 
             <a class="btn btn-outline-dark" href="{% url 'login' %}">
                 <i class="bi bi-person-circle"></i>
@@ -72,5 +72,7 @@
 
 <!-- Core theme JS-->
 <script src="{% static '/global_controller/js/global_home.js' %}"></script>
+<script src="{% static '/global_controller/js/global_home.js' %}"></script>
+
 </body>
 </html>

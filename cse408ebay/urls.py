@@ -28,13 +28,13 @@ urlpatterns = [
     path('customer/', include('customer.urls', namespace='customer')),
     path('employee/', include('employee.urls', namespace='employee')),
     path('seller/', include('seller.urls', namespace='seller')),
+    path('deliveryman/', include('deliveryman.urls', namespace='deliveryman')),
     path('login/', global_controller.authentication_module.logIn, name='login'),
     path('register/', global_controller.authentication_module.register, name='register'),
     path('seller_register/', global_controller.authentication_module.seller_register, name='seller_register'),
     path("logout/", global_controller.authentication_module.logout_request, name="logout"),
     path("details/<slug:ids>/", global_view.product_details, name="details"),
     path("add_to_cart/", global_view.add_to_cart, name="add_to_cart"),
-
     # customer stuffs
     path("buy_product/", customer.views.buy_product, name="buy_product"),
 

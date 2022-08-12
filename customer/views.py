@@ -52,6 +52,7 @@ def load_product_status(request):
         }
         return render(request, 'customer/product_status.html', context)
 
+
 # Fetches the order history and sends them to the front-end to render
 def load_order_history(request):
     if 'username' not in request.session:
@@ -106,7 +107,9 @@ def buy_product(request):
 
         status = Order_Status.objects.get(id=1)
         deliveryman = Deliveryman.objects.get(id=1)
-        otp = "qqwwee"
+
+        otp = "qqwwee"      # To Do -- THE OTP should be generated randomly of 6 character
+                            # length. This otp is used for product validation on hand-change.
         for inventory in cart:
             seller_id = inventory[0]
             product_id = inventory[1]
@@ -122,17 +125,20 @@ def buy_product(request):
         # reset cart session variable for future use
         request.session['cart'] = []
 
-        return JsonResponse({})
+        context = {
+            'status': 1,
+        }
+
+        return JsonResponse(context)
 
 
 def remove_from_cart(request):
-
     print(request.GET)
 
     remove_id = request.GET['remove_id']
 
     cart = request.session['cart']
-    cart_element = cart[int(remove_id)-1]
+    cart_element = cart[int(remove_id) - 1]
     cart.remove(cart_element)
     request.session['cart'] = cart
 
@@ -143,16 +149,16 @@ def update_to_cart(request):
     update_id = request.GET['update_id']
     new_quantity = request.GET['new_quantity']
     cart = request.session['cart']
-    updated_cart = cart[int(update_id)-1]
+    updated_cart = cart[int(update_id) - 1]
     updated_cart[2] = new_quantity
-    cart[int(update_id)-1] = updated_cart
+    cart[int(update_id) - 1] = updated_cart
     request.session['cart'] = cart
 
     return JsonResponse({})
+
 
 # This is function is called when the 'recharge via bKash' is clicked. It takes
 # the recharge amount via request and updates the database. The current amount
 # is then displayed to the user.
 def recharge_wallet(request):
-
     return JsonResponse({})

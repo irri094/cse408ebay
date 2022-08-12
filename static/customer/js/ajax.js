@@ -1,12 +1,23 @@
 $('#btn_buy_product').click(function () {
-    mydata = {}
+
     $.ajax(
         {
             url: "/buy_product",
             method: 'GET',
-            data: mydata,
             success: function (data) {
-                console.log("everything done properly")
+
+                if(data.status == 1){
+                    console.log("product bought")
+
+                    document.getElementById('cart-table-body-id').innerHTML = ""
+
+                    swal("Order Successful!", "All of your products have been successfully ordered ", "success");
+
+                    // document.getElementById('notification_head_strong_id').innerHTML = "Successful"
+                    // document.getElementById('notification_body_id').innerHTML = "You have successfully bought the products."
+                    // $("#toast_id").toast("show")
+
+                }
             }
         }
     )
@@ -14,7 +25,6 @@ $('#btn_buy_product').click(function () {
 
 
 $("#cart_table_id").on("click", ".btn-update-cart", function () {
-    console.log("btn update pressed")
 
     let id = $(this).attr('data-cart-detail')
     let quantity_field_id = "#input_quantity_" + id

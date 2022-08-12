@@ -1,0 +1,29 @@
+
+<h1 class="mt-4">Orders</h1>
+
+<div class="row my-4">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th class="text-center">#</th>
+            <th class="text-center">Product</th>
+            <th class="text-center">Category</th>
+            <th class="text-center">Brand</th>
+            <th class="text-center">Amount</th>
+            <th class="text-center">Quantity</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <td class="text-center">{{ forloop.counter }}</td>
+                <td class="text-center"></td>
+                <td class="text-center"></td>
+                <td class="text-center"></td>
+                <td class="text-center"></td>
+                <td class="text-center"></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

@@ -3,8 +3,10 @@ from django.urls import reverse
 from .models import *
 import customer.views as customer_views
 
-def logIn(request):
-    if 'username' in request.session:
+
+# Login Authentication Module
+def logIn(request):                         # To Do -- the login function should work with
+    if 'username' in request.session:       # the phone number, not the first_name.
         u_name = request.session['username']
         user = User.objects.get(username=u_name)
         print(f"redirection to corresponding account")
@@ -17,6 +19,7 @@ def logIn(request):
         elif user.user_type.type == 'deliveryman':
             print("redirecting to deliveryman")
             print(f"delivery man found {u_name}")
+            return redirect(reverse('deliveryman:home'))
 
     elif request.method == "POST":
         print("processing authentication")
@@ -26,20 +29,28 @@ def logIn(request):
         user = User.objects.get(username=u_name)
         print(user)
         print("192739187238917")
+        print(f"user_username -- {user.username}  || {u_name}")
+        print(f"user_password -- {user.password}  || {p_word}")
+
         if user.username == u_name and user.password == p_word:
+            print('1')
             if user.user_type.type == 'customer':
+                print(2)
                 create_session(request, u_name)
                 return redirect(reverse('customer:home'))
             elif user.user_type.type == 'seller':
+                print(3)
                 create_session(request, u_name)
                 print(f"seller found {u_name}")
                 return redirect(reverse('seller:home'))
             elif user.user_type.type == 'deliveryman':
+                print(4)
                 create_session(request, u_name)
+                return redirect(reverse('deliveryman:home'))
     print("coming down here")
     return render(request, 'global_controller/login.html')
 
-
+# The account is created and the phone number is used as the username
 def register(request):
     context = {}
     if 'username' in request.session:
@@ -67,6 +78,7 @@ def register(request):
     return render(request, 'global_controller/register.html', context)
 
 
+# The account is created and the phone number is used as the username.
 def seller_register(request):
     context = {}
 
@@ -130,3 +142,4 @@ def go_to_corresponding_account(request):
     elif user.user_type.type == 'deliveryman':
         print("redirecting to deliveryman")
         print(f"delivery man found {u_name}")
+        return redirect(reverse('deliveryman:home'))
