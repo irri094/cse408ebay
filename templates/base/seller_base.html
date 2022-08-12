@@ -43,9 +43,14 @@
                         Inventory
                     </a>
 
+                    <a class="nav-link" href="{% url 'seller:add_products' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Add a Product
+                    </a>
+
                     <a class="nav-link" href="{% url 'seller:current_order' %}">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Order History
+                        Current Order
                     </a>
 
                     <a class="nav-link" href="{% url 'seller:order_history' %}">
@@ -53,10 +58,7 @@
                         Order History
                     </a>
 
-                    <a class="nav-link" href="{% url 'seller:add_products' %}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Product Status
-                    </a>
+                    
 
                 </div>
             </div>
