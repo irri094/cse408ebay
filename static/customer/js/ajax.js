@@ -88,8 +88,20 @@ $('#btn_recharge_wallet').click(function () {
             url: "recharge_wallet/",
             method: 'GET',
             success: function (data) {
+                swal("Recharge Successful " + data.amount + " taka!", "", "success");
+
                 console.log("everything done properly and received")
             }
         }
     )
+})
+
+
+$('.recharge-method').click(function () {
+    console.log('button pressed')
+
+    let method = $(this).attr('data-method')
+    console.log(method)
+
+    document.getElementById('recharge_method_id').innerHTML = method
 })
