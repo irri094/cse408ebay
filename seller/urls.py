@@ -9,6 +9,6 @@ urlpatterns = [
     path("order_history/", views.order_history, name="order_history"),
     path("current_order/", views.current_order, name="current_order"),
     path("add_products/", views.add_products, name="add_products"),
-
+    path("auction/", views.auction, name="auction"),
     # path('product_status/', views.load_product_status, name='product_status'),
 ]

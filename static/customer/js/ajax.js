@@ -6,7 +6,7 @@ $('#btn_buy_product').click(function () {
             method: 'GET',
             success: function (data) {
 
-                if(data.status == 1){
+                if (data.status == 1) {
                     console.log("product bought")
 
                     document.getElementById('cart-table-body-id').innerHTML = ""
@@ -32,7 +32,7 @@ $("#cart_table_id").on("click", ".btn-update-cart", function () {
 
     mydata = {
         update_id: $(this).attr('data-cart-detail'),
-        new_quantity : product_quantity,
+        new_quantity: product_quantity,
     }
 
     console.log(mydata)
@@ -42,6 +42,8 @@ $("#cart_table_id").on("click", ".btn-update-cart", function () {
             method: 'GET',
             data: mydata,
             success: function (data) {
+
+
                 console.log("success")
             }
         }
@@ -53,6 +55,7 @@ $("#cart_table_id").on("click", ".btn-update-cart", function () {
 $("#cart_table_id").on("click", ".btn-remove-cart-entry", function () {
     console.log("btn remove pressed")
 
+    let del_button = this
 
     mydata = {
         remove_id: $(this).attr('data-history-detail')
@@ -65,7 +68,11 @@ $("#cart_table_id").on("click", ".btn-remove-cart-entry", function () {
             method: 'GET',
             data: mydata,
             success: function (data) {
-                console.log("success")
+
+                $(del_button).closest("tr").fadeOut()
+
+                console.log('success')
+
             }
         }
     )

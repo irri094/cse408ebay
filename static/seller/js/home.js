@@ -23,3 +23,20 @@ $('#btn_transfer_button_id').click(function () {
 })
 
 
+$('#btn-auction-confirmation-id').click(function () {
+    console.log("auction confirmation button pressed")
+
+    $.ajax(
+        {
+            url: "auction/",
+            method: 'GET',
+            success: function (data) {
+                if (data.status == 1) {
+                    swal("Auction Successful!", "Your products have been listed for auction", "success");
+                    console.log("yesssss")
+                }
+            }
+        }
+    )
+
+})

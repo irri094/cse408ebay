@@ -23,7 +23,6 @@
                 <td>{{ forloop.counter }}</td>
                 <td>{{ cart_product.inventory.product.name }}</td>
                 <td>{{ cart_product.inventory.product.price }}</td>
-{#                <td>{{ cart_product.quantity }}</td>#}
                 <td>
                     <input class="form-control text-center me-3"
                            id="input_quantity_{{ forloop.counter }}"
@@ -45,8 +44,6 @@
                        data-cart-detail="{{ forloop.counter }}">
                         <i class="bi bi-app-indicator"></i>
                     </a>
-{#                    btn_update_cart#}
-{#                    <i class="bi bi-app-indicator"></i>#}
                 </td>
 
             </tr>
