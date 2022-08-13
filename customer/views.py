@@ -91,8 +91,8 @@ def buy_product(request):
         status = Order_Status.objects.get(id=1)
         deliveryman = Deliveryman.objects.get(id=1)
 
-        otp = "qqwwee"      # To Do -- THE OTP should be generated randomly of 6 character
-                            # length. This otp is used for product validation on hand-change.
+        otp = "qqwwee"  # To Do -- THE OTP should be generated randomly of 6 character
+        # length. This otp is used for product validation on hand-change.
         for inventory in cart:
             seller_id = inventory[0]
             product_id = inventory[1]
@@ -113,6 +113,7 @@ def buy_product(request):
         }
 
         return JsonResponse(context)
+
 
 def generate_cart_dict(request):
     cart = []
@@ -135,8 +136,9 @@ def generate_cart_dict(request):
         "no_of_cart_items": len(cart),
     }
     return context
-def remove_from_cart(request):
 
+
+def remove_from_cart(request):
     remove_id = request.GET['remove_id']
 
     cart = request.session['cart']
@@ -148,7 +150,6 @@ def remove_from_cart(request):
 
 
 def update_to_cart(request):
-
     update_id = request.GET['update_id']
     new_quantity = request.GET['new_quantity']
     cart = request.session['cart']
@@ -164,4 +165,8 @@ def update_to_cart(request):
 # the recharge amount via request and updates the database. The current amount
 # is then displayed to the user.
 def recharge_wallet(request):
-    return JsonResponse({})
+    context = {
+        'amount': 550,
+        'phone': '0170123456',
+    }
+    return JsonResponse(context)
