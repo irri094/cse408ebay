@@ -35,17 +35,20 @@ def logIn(request):                         # To Do -- the login function should
         if user.username == u_name and user.password == p_word:
             print('1')
             if user.user_type.type == 'customer':
+                tmpname = Customer.objects.get(phone=u_name).name
                 print(2)
-                create_session(request, u_name)
+                create_session(request, tmpname)
                 return redirect(reverse('customer:home'))
             elif user.user_type.type == 'seller':
                 print(3)
-                create_session(request, u_name)
+                tmpname = Seller.objects.get(phone=u_name).name
+                create_session(request, tmpname)
                 print(f"seller found {u_name}")
                 return redirect(reverse('seller:home'))
             elif user.user_type.type == 'deliveryman':
                 print(4)
-                create_session(request, u_name)
+                tmpname = Deliveryman.objects.get(phone=u_name).name
+                create_session(request, tmpname)
                 return redirect(reverse('deliveryman:home'))
     print("coming down here")
     return render(request, 'global_controller/login.html')
@@ -67,7 +70,7 @@ def register(request):
         if password1 == password2 and not User.objects.filter(username=name).exists():
             # 'username': ['sfd'], 'email': ['a@f'], 'address': ['324'], 'nid': ['12321'], 'phone': ['235523'], 'password1': ['fqwf'], 'password2': ['fsa']}
             user_type = UserType.objects.get(type="customer")
-            newUser = User(username=name, password=password1, user_type=user_type)
+            newUser = User(username=phone, password=password1, user_type=user_type)
             # user_type = UserType.objects.get(type="customer")
             hubid = Hub.objects.get(address="Dhaka")
             newCustomer = Customer(name=name, address=address, NID=nid, phone=phone, wallet=0,
@@ -100,7 +103,7 @@ def seller_register(request):
 
         if password1 == password2 and not User.objects.filter(username=name).exists():
             user_type = UserType.objects.get(type="seller")
-            newUser = User(username=name, password=password1, user_type=user_type)
+            newUser = User(username=phone, password=password1, user_type=user_type)
             newUser.save()
 
             hub_name = address.split(',')[-1].replace(" ", "").lower()
