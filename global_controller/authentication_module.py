@@ -67,14 +67,17 @@ def register(request):
         password1 = request.POST['password1']
         password2 = request.POST['password2']
         print(request.POST)
-        if password1 == password2 and not User.objects.filter(username=name).exists():
+        if password1 == password2 and not User.objects.filter(username=phone).exists():
             # 'username': ['sfd'], 'email': ['a@f'], 'address': ['324'], 'nid': ['12321'], 'phone': ['235523'], 'password1': ['fqwf'], 'password2': ['fsa']}
             user_type = UserType.objects.get(type="customer")
             newUser = User(username=phone, password=password1, user_type=user_type)
             # user_type = UserType.objects.get(type="customer")
-            hubid = Hub.objects.get(address="Dhaka")
+            try:
+                hub = Hub.objects.get(address=address)
+            except:
+                return render(request, 'global_controller/register.html', context)
             newCustomer = Customer(name=name, address=address, NID=nid, phone=phone, wallet=0,
-                                   delivery_address_hub=hubid)
+                                   delivery_address_hub=hub)
             newCustomer.save()
             newUser.save()
 
@@ -101,18 +104,23 @@ def seller_register(request):
         print(request.POST)
         # 'name': ['a'], 'shopname': ['asd'], 'email': ['a@v'], 'address': ['dhaka'], 'nid': ['25351'], 'bank': ['nhnhn'], 'bank_acc': ['3233'], 'phone': ['111'], 'password1': ['plm'], 'password2': ['plm']
 
-        if password1 == password2 and not User.objects.filter(username=name).exists():
-            user_type = UserType.objects.get(type="seller")
-            newUser = User(username=phone, password=password1, user_type=user_type)
-            newUser.save()
+        if password1 == password2 and not User.objects.filter(username=phone).exists():
 
             hub_name = address.split(',')[-1].replace(" ", "").lower()
             print(hub_name)
-            hub = Hub.objects.get(address=hub_name)
+            try:
+                hub = Hub.objects.get(address=address)
+            except:
+                return render(request, 'global_controller/seller_register.html', context)
             print(hub)
+            user_type = UserType.objects.get(type="seller")
+            newUser = User(username=phone, password=password1, user_type=user_type)
+            newUser.save()
+            print("seller register : user saved to db")
             newSeller = Seller(name=name, address=address, NID=nid, phone=phone, wallet=0, hub=hub,
                                shop_name=shopname, bank_name=bank, bank_acc=bank_acc)
             newSeller.save()
+            print("seller register : seller saved to db")
             print(f'{newSeller} -- successfully registered')
     return render(request, 'global_controller/seller_register.html', context)
 

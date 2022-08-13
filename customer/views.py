@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from global_controller.models import *
 import global_controller.authentication_module
 from datetime import date
+import random
 from django.urls import reverse
 
 from django.db.models import Q
@@ -91,8 +92,19 @@ def buy_product(request):
         status = Order_Status.objects.get(id=1)
         deliveryman = Deliveryman.objects.get(id=1)
 
-        otp = "qqwwee"      # To Do -- THE OTP should be generated randomly of 6 character
+        otp = ""      # To Do -- THE OTP should be generated randomly of 6 character
                             # length. This otp is used for product validation on hand-change.
+        for i in range(0, 6):
+            x = random.randint(0, 61)
+            if x < 26:
+                otp += chr(x+97)
+            elif x < 52:
+                otp += chr(x-26+65)
+            else:
+                otp += chr(x-52+65)
+
+        print("otp is " + otp)
+
         for inventory in cart:
             seller_id = inventory[0]
             product_id = inventory[1]

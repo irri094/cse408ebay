@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.urls import reverse
 from .models import *
+import itertools
+
 
 # Renders the Home page of Bengal Bay.
 def home(request):
@@ -42,10 +44,35 @@ def product_details(request, ids):
     #
     # related_products_list = Inventory.objects.filter(product_id__in=related_products_list_id)
 
+    total_random_products = 4
+
+    current_product_category = Product.objects.get(id=product_id).category
+    print(f"current_product_category -- {current_product_category}")
+    # values_list('id', flat=True)
+    related_products_list = Product.objects.filter(category=current_product_category).values_list('id', flat=True)
+    print(f"related_products_list -- {related_products_list}")
+    indexarray = related_products_list
+    # random.shuffle(indexarray)
+    print(indexarray)
+    notunarray = []
+    for i in range(0, len(indexarray)):
+        notunarray.append(indexarray[i])
+    print(notunarray)
+    random.shuffle(notunarray)
+    while len(notunarray) > 4:
+        notunarray.pop()
+    print(notunarray)
+    related_products_list = Inventory.objects.filter(id__in=notunarray)
+    print(f"related_products_list -- {related_products_list}")
+    notunarray = list(related_products_list)
+    random.shuffle(notunarray)
+    print(notunarray)
+
     context = {
         'seller': Seller.objects.get(id=seller_id),
         'product': Product.objects.get(id=product_id),
-        # 'inventories': Inventory.objects.filter(product_id__in=related_products_list_id)
+        'inventories': notunarray,
+        # 'inventories': Inventory.objects.filter(product_id__in=related_products_list)
     }
     return render(request, 'global_controller/product_detail.html', context)
 
