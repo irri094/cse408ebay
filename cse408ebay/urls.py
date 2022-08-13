@@ -16,7 +16,6 @@ Including another URLconf
 from django import views
 from django.contrib import admin
 from django.urls import path, include
-
 import customer
 import global_controller.views as global_view
 import customer.views as customer_views
@@ -37,6 +36,5 @@ urlpatterns = [
     path("add_to_cart/", global_view.add_to_cart, name="add_to_cart"),
     # customer stuffs
     path("buy_product/", customer.views.buy_product, name="buy_product"),
-
 
 ]

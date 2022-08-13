@@ -5,7 +5,9 @@ import customer.views as customer_views
 
 
 # Login Authentication Module
-def logIn(request):                         # To Do -- the login function should work with
+def logIn(request):
+    if 'username' in request.session:
+        print(request.session['username'])                                   # To Do -- the login function should work with
     if 'username' in request.session:       # the phone number, not the first_name.
         u_name = request.session['username']
         user = User.objects.get(username=u_name)
@@ -52,7 +54,6 @@ def logIn(request):                         # To Do -- the login function should
                 return redirect(reverse('deliveryman:home'))
     print("coming down here")
     return render(request, 'global_controller/login.html')
-
 # The account is created and the phone number is used as the username
 def register(request):
     context = {}
@@ -119,6 +120,7 @@ def seller_register(request):
 
 def logout_request(request):
     delete_session(request)
+    print('session deleted')
     return redirect("login")
 
 
