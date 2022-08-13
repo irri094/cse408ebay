@@ -11,6 +11,8 @@
             <th class="text-center">Brand</th>
             <th class="text-center">Amount</th>
             <th class="text-center">Quantity</th>
+            <th class="text-center"></th>
+
         </tr>
         </thead>
         <tbody>
@@ -22,6 +24,12 @@
                 <td class="text-center">{{ inventory.product.brand }}</td>
                 <td class="text-center">{{ inventory.product.price }}</td>
                 <td class="text-center">{{ inventory.quantity }}</td>
+                <td class="text-center">
+                    <a href="" class="btn btn-success rounded-pill" data-bs-toggle="modal" data-bs-target="#auction_form_modal">
+                        Auction
+                    </a>
+                </td>
+
             </tr>
         {% endfor %}
         </tbody>
