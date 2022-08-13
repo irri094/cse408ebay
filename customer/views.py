@@ -13,25 +13,8 @@ def load_customer(request):
         return redirect(global_controller.authentication_module.logIn)
     else:
         # Fetches the session cart variable and sends them to front-end to show current-cart
-        cart = []
-        for data in request.session['cart']:
-            seller_id = data[0]
-            product_id = data[1]
-            quantity = data[2]
+        context = generate_cart_dict(request)
 
-            inventory = Inventory.objects.get(seller_id=seller_id, product_id=product_id)
-
-            cart.append({
-                'inventory': inventory,
-                'quantity': quantity,
-                'amount': int(quantity) * int(inventory.product.price)
-            })
-
-        context = {
-            "cart": cart,
-            "customer_name": request.session['username'],
-            "no_of_cart_items": len(cart),
-        }
         return render(request, 'customer/home.html', context)
 
 
@@ -131,9 +114,28 @@ def buy_product(request):
 
         return JsonResponse(context)
 
+def generate_cart_dict(request):
+    cart = []
+    for data in request.session['cart']:
+        seller_id = data[0]
+        product_id = data[1]
+        quantity = data[2]
 
+        inventory = Inventory.objects.get(seller_id=seller_id, product_id=product_id)
+
+        cart.append({
+            'inventory': inventory,
+            'quantity': quantity,
+            'amount': int(quantity) * int(inventory.product.price)
+        })
+
+    context = {
+        "cart": cart,
+        "customer_name": request.session['username'],
+        "no_of_cart_items": len(cart),
+    }
+    return context
 def remove_from_cart(request):
-    print(request.GET)
 
     remove_id = request.GET['remove_id']
 
@@ -142,10 +144,11 @@ def remove_from_cart(request):
     cart.remove(cart_element)
     request.session['cart'] = cart
 
-    return redirect(reverse('customer:home'))
+    return JsonResponse({})
 
 
 def update_to_cart(request):
+
     update_id = request.GET['update_id']
     new_quantity = request.GET['new_quantity']
     cart = request.session['cart']

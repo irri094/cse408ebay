@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from global_controller.models import *
 
+
 # Create your views here.
 
 
@@ -45,3 +46,10 @@ def current_order(request):
 def order_history(request):
     context = {}
     return render(request, 'seller/order_history.html', context)
+
+
+def auction(request):
+    context = {
+        'status': 1,
+    }
+    return JsonResponse(context)
