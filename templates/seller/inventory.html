@@ -1,3 +1,5 @@
+{% include 'seller/summary_cards.html' %}
+{% include 'seller/auction_form.html' %}
 
 <h1 class="mt-4">Inventory</h1>
 
@@ -25,7 +27,8 @@
                 <td class="text-center">{{ inventory.product.price }}</td>
                 <td class="text-center">{{ inventory.quantity }}</td>
                 <td class="text-center">
-                    <a href="" class="btn btn-outline-dark rounded-pill" data-bs-toggle="modal" data-bs-target="#auction_form_modal">
+                    <a href="" class="btn btn-outline-dark rounded-pill" data-bs-toggle="modal"
+                       data-bs-target="#auction_form_modal">
                         Auction
                     </a>
                 </td>

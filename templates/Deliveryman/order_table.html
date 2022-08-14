@@ -9,6 +9,7 @@
             <th class="text-center">Address</th>
             <th class="text-center">Phone</th>
             <th class="text-center">Product</th>
+            <th class="text-center">Pickup Code</th>
             <th class="text-center">Quantity</th>
             <th class="text-center">Status</th>
         </tr>
@@ -21,6 +22,7 @@
                 <td class="text-center">{{ order.seller.address }}</td>
                 <td class="text-center">{{ order.seller.phone }}</td>
                 <td class="text-center">{{ order.product }}</td>
+                <td class="text-center">{{ order.OTP }}</td>
                 <td class="text-center">{{ order.quantity }}</td>
                 <td class="text-center">
                     <span class="badge rounded-pill text-bg-success">{{ order.status }}</span>

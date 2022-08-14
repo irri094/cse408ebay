@@ -4,19 +4,6 @@ from global_controller.models import *
 
 
 # Create your views here.
-
-
-def load_seller(request):
-    context = {
-        'seller_name': request.session['username'],
-
-    }
-
-    print(context)
-
-    return render(request, 'seller/home.html', context)
-
-
 def load_order_history(request):
     pass
 
@@ -71,8 +58,11 @@ def auction(request):
     }
     return JsonResponse(context)
 
-
+# Authenticated deliveryman for a corresponding order.
 def confirm_deliveryman(request):
+
+    print(request.GET)
+
     context = {
         'status': 1,
     }

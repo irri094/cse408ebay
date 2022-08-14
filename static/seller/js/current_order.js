@@ -1,7 +1,26 @@
-$('#btn-deliveryman-confirmation').click(function () {
-    console.log("confirm button pressed")
+$('.btn-order').click(function () {
+    console.log("order pressed")
 
-    mydata = {}
+    let order_id = $(this).attr("data-order-id")
+
+    $('#btn-deliveryman-confirmation').attr('data-order-id', order_id)
+
+    // let otp = document.getElementById('handover_otp_input_id').innerText
+    console.log(order_id)
+
+
+})
+
+
+$('#btn-deliveryman-confirmation').click(function () {
+
+    let order_id = $(this).attr("data-order-id")
+    let otp = $('#handover_otp_input_id').val()
+
+    mydata = {
+        'otp' : otp,
+        'order_id' : order_id,
+    }
 
     console.log(mydata)
 
