@@ -33,6 +33,7 @@ urlpatterns = [
     path('seller_register/', global_controller.authentication_module.seller_register, name='seller_register'),
     path("logout/", global_controller.authentication_module.logout_request, name="logout"),
     path("details/<slug:ids>/", global_view.product_details, name="details"),
+    path("product-details/<slug:seller_id>/<slug:product_id>", global_view.product_details_rev, name="product-details"),
     path("add_to_cart/", global_view.add_to_cart, name="add_to_cart"),
     # customer stuffs
     path("buy_product/", customer.views.buy_product, name="buy_product"),

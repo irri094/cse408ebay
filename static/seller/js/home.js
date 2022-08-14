@@ -1,28 +1,3 @@
-$('#btn_transfer_button_id').click(function () {
-    console.log("button pressed")
-
-    mydata = {
-        csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(),
-        test: $("#bank_transfer_amount_id").val()
-    }
-
-
-    $.ajax(
-        {
-            url: "test_function/",
-            method: 'POST',
-            data: mydata,
-            success: function (data) {
-                if (data.status == 1) {
-
-                }
-            }
-        }
-    )
-
-})
-
-
 $('#btn-auction-confirmation-id').click(function () {
     console.log("auction confirmation button pressed")
 
@@ -32,8 +7,43 @@ $('#btn-auction-confirmation-id').click(function () {
             method: 'GET',
             success: function (data) {
                 if (data.status == 1) {
-                    swal("Auction Successful!", "Your products have been listed for auction", "success");
-                    console.log("yesssss")
+
+                    Swal.fire(
+                        'Auction Successful!',
+                        'Your products have been listed for auction',
+                        'success'
+                    )
+
+                }
+            }
+        }
+    )
+
+})
+
+
+$('#btn_transfer_wallet').click(function () {
+    console.log("Wallet tranfer done successfully")
+
+    mydata = {
+
+    }
+
+    $.ajax(
+        {
+            url: "wallet_to_bank/",
+            method: 'GET',
+            data : mydata,
+            success: function (data) {
+                if (data.status == 1) {
+
+                    document.getElementById('current_wallet_amount').innerHTML = data.current_wallet
+
+                    Swal.fire({
+                    icon: 'success',
+                    title: 'Amount successfully transferred!',
+                })
+
                 }
             }
         }

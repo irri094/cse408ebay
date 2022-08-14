@@ -134,7 +134,8 @@ def logout_request(request):
 
 def create_session(request, username):
     request.session['username'] = username
-    request.session['cart'] = []
+    if 'cart' not in request.session:
+        request.session['cart'] = []
 
 def delete_session(request):
     request.session.flush()

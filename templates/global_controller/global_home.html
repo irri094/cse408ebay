@@ -33,7 +33,7 @@
                             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                 <div class="text-center">
                                     <a class="btn btn-outline-dark mt-auto"
-                                       href="details/{{ inventory.seller.id }}-{{ inventory.product.id }}">
+                                       href="{% url 'product-details'  inventory.seller.id  inventory.product.id %}">
                                         <i class="bi bi-window-sidebar"></i> Details
                                     </a>
                                     <a class="btn btn-outline-dark mt-auto btn-add-to-cart-global-home"

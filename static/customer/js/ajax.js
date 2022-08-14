@@ -11,7 +11,14 @@ $('#btn_buy_product').click(function () {
 
                     document.getElementById('cart-table-body-id').innerHTML = ""
 
-                    swal("Order Successful!", "All of your products have been successfully ordered ", "success");
+                    // swal("Order Successful!", "All of your products have been successfully ordered ", "success");
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Order Successful!',
+                        text: 'All of your products have been successfully ordered',
+
+                    })
 
                     // document.getElementById('notification_head_strong_id').innerHTML = "Successful"
                     // document.getElementById('notification_body_id').innerHTML = "You have successfully bought the products."
@@ -88,9 +95,11 @@ $('#btn_recharge_wallet').click(function () {
             url: "recharge_wallet/",
             method: 'GET',
             success: function (data) {
-                swal("Recharge Successful " + data.amount + " taka!", "", "success");
-
-                console.log("everything done properly and received")
+                // swal("Recharge Successful " + data.amount + " taka!", "", "success");
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Recharge Successful ' + data.amount + ' taka!',
+                })
             }
         }
     )
