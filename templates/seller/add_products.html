@@ -107,9 +107,120 @@
     <input type="text" class="form-control" id="brand" placeholder="Brand">
   </div>
     <div class="col-md-6">
-    <label for="category" class="form-label">Category</label>
-    <input type="text" class="form-control" id="category" placeholder="Household,electronics etc.">
+    <label class="form-label" for="category">Category</label>
+      <select class="form-select" id="category">
+        <option selected disabled>Choose...</option>
+        <option value="1">Air Conditioner</option>    
+        <option value="2">Bags</option>
+        <option value="3">Bedding</option>
+        <option value="4">Camera</option>
+        <option value="5">Casing</option>
+        <option value="6">Cell Phones</option>
+        <option value="7">Clothing</option>
+        <option value="8">Console</option>
+        <option value="9">Cooler</option>
+        <option value="10">Cycling</option>
+        <option value="11">Drones</option>
+        <option value="12">Eyecare</option>
+        <option value="13">Eyewear</option>
+        <option value="14">Fishing</option>
+        <option value="15">Fitness</option>
+        <option value="16">Fragrance</option>
+        <option value="17">Furnitures</option>
+        <option value="18">Garden Items</option>
+        <option value="19">Graphics Card</option>
+        <option value="20">Groceries</option>
+        <option value="21">Hair and skin</option>
+        <option value="22">Home Decor</option>
+        <option value="23">Indoor</option>
+        <option value="24">Jewellery</option>
+        <option value="25">Keyboard</option>
+        <option value="26">Kitchenwear</option>
+        <option value="27">Lamp and Lighting</option>
+        <option value="28">Luggage</option>
+        <option value="29">Makeup</option>
+        <option value="30">Monitor</option>
+        <option value="31">Motherboard</option>
+        <option value="32">Mouse</option>
+        <option value="33">Outdoor</option>
+        <option value="34">Power Supply</option>
+        <option value="35">Processor</option>
+        <option value="36">Rerigerators</option>
+        <option value="37">Storage</option>
+        <option value="38">TV</option>
+        <option value="39">Vehicle</option>
+        <option value="40">Wallet</option>
+        <option value="41">washing Machine</option>
+        <option value="42">Watches  </option>
+      </select>
   </div>
+
+  <div class="col-md-6">
+    <label class="form-label" for="category" searchable="Find...">Category2</label>
+      <select class="form-select" id="category">
+        <option selected disabled>Choose...</option>
+        <optgroup label="Home Utility">  
+            <option value="1">Home Decor</option>  
+            <option value="2">Bedding</option>  
+            <option value="3">Furnitures</option>  
+            <option value="4">Kitchenwear</option>
+            <option value="5">Garden Items</option>
+            <option value="6">Groceries</option> 
+            <option value="7">Lamp and Lighting</option> 
+            <option value="8">Rerigerators</option>
+            <option value="9">washing Machine</option>
+            <option value="10">Air Conditioner</option>
+        </optgroup>
+
+        <optgroup label="Computer Accessories">  
+            <option value="11">Casing</option>    
+            <option value="12">Cooler</option>
+            <option value="13">Graphics Card</option>
+            <option value="14">Keyboard</option>
+            <option value="15">Monitor</option>
+            <option value="16">Motherboard</option>
+            <option value="17">Mouse</option>
+            <option value="18">Power Supply</option>
+            <option value="19">Processor</option>
+            <option value="20">Storage</option>
+        </optgroup>
+
+        <optgroup label="Fashion">  
+            <option value="21">Bags</option>    
+            <option value="22">Clothing</option>
+            <option value="23">Eyewear</option>
+            <option value="24">Jewellery</option>       
+            <option value="25">Luggage</option>
+            <option value="26">Wallet</option>        
+            <option value="27">Watches  </option>
+        </optgroup>
+
+        <optgroup label="Electronics">  
+            <option value="28">Camera</option>    
+            <option value="39">Cell Phones</option>
+            <option value="30">Console</option>
+            <option value="31">Drones</option>
+            <option value="32">TV</option>
+            <option value="33">Vehicle</option>
+        </optgroup>
+
+        <optgroup label="Health">  
+            <option value="34">Eyecare</option>    
+            <option value="35">Hair and skin</option>
+            <option value="36">Makeup</option>
+            <option value="37">Fragrance</option>
+        </optgroup>
+
+        <optgroup label="Sports">  
+            <option value="38">Cycling</option>    
+            <option value="39">Fishing</option>
+            <option value="40">Fitness</option>
+            <option value="41">Indoor</option>
+            <option value="42">Outdoor</option>
+        </optgroup>       
+      </select>
+  </div>
+
   <div class="col-12">
     <label for="description" class="form-label">Description</label>
     <input type="text" class="form-control" id="description" placeholder="Description">
