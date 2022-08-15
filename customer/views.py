@@ -190,10 +190,26 @@ def update_to_cart(request):
 # the recharge amount via request and updates the database. The current amount
 # is then displayed to the user.
 def recharge_wallet(request):
-    current_wallet = 550
+    print("recharge wallet view.py")
+    # print(request.GET)
+
+    addedtaka = request.GET['taka']
+    addedtaka = int(addedtaka)
+    phone = request.GET['phone']
+    otp = request.GET['otp']
+    current_wallet = Customer.objects.get(phone=phone).wallet
+    # print("wallet  = ")
+    # print(current_wallet)
+    # print(addedtaka)
+    current_wallet += addedtaka
+
+    cust = Customer.objects.get(phone=phone)
+    cust.wallet = current_wallet
+    cust.save()
+
     context = {
-        'amount': 550,
-        'phone': '0170123456',
+        'amount': addedtaka,
+        'phone': phone,
         'current_wallet': current_wallet,
     }
     return JsonResponse(context)
