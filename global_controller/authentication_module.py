@@ -108,10 +108,10 @@ def seller_register(request):
         if password1 == password2 and not User.objects.filter(username=phone).exists():
 
             hub_name = address.split(',')[-1].replace(" ", "").lower()
-            print(hub_name)
             try:
-                hub = Hub.objects.get(address=address)
+                hub = Hub.objects.get(address=hub_name)
             except:
+                print(22)
                 return render(request, 'global_controller/seller_register.html', context)
             print(hub)
             user_type = UserType.objects.get(type="seller")

@@ -60,7 +60,7 @@ class Seller(models.Model):
     bank_name = models.CharField(max_length=30)
     bank_acc = models.CharField(max_length=40)
     wallet = models.IntegerField()
-
+    coord = models.CharField(max_length=50, default="")
     def __str__(self):
         return self.name + " | " + self.shop_name
 

@@ -1,5 +1,5 @@
 {% extends 'base/deliveryman_base.html' %}
-
+{% load static %}
 {% block deliveryman_home %}
 
     <style>
@@ -15,8 +15,11 @@
             -moz-appearance: textfield;
         }
     </style>
+    <input type="hidden" id="deliveryman_cord_hidden" data-coord-id="{{ deliveryman_coord }}">
+
+    {% include 'Deliveryman/map.html' %}
 
     {% include 'Deliveryman/order_table.html' %}
 
-
+    <script src="{% static '/deliveryman/js/map.js' %}"></script>
 {% endblock %}
