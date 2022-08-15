@@ -1,0 +1,109 @@
+
+<div class="modal fade" id="auction_form_modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header d-block">
+                <h5 class="modal-title text-center" id="exampleModalToggleLabel">Auction Form</h5>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <h5>
+                        Product Name
+                    </h5>
+                </div>
+
+                <div class="row g-2 my-1">
+
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input type="datetime-local" class="form-control auction-date" id="start_time_id"
+                                   placeholder="name@example.com" min="2022-08-13">
+                            <label for="start_time_id">Start Time</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input type="datetime-local" class="form-control" id="end_time_id"
+                                   placeholder="name@example.com" value="mdo@example.com">
+                            <label for="end_time_id">End Time</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row g-2">
+
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input type="number" class="form-control" id="floatingInputGrid"
+                                   placeholder="name@example.com">
+                            <label for="floatingInputGrid">Base Price</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input type="number" class="form-control" id="floatingInputGrid"
+                                   placeholder="name@example.com" value="mdo@example.com">
+                            <label for="floatingInputGrid">Quantity</label>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer d-block">
+
+                <div class="text-center">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#auction_form_confirmation_modal">Proceed</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="auction_form_confirmation_modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header d-block">
+                <h5 class="modal-title text-center" id="exampleModalToggleLabel">Auction Confirmation</h5>
+            </div>
+
+            <div class="modal-body">
+                <p>The following items will be auctioned. Do you want to continue?</p>
+
+                <p>Product Name</p>
+                <div class="row my-1">
+                    <div class="col">
+                        <p>Start Time : <strong>time start</strong></p>
+                    </div>
+                    <div class="col">
+                        <p>End Time : <strong>end time</strong></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <p>Quantity : <strong>51</strong></p>
+                    </div>
+                    <div class="col">
+                        <p>Base Price : <strong>3544</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer d-block">
+
+                <div class="text-center">
+                    <button class="btn btn-primary" id="btn-auction-confirmation-id" data-bs-dismiss="modal">Yes</button>
+                    <button class="btn btn-primary" data-bs-dismiss="modal">No</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

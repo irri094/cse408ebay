@@ -1,7 +1,7 @@
-{% extends 'base/seller_base.html' %}
-{% load static %}
+{% extends 'base/deliveryman_base.html' %}
 
-{% block seller_home %}
+{% block deliveryman_home %}
+
     <style>
         /* Chrome, Safari, Edge, Opera */
         input::-webkit-outer-spin-button,
@@ -15,8 +15,8 @@
             -moz-appearance: textfield;
         }
     </style>
-    {% include 'seller/inventory.html' %}
 
-    <script src="{% static 'seller/js/home.js' %}"></script>
+    {% include 'Deliveryman/order_table.html' %}
+
 
 {% endblock %}

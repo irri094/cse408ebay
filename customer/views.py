@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from global_controller.models import *
 import global_controller.authentication_module
 from datetime import date
+import random
 from django.urls import reverse
 
 from django.db.models import Q
@@ -13,25 +14,8 @@ def load_customer(request):
         return redirect(global_controller.authentication_module.logIn)
     else:
         # Fetches the session cart variable and sends them to front-end to show current-cart
-        cart = []
-        for data in request.session['cart']:
-            seller_id = data[0]
-            product_id = data[1]
-            quantity = data[2]
+        context = generate_cart_dict(request)
 
-            inventory = Inventory.objects.get(seller_id=seller_id, product_id=product_id)
-
-            cart.append({
-                'inventory': inventory,
-                'quantity': quantity,
-                'amount': int(quantity) * int(inventory.product.price)
-            })
-
-        context = {
-            "cart": cart,
-            "customer_name": request.session['username'],
-            "no_of_cart_items": len(cart),
-        }
         return render(request, 'customer/home.html', context)
 
 
@@ -51,6 +35,7 @@ def load_product_status(request):
             'products': ordered_product
         }
         return render(request, 'customer/product_status.html', context)
+
 
 # Fetches the order history and sends them to the front-end to render
 def load_order_history(request):
@@ -106,7 +91,20 @@ def buy_product(request):
 
         status = Order_Status.objects.get(id=1)
         deliveryman = Deliveryman.objects.get(id=1)
-        otp = "qqwwee"
+
+        otp = ""      # To Do -- THE OTP should be generated randomly of 6 character
+                            # length. This otp is used for product validation on hand-change.
+        for i in range(0, 6):
+            x = random.randint(0, 61)
+            if x < 26:
+                otp += chr(x+97)
+            elif x < 52:
+                otp += chr(x-26+65)
+            else:
+                otp += chr(x-52+65)
+
+        print("otp is " + otp)
+
         for inventory in cart:
             seller_id = inventory[0]
             product_id = inventory[1]
@@ -122,37 +120,65 @@ def buy_product(request):
         # reset cart session variable for future use
         request.session['cart'] = []
 
-        return JsonResponse({})
+        context = {
+            'status': 1,
+        }
+
+        return JsonResponse(context)
+
+
+def generate_cart_dict(request):
+    cart = []
+    for data in request.session['cart']:
+        seller_id = data[0]
+        product_id = data[1]
+        quantity = data[2]
+
+        inventory = Inventory.objects.get(seller_id=seller_id, product_id=product_id)
+
+        cart.append({
+            'inventory': inventory,
+            'quantity': quantity,
+            'amount': int(quantity) * int(inventory.product.price)
+        })
+
+    context = {
+        "cart": cart,
+        "customer_name": request.session['username'],
+        "no_of_cart_items": len(cart),
+    }
+    return context
 
 
 def remove_from_cart(request):
-
-    print(request.GET)
-
     remove_id = request.GET['remove_id']
 
     cart = request.session['cart']
-    cart_element = cart[int(remove_id)-1]
+    cart_element = cart[int(remove_id) - 1]
     cart.remove(cart_element)
-    request.session['cart'] = cart
-
-    return redirect(reverse('customer:home'))
-
-
-def update_to_cart(request):
-    print(request.GET)
-    update_id = request.GET['update_id']
-
-    new_quantity = request.GET['new_quantity']
-
-    cart = request.session['cart']
-
-    updated_cart = cart[int(update_id)-1]
-    updated_cart[2] = new_quantity
-
-    cart[int(update_id)-1] = updated_cart
-
     request.session['cart'] = cart
 
     return JsonResponse({})
 
+
+def update_to_cart(request):
+    update_id = request.GET['update_id']
+    new_quantity = request.GET['new_quantity']
+    cart = request.session['cart']
+    updated_cart = cart[int(update_id) - 1]
+    updated_cart[2] = new_quantity
+    cart[int(update_id) - 1] = updated_cart
+    request.session['cart'] = cart
+
+    return JsonResponse({})
+
+
+# This is function is called when the 'recharge via bKash' is clicked. It takes
+# the recharge amount via request and updates the database. The current amount
+# is then displayed to the user.
+def recharge_wallet(request):
+    context = {
+        'amount': 550,
+        'phone': '0170123456',
+    }
+    return JsonResponse(context)

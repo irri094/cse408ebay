@@ -2,150 +2,143 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <meta name="description" content=""/>
-    <meta name="author" content=""/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
     <title>Bengal Bay</title>
     <!-- Favicon-->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    {#        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />#}
+
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
 
     <!-- Bootstrap icons-->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="{% static '/global_controller/css/global_home.css' %}" rel="stylesheet"/>
+    <link href="{% static '/global_controller/css/global_home.css' %}" rel="stylesheet" />
 </head>
+
 <body>
 
-{% include 'base/popup_notification.html' %}
+    {% include 'base/popup_notification.html' %}
 
-<!-- Navigation-->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="#">Bengal Bay</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="{% url 'global_home' %}">Bengal Bay</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
                 class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
 
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Home</a></li>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Home Utility</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#!">Home Decor</a></li>
+                            <li><a class="dropdown-item" href="#!">Bedding</a></li>
+                            <li><a class="dropdown-item" href="#!">Furnitures</a></li>
+                            <li><a class="dropdown-item" href="#!">Kitchenwear</a></li>
+                            <li><a class="dropdown-item" href="#!">Garden Items</a></li>
+                            <li><a class="dropdown-item" href="#!">Groceries</a></li>
+                            <li><a class="dropdown-item" href="#!">Lamp and Lighting</a></li>
+                            <li><a class="dropdown-item" href="#!">Rerigerators</a></li>
+                            <li><a class="dropdown-item" href="#!">washing Machine</a></li>
+                            <li><a class="dropdown-item" href="#!">Air Conditioner</a></li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">Home Utility</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Home Decor</a></li>
-                        <li><a class="dropdown-item" href="#!">Bedding</a></li>
-                        <li><a class="dropdown-item" href="#!">Furnitures</a></li>
-                        <li><a class="dropdown-item" href="#!">Kitchenwear</a></li>
-                        <li><a class="dropdown-item" href="#!">Garden Items</a></li>
-                        <li><a class="dropdown-item" href="#!">Groceries</a></li>
-                        <li><a class="dropdown-item" href="#!">Lamp and Lighting</a></li>
-                        <li><a class="dropdown-item" href="#!">Rerigerators</a></li>
-                        <li><a class="dropdown-item" href="#!">washing Machine</a></li>
-                        <li><a class="dropdown-item" href="#!">Air Conditioner</a></li>
-                    </ul>
-                </li>
+                        </ul>
+                    </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">Computer Accessories</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Keyboard</a></li>
-                        <li><a class="dropdown-item" href="#!">Mouse</a></li>
-                        <li><a class="dropdown-item" href="#!">Motherboard</a></li>
-                        <li><a class="dropdown-item" href="#!">Graphics Card</a></li>
-                        <li><a class="dropdown-item" href="#!">Processor</a></li>
-                        <li><a class="dropdown-item" href="#!">Monitor</a></li>
-                        <li><a class="dropdown-item" href="#!">Casing</a></li>
-                        <li><a class="dropdown-item" href="#!">Cooler</a></li>
-                        <li><a class="dropdown-item" href="#!">Power Supply</a></li>
-                        <li><a class="dropdown-item" href="#!">Storage</a></li>
-                    </ul>
-                </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Computer Accessories</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#!">Keyboard</a></li>
+                            <li><a class="dropdown-item" href="#!">Mouse</a></li>
+                            <li><a class="dropdown-item" href="#!">Motherboard</a></li>
+                            <li><a class="dropdown-item" href="#!">Graphics Card</a></li>
+                            <li><a class="dropdown-item" href="#!">Processor</a></li>
+                            <li><a class="dropdown-item" href="#!">Monitor</a></li>
+                            <li><a class="dropdown-item" href="#!">Casing</a></li>
+                            <li><a class="dropdown-item" href="#!">Cooler</a></li>
+                            <li><a class="dropdown-item" href="#!">Power Supply</a></li>
+                            <li><a class="dropdown-item" href="#!">Storage</a></li>
+                        </ul>
+                    </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">Fashion</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Clothing</a></li>
-                        <li><a class="dropdown-item" href="#!">Bags</a></li>
-                        <li><a class="dropdown-item" href="#!">Luggage</a></li>
-                        <li><a class="dropdown-item" href="#!">Eyewear</a></li>
-                        <li><a class="dropdown-item" href="#!">Watches</a></li>
-                        <li><a class="dropdown-item" href="#!">Jewellery</a></li>
-                        <li><a class="dropdown-item" href="#!">Wallet</a></li>
-                    </ul>
-                </li>
-                
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">Electonics</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Cell Phones</a></li>
-                        <li><a class="dropdown-item" href="#!">TV</a></li>
-                        <li><a class="dropdown-item" href="#!">Camera</a></li>
-                        <li><a class="dropdown-item" href="#!">Vehicle</a></li>
-                        <li><a class="dropdown-item" href="#!">Drones</a></li>
-                        <li><a class="dropdown-item" href="#!">Console</a></li>
-                    </ul>
-                </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Fashion</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#!">Clothing</a></li>
+                            <li><a class="dropdown-item" href="#!">Bags</a></li>
+                            <li><a class="dropdown-item" href="#!">Luggage</a></li>
+                            <li><a class="dropdown-item" href="#!">Eyewear</a></li>
+                            <li><a class="dropdown-item" href="#!">Watches</a></li>
+                            <li><a class="dropdown-item" href="#!">Jewellery</a></li>
+                            <li><a class="dropdown-item" href="#!">Wallet</a></li>
+                        </ul>
+                    </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">Health</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Eyecare</a></li>
-                        <li><a class="dropdown-item" href="#!">Hair and skin</a></li>
-                        <li><a class="dropdown-item" href="#!">Fragrance</a></li>
-                        <li><a class="dropdown-item" href="#!">Makeup</a></li>
-                    </ul>
-                </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Electonics</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#!">Cell Phones</a></li>
+                            <li><a class="dropdown-item" href="#!">TV</a></li>
+                            <li><a class="dropdown-item" href="#!">Camera</a></li>
+                            <li><a class="dropdown-item" href="#!">Vehicle</a></li>
+                            <li><a class="dropdown-item" href="#!">Drones</a></li>
+                            <li><a class="dropdown-item" href="#!">Console</a></li>
+                        </ul>
+                    </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">Sports</a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Indoor</a></li>
-                        <li><a class="dropdown-item" href="#!">Outdoor</a></li>
-                        <li><a class="dropdown-item" href="#!">Fitness</a></li>
-                        <li><a class="dropdown-item" href="#!">Cycling</a></li>
-                        <li><a class="dropdown-item" href="#!">Fishing</a></li>                        
-                    </ul>
-                </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Health</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#!">Eyecare</a></li>
+                            <li><a class="dropdown-item" href="#!">Hair and skin</a></li>
+                            <li><a class="dropdown-item" href="#!">Fragrance</a></li>
+                            <li><a class="dropdown-item" href="#!">Makeup</a></li>
+                            <li><a class="dropdown-item" href="#!">Oral care</a></li>
+                        </ul>
+                    </li>
 
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Auction</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Sports</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#!">Indoor</a></li>
+                            <li><a class="dropdown-item" href="#!">Outdoor</a></li>
+                            <li><a class="dropdown-item" href="#!">Fitness</a></li>
+                            <li><a class="dropdown-item" href="#!">Cycling</a></li>
+                            <li><a class="dropdown-item" href="#!">Fishing</a></li>
+                        </ul>
+                    </li>
 
-            </ul>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Auction</a></li>
 
-            <button class="btn btn-outline-dark mx-1">
-                <i class="bi-cart-fill me-1"></i>
-                Cart
-                <span class="badge bg-dark text-white ms-1 rounded-pill" id="cartCount">
-                    1
+                </ul>
+
+                <a class="btn btn-outline-dark mx-1" href="{% url 'customer:home' %}">
+                    <i class="bi-cart-fill me-1"></i> Cart
+                    <span class="badge bg-dark text-white ms-1 rounded-pill" id="cartCount">
+                    {{ cart_size }}
                 </span>
-            </button>
+                </a>
 
-            <a class="btn btn-outline-dark" href="{% url 'login' %}">
-                <i class="bi bi-person-circle"></i>
-                My Account
-            </a>
+                <a class="btn btn-outline-dark" href="{% url 'login' %}">
+                    <i class="bi bi-person-circle"></i> My Account
+                </a>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-{% block global_home %}
-{% endblock %}
+    {% block global_home %} {% endblock %}
+    {% block product_details %} {% endblock %}
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
-{% block product_details %}
-{% endblock %}
-<!-- Bootstrap core JS-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="{% static '/global_controller/js/global_home.js' %}"></script>
 
-<!-- Core theme JS-->
-<script src="{% static '/global_controller/js/global_home.js' %}"></script>
 </body>
+
 </html>
