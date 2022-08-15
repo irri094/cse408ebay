@@ -12,6 +12,8 @@
             <th class="text-center">Pickup Code</th>
             <th class="text-center">Quantity</th>
             <th class="text-center">Status</th>
+            <th class="text-center"></th>
+
         </tr>
         </thead>
         <tbody>
@@ -26,6 +28,10 @@
                 <td class="text-center">{{ order.quantity }}</td>
                 <td class="text-center">
                     <span class="badge rounded-pill text-bg-success">{{ order.status }}</span>
+                </td>
+                <td class="text-center">
+                    <button class="btn rounded-pill btn-primary btn-shop-navigate" data-coord-id="{{ order.seller.coord }}">
+                        <i class="bi bi-geo-alt"></i></button>
                 </td>
             </tr>
         {% endfor %}

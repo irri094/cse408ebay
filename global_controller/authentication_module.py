@@ -39,18 +39,18 @@ def logIn(request):
             if user.user_type.type == 'customer':
                 tmpname = Customer.objects.get(phone=u_name).name
                 print(2)
-                create_session(request, tmpname)
+                create_session(request, tmpname, u_name)
                 return redirect(reverse('customer:home'))
             elif user.user_type.type == 'seller':
                 print(3)
                 tmpname = Seller.objects.get(phone=u_name).name
-                create_session(request, tmpname)
+                create_session(request, tmpname, u_name)
                 print(f"seller found {u_name}")
                 return redirect(reverse('seller:home'))
             elif user.user_type.type == 'deliveryman':
                 print(4)
                 tmpname = Deliveryman.objects.get(phone=u_name).name
-                create_session(request, tmpname)
+                create_session(request, tmpname, u_name)
                 return redirect(reverse('deliveryman:home'))
     print("coming down here")
     return render(request, 'global_controller/login.html')
@@ -108,10 +108,10 @@ def seller_register(request):
         if password1 == password2 and not User.objects.filter(username=phone).exists():
 
             hub_name = address.split(',')[-1].replace(" ", "").lower()
-            print(hub_name)
             try:
-                hub = Hub.objects.get(address=address)
+                hub = Hub.objects.get(address=hub_name)
             except:
+                print(22)
                 return render(request, 'global_controller/seller_register.html', context)
             print(hub)
             user_type = UserType.objects.get(type="seller")
@@ -132,8 +132,9 @@ def logout_request(request):
     return redirect("login")
 
 
-def create_session(request, username):
+def create_session(request, username, phonennum):
     request.session['username'] = username
+    request.session['phone'] = phonennum
     if 'cart' not in request.session:
         request.session['cart'] = []
 

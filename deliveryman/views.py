@@ -19,10 +19,13 @@ def load_deliveryman(request):
 
     print(' [*] deliveryman is loading ... ')
 
+    deliveryman_coord = "23.725515, 90.390601"
+
     context = {
         'deliveryman_name': "Deliveryman",
         'title': 'Deliveryman',
         'info': 'This is deliveryman',
+        'deliveryman_coord' : deliveryman_coord,
         'orders': orders,
     }
 
