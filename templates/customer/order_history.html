@@ -11,24 +11,32 @@
                 <th class="text-center">#</th>
                 <th class="text-center">Item</th>
                 <th class="text-center">Quantity</th>
+                <th class="text-center">Store</th>
                 <th class="text-center">Date Delivered</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td class="text-center">
-                    1
-                </td>
-                <td class="text-center">
-                    Razer Deathadder Elite
-                </td>
-                <td class="text-center">
-                    1
-                </td>
-                <td class="text-center">
-                    12 July, 2022
-                </td>
-            </tr>
+
+            {% for order in orders %}
+                <tr>
+                    <td class="text-center">
+                        {{ forloop.counter }}
+                    </td>
+                    <td class="text-center">
+                        {{ order.product }}
+                    </td>
+                    <td class="text-center">
+                        {{ order.quantity }}
+                    </td>
+                    <td class="text-center">
+                        {{ order.seller.shop_name }}
+                    </td>
+                    <td class="text-center">
+                        {{ order.order_set.date }}
+                    </td>
+                </tr>
+            {% endfor %}
+
             </tbody>
         </table>
     </div>

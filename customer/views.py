@@ -28,12 +28,12 @@ def load_product_status(request):
         user = Customer.objects.get(name=request.session['username'])
         status = Order_Status.objects.get(id=1)
 
-        ordered_product = Order.objects.filter(order_set__customer=user, status=status)
+        ordered_product = Order.objects.filter(order_set__customer=user).order_by('-order_set__date')
 
         print(ordered_product)
 
         context = {
-            'products': ordered_product
+            'orders': ordered_product
         }
         return render(request, 'customer/product_status.html', context)
 
@@ -43,7 +43,12 @@ def load_order_history(request):
     if 'username' not in request.session:
         return redirect(global_controller.authentication_module.logIn)
     else:
-        return render(request, 'customer/order_history.html')
+        status = Order_Status.objects.get(status='Picked Up')
+        context = {
+            'orders' : Order.objects.filter(status=status).order_by('-order_set__date')
+        }
+
+        return render(request, 'customer/order_history.html', context)
 
 
 # When a product is bought from the customer module this function is invoked.
@@ -192,3 +197,8 @@ def recharge_wallet(request):
         'current_wallet': current_wallet,
     }
     return JsonResponse(context)
+
+
+def change_info(request):
+    context = {}
+    return render(request, 'customer/change_account_info.html', context)

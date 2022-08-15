@@ -16,13 +16,21 @@
             </tr>
             </thead>
             <tbody>
-            {% for product in products %}
+            {% for order in orders %}
                 <tr>
                     <td class="text-center">{{ forloop.counter }}</td>
-                    <td class="text-center">{{ product.product.name }}</td>
-                    <td class="text-center">{{ product.quantity }}</td>
-                    <td class="text-center">{{ product.order_set.date }}</td>
-                    <td class="text-center">{{ product.status }}</td>
+                    <td class="text-center">{{ order.product.name }}</td>
+                    <td class="text-center">{{ order.quantity }}</td>
+                    <td class="text-center">{{ order.order_set.date }}</td>
+                    <td class="text-center">
+                        {% if order.status.id is 1 %}
+                            <span class="badge rounded-pill text-bg-warning">{{ order.status }}</span>
+                        {% elif order.status.id is 2 %}
+                            <span class="badge rounded-pill text-bg-success">{{ order.status }}</span>
+                        {% else %}
+                            <span class="badge rounded-pill text-bg-info">{{ order.status }}</span>
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
