@@ -19,13 +19,14 @@
     <section class="py-5">
         <div class="container px-4 px-lg-5 my-5">
             <div class="row gx-4 gx-lg-5 align-items-center">
-                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0"
-                                           src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..."/></div>
+                <div class="col-md-6">
+                    <img class="card-img-top mb-5 mb-md-0"
+                                           src="{{ current_inventory.inventory_image.url }}" alt="..."/></div>
                 <div class="col-md-6">
                     <div class="fs-6 mb-1">{{ product.category }}</div>
                     <h1 class="display-5 fw-bolder">{{ product.name }}</h1>
                     <div class="fs-5 mb-5">
-                        <span>{{ product.price }} bdt</span>
+                        <span>{{ current_inventory.product.price }} bdt</span>
                     </div>
                     <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem
                         quidem
@@ -37,8 +38,8 @@
                         <button class="btn btn-outline-dark flex-shrink-0"
                                 type="button"
                                 id="add_to_cart"
-                                data-seller-id="{{ seller.id }}"
-                                data-product-id="{{ product.id }}"
+                                data-seller-id="{{ current_inventory.seller.id }}"
+                                data-product-id="{{ current_inventory.product.id }}"
                         >
                             <i class="bi bi-cart-plus-fill"></i>
                             Add to cart
@@ -58,7 +59,7 @@
                     <div class="col mb-5">
                         <div class="card h-100">
                             <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..."/>
+                            <img class="card-img-top" src="{{ inventory.inventory_image.url }}" alt="..."/>
                             <!-- Product details-->
                             <div class="card-body p-4">
                                 <div class="text-center">

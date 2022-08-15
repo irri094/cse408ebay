@@ -20,6 +20,8 @@ import customer
 import global_controller.views as global_view
 import customer.views as customer_views
 import global_controller.authentication_module
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -39,3 +41,5 @@ urlpatterns = [
     path("buy_product/", customer.views.buy_product, name="buy_product"),
 
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

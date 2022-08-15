@@ -47,14 +47,18 @@ def product_details(request, ids):
     notunarray = list(related_products_list)
     random.shuffle(notunarray)
     print(notunarray)
+    print(f"this is the current context data -- \n {Inventory.objects.get(seller_id=seller_id, product_id=product_id)}")
 
     context = {
         'seller': Seller.objects.get(id=seller_id),
         'product': Product.objects.get(id=product_id),
         'inventories': notunarray,
-        "cart_size": count_cart_quantity(request)
+        "cart_size": count_cart_quantity(request),
+        # 'current_inventory' :
         # 'inventories': Inventory.objects.filter(product_id__in=related_products_list)
     }
+
+
     return render(request, 'global_controller/product_detail.html', context)
 
 
@@ -88,9 +92,11 @@ def product_details_rev(request, seller_id, product_id):
         'seller': Seller.objects.get(id=seller_id),
         'product': Product.objects.get(id=product_id),
         'inventories': notunarray,
-        "cart_size": count_cart_quantity(request)
+        "cart_size": count_cart_quantity(request),
+        'current_inventory': Inventory.objects.get(seller_id=seller_id, product_id=product_id)
         # 'inventories': Inventory.objects.filter(product_id__in=related_products_list)
     }
+    print(f"context -- {context}")
     return render(request, 'global_controller/product_detail.html', context)
 
 
