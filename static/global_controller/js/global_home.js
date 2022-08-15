@@ -29,9 +29,6 @@ $('.btn-add-to-cart-global-home').click(function () {
             data: mydata,
             success: function (data) {
                 if (data.status == 1) {
-
-
-
                     document.getElementById('cartCount').innerHTML = data.cart_size
                     document.getElementById('notification_head_strong_id').innerHTML = "Successful"
                     document.getElementById('notification_body_id').innerHTML = "Product added to cart"

@@ -50,7 +50,14 @@ $("#cart_table_id").on("click", ".btn-update-cart", function () {
             data: mydata,
             success: function (data) {
 
+                if (data.status == 1) {
 
+                    document.getElementById('cart_count').innerHTML = data.cart_size
+                    document.getElementById('notification_head_strong_id').innerHTML = "Successful"
+                    document.getElementById('notification_body_id').innerHTML = "Product updated successfully"
+                    $("#toast_id").toast("show")
+
+                }
                 console.log("success")
             }
         }

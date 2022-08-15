@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from global_controller.models import *
 import global_controller.authentication_module
+import global_controller.views as global_controller_views
 from datetime import date
 import random
 from django.urls import reverse
@@ -145,7 +146,7 @@ def generate_cart_dict(request):
     context = {
         "cart": cart,
         "customer_name": request.session['username'],
-        "no_of_cart_items": len(cart),
+        "cart_size": global_controller_views.count_cart_quantity(request),
     }
     return context
 
@@ -170,7 +171,14 @@ def update_to_cart(request):
     cart[int(update_id) - 1] = updated_cart
     request.session['cart'] = cart
 
-    return JsonResponse({})
+    context = {
+        'status': 1,
+        'cart_size': global_controller_views.count_cart_quantity(request)
+    }
+
+    print(context)
+
+    return JsonResponse(context)
 
 
 # This is function is called when the 'recharge via bKash' is clicked. It takes
