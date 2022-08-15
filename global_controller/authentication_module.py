@@ -9,8 +9,8 @@ def logIn(request):
     if 'username' in request.session:
         print(request.session['username'])                                   # To Do -- the login function should work with
     if 'username' in request.session:       # the phone number, not the first_name.
-        u_name = request.session['username']
-        user = User.objects.get(username=u_name)
+        phone = request.session['phone']
+        user = User.objects.get(username=phone)
         print(f"redirection to corresponding account")
         if user.user_type.type == 'customer':
             print("redirecting to customer")
@@ -20,7 +20,6 @@ def logIn(request):
             return redirect(reverse('seller:home'))
         elif user.user_type.type == 'deliveryman':
             print("redirecting to deliveryman")
-            print(f"delivery man found {u_name}")
             return redirect(reverse('deliveryman:home'))
 
     elif request.method == "POST":
