@@ -100,16 +100,15 @@ $('#btn_recharge_wallet').click(function () {
     let mobilenumber = $("#mobilenumber").val()
     console.log(mobilenumber)
     let otp = $("#otp").val()
-    console.log(otp)
     let taka = $("#taka").val()
-    console.log(taka)
+
 
     mydata = {
         phone: mobilenumber,
         otp: otp,
         taka: taka
     }
-    print(mydata)
+    // print(mydata)
 
     $.ajax(
         {
@@ -117,12 +116,14 @@ $('#btn_recharge_wallet').click(function () {
             method: 'GET',
             data: mydata,
             success: function (data) {
+                console.log(data)
                 // swal("Recharge Successful " + data.amount + " taka!", "", "success");
-                // Swal.fire({
-                //     icon: 'success',
-                //     title: 'Recharge Successful ' + data.amount + ' taka!',
-                // })
-                //
+                document.getElementById('current_wallet_amount').innerText = data.current_wallet
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Recharge Successful ' + data.amount + ' taka!',
+                })
+
             }
         }
     )

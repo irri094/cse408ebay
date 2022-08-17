@@ -14,6 +14,9 @@ def load_customer(request):
     if 'username' not in request.session:
         return redirect(global_controller.authentication_module.logIn)
     else:
+        print(request.session['username'])
+        customer = Customer.objects.get(phone=request.session['phone_num'])
+        print(customer)
         # Fetches the session cart variable and sends them to front-end to show current-cart
         context = generate_cart_dict(request)
 
@@ -152,6 +155,7 @@ def generate_cart_dict(request):
         "cart": cart,
         "customer_name": request.session['username'],
         "cart_size": global_controller_views.count_cart_quantity(request),
+        "wallet" : Customer.objects.get(phone=request.session['phone_num']).wallet
     }
     return context
 
@@ -191,7 +195,7 @@ def update_to_cart(request):
 # is then displayed to the user.
 def recharge_wallet(request):
     print("recharge wallet view.py")
-    # print(request.GET)
+    print(request.GET)
 
     addedtaka = request.GET['taka']
     addedtaka = int(addedtaka)

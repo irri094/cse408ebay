@@ -9,7 +9,7 @@ def logIn(request):
     if 'username' in request.session:
         print(request.session['username'])                                   # To Do -- the login function should work with
     if 'username' in request.session:       # the phone number, not the first_name.
-        phone = request.session['phone']
+        phone = request.session['phone_num']
         user = User.objects.get(username=phone)
         print(f"redirection to corresponding account")
         if user.user_type.type == 'customer':
@@ -133,7 +133,7 @@ def logout_request(request):
 
 def create_session(request, username, phonennum):
     request.session['username'] = username
-    request.session['phone'] = phonennum
+    request.session['phone_num'] = phonennum
     if 'cart' not in request.session:
         request.session['cart'] = []
 
