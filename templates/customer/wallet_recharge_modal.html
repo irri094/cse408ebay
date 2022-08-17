@@ -16,7 +16,7 @@
                     </div>
                     <div class="col-auto">
 
-                        <input type="text" class="form-control" maxlength="11" id="inputPassword6"
+                        <input type="text" class="form-control" maxlength="11" id="mobilenumber"
                                onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" />
                     </div>
                     <div class="col-auto">
@@ -25,9 +25,8 @@
                         </span>
                     </div>
                 </div>
-
-
             </div>
+
             <div class="modal-footer d-block">
                 <div class="text-center">
                     <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">
@@ -35,6 +34,7 @@
                     </button>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -57,7 +57,7 @@
                         <label for="inputPassword6" class="col-form-label">OTP </label>
                     </div>
                     <div class="col-auto">
-                        <input type="text" id="inputPassword6" class="form-control"
+                        <input type="text" id="otp" class="form-control"
                                aria-describedby="passwordHelpInline" maxlength="6">
                     </div>
                     <div class="col-auto">
@@ -66,19 +66,59 @@
                         </span>
                     </div>
                 </div>
-
-
             </div>
-            <div class="modal-footer d-block">
 
+
+            <div class="modal-footer d-block">
+                <div class="text-center">
+                    <button class="btn btn-primary" data-bs-target="#exampleModalToggle3" data-bs-toggle="modal">
+                        <b><i class="fa-solid fa-check"></i></b> Proceed
+                    </button>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="exampleModalToggle3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel3"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-block">
+                <h4 class="modal-title text-center" id="exampleModalLabel">Recharge</h4>
+            </div>
+            <div class="modal-body">
+                <p>Please enter amount.</p>
+
+                <p>
+
+                <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                        <label for="inputPassword6" class="col-form-label">Taka </label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" id="taka" class="form-control"
+                               aria-describedby="passwordHelpInline" maxlength="6">
+                    </div>
+                    <div class="col-auto">
+                        <span id="passwordHelpInline" class="form-text">
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal-footer d-block">
                 <div class="text-center">
                     <button class="btn btn-primary" id="btn_recharge_wallet" data-bs-dismiss="modal">
-{#                    <button class="btn btn-primary" id="btn_recharge_wallet" >#}
                         <b><i class="fa-solid fa-check"></i></b> Done
                     </button>
                 </div>
-
             </div>
+
         </div>
     </div>
 </div>

@@ -153,7 +153,7 @@ class Inventory(models.Model):
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
-
+    inventory_image = models.ImageField(null=True, blank=True)
     def __str__(self):
         return str(self.seller) + " | " + str(self.quantity)
 

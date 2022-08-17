@@ -50,7 +50,14 @@ $("#cart_table_id").on("click", ".btn-update-cart", function () {
             data: mydata,
             success: function (data) {
 
+                if (data.status == 1) {
 
+                    document.getElementById('cart_count').innerHTML = data.cart_size
+                    document.getElementById('notification_head_strong_id').innerHTML = "Successful"
+                    document.getElementById('notification_body_id').innerHTML = "Product updated successfully"
+                    $("#toast_id").toast("show")
+
+                }
                 console.log("success")
             }
         }
@@ -88,12 +95,27 @@ $("#cart_table_id").on("click", ".btn-remove-cart-entry", function () {
 
 
 $('#btn_recharge_wallet').click(function () {
-    console.log('button pressed')
+    console.log('recharged wallet ajax22')
+
+    let mobilenumber = $("#mobilenumber").val()
+    console.log(mobilenumber)
+    let otp = $("#otp").val()
+    console.log(otp)
+    let taka = $("#taka").val()
+    console.log(taka)
+
+    mydata = {
+        phone: mobilenumber,
+        otp: otp,
+        taka: taka
+    }
+    print(mydata)
 
     $.ajax(
         {
             url: "recharge_wallet/",
             method: 'GET',
+            data: mydata,
             success: function (data) {
                 // swal("Recharge Successful " + data.amount + " taka!", "", "success");
                 Swal.fire({
