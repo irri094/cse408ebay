@@ -38,7 +38,7 @@ def add_products(request):
 def current_order(request):
     # the username is the phone number of the user.
 
-    seller_phone = request.session['username']
+    seller_phone = request.session['phone_num']
 
     # orders = Order.objects.filter(seller__phone=seller_phone)
     orders = Order.objects.all().order_by('-order_set__date')
@@ -102,6 +102,8 @@ def wallet_to_bank(request):
 
 def product_register(request):
     context = {}
+    print(request)
+    #return render(request, 'seller/order_history.html', context)
 
     # if 'username' in request.session:
     #     return redirect("seller/add_products/")
@@ -113,6 +115,7 @@ def product_register(request):
         br = request.POST['brand']
         cat = request.POST['category']
         desc = request.POST['description']
+        print(f'{br} --holaholabr')
         # bank_acc = request.POST['bank_acc']
         # password1 = request.POST['password1']
         # password2 = request.POST['password2']
@@ -121,14 +124,20 @@ def product_register(request):
         # 'name': ['a'], 'shopname': ['asd'], 'email': ['a@v'], 'address': ['dhaka'], 'nid': ['25351'], 'bank': ['nhnhn'], 'bank_acc': ['3233'], 'phone': ['111'], 'password1': ['plm'], 'password2': ['plm']
 
         #hub_name = address.split(',')[-1].replace(" ", "").lower()
+
+        if not Brand.objects.get(name=br).exists():
+            new_brand=Brand(name=br)
+            new_brand.save()
+
+
         brand= Brand.objects.get(name=br)
-        category=Category.objects.get(name="computer")
-        newproduct= Product(name=name, brand=brand, caregory=category, warranty=warranty, description=desc, price=price)
-        newproduct.save()
+        category=Category.objects.get(name=cat)
+        new_product= Product(name=name, brand=brand, caregory=category, warranty=warranty, description=desc, price=price)
+        new_product.save()
         
         seller=Seller.objects.get(name="asd")
-        newinv= Inventory(seller=seller,product=newproduct,quantity=quantity)
-        newinv.save()
+        new_inv= Inventory(seller=seller,product=new_product,quantity=quantity)
+        new_inv.save()
         #user_type = UserType.objects.get(type="seller")
         # newUser = User(username=phone, password=password1, user_type=user_type)
         # newUser.save()
@@ -137,6 +146,6 @@ def product_register(request):
         #                     shop_name=shopname, bank_name=bank, bank_acc=bank_acc)
         # newSeller.save()
         print("seller register : seller saved to db")
-        print(f'{newproduct} -- successfully registered')
-    return render(request, 'seller.html', context)
+        print(f'{new_product} -- successfully registered')
+    return redirect(load_inventory)
 
