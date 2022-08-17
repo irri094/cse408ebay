@@ -11,7 +11,7 @@ def load_order_history(request):
 def load_inventory(request):
     # This variable is used to display the current wallet amount of the seller.
 
-    current_wallet = Seller.objects.get(phone=request.session['phone']).wallet
+    current_wallet = Seller.objects.get(phone=request.session['phone_num']).wallet
 
     inventory = Inventory.objects.filter(seller__name=request.session['username'])
 
