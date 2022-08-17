@@ -1,3 +1,5 @@
+from itertools import product
+from unicodedata import category
 from django.http import JsonResponse
 from django.shortcuts import render
 from global_controller.models import *
@@ -64,8 +66,6 @@ def confirm_deliveryman(request):
     otp = request.GET['otp']
     order_id = request.GET['order_id']
 
-    order = Order.objects.get(id=order_id)
-
 
     # status
     #          1 ---- otp matched
@@ -99,3 +99,44 @@ def wallet_to_bank(request):
         'current_wallet': current_wallet,
     }
     return JsonResponse(context)
+
+def product_register(request):
+    context = {}
+
+    # if 'username' in request.session:
+    #     return redirect("seller/add_products/")
+    if request.method == "POST":
+        name = request.POST['name']
+        price = request.POST['price']
+        quantity = request.POST['quantity']
+        warranty = request.POST['warranty']
+        br = request.POST['brand']
+        cat = request.POST['category']
+        desc = request.POST['description']
+        # bank_acc = request.POST['bank_acc']
+        # password1 = request.POST['password1']
+        # password2 = request.POST['password2']
+        # print(request.POST)
+        
+        # 'name': ['a'], 'shopname': ['asd'], 'email': ['a@v'], 'address': ['dhaka'], 'nid': ['25351'], 'bank': ['nhnhn'], 'bank_acc': ['3233'], 'phone': ['111'], 'password1': ['plm'], 'password2': ['plm']
+
+        #hub_name = address.split(',')[-1].replace(" ", "").lower()
+        brand= Brand.objects.get(name=br)
+        category=Category.objects.get(name="computer")
+        newproduct= Product(name=name, brand=brand, caregory=category, warranty=warranty, description=desc, price=price)
+        newproduct.save()
+        
+        seller=Seller.objects.get(name="asd")
+        newinv= Inventory(seller=seller,product=newproduct,quantity=quantity)
+        newinv.save()
+        #user_type = UserType.objects.get(type="seller")
+        # newUser = User(username=phone, password=password1, user_type=user_type)
+        # newUser.save()
+        # print("seller register : user saved to db")
+        # newSeller = Seller(name=name, address=address, NID=nid, phone=phone, wallet=0, hub=hub,
+        #                     shop_name=shopname, bank_name=bank, bank_acc=bank_acc)
+        # newSeller.save()
+        print("seller register : seller saved to db")
+        print(f'{newproduct} -- successfully registered')
+    return render(request, 'seller.html', context)
+

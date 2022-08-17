@@ -130,6 +130,45 @@ def add_to_cart(request):
     }
     return JsonResponse(context)
 
+def auction_home(request):
+    context = {}                                # To Do : Generate random objects to render the html.
+    inventories = Auction.objects.all()[:8]   # The random objects must be of 'INVENTORY' record.
+    if 'cart' not in request.session:
+        request.session['cart'] = []
+    context = {
+        'inventories': inventories,
+        "cart_size": len(request.session['cart'])
+    }
+    return render(request, 'global_controller/auction.html', context)
+
+def auction_product_details(request, auction_id):
+    
+    total_random_products = 4
+    pid=Auction.objects.get(id=auction_id).product.id
+    #auction_id=Auction.objects.get(product_id=p_id).id
+    print(auction_id)
+    #related_products_list = Auction.objects.all()[:5]
+    related_products_list = Auction.objects.exclude(id=auction_id)[:5]
+    print(f"related_products_list -- {related_products_list}")
+    #indexarray = related_products_list
+    # random.shuffle(indexarray)
+    #print(indexarray)
+    #notunarray = []
+    #
+    #del related_products_list[4:]
+    #while len(related_products_list) > 4:
+    #    related_products_list.pop()
+    seller_name=Auction.objects.get(id=auction_id).seller.name
+
+    context = {
+        #'seller': seller_name,
+        'auction': Auction.objects.get(id=auction_id),
+        'inventories': related_products_list,
+        # 'inventories': Inventory.objects.filter(product_id__in=related_products_list)
+    }
+    return render(request, 'global_controller/auction_product_details.html', context)
+
+
 # Total elements of cart elements are counted
 def count_cart_quantity(request):
     cart = request.session['cart']
