@@ -39,7 +39,7 @@ def current_order(request):
     seller_phone = request.session['username']
 
     # orders = Order.objects.filter(seller__phone=seller_phone)
-    orders = Order.objects.all()
+    orders = Order.objects.all().order_by('-order_set__date')
 
     print(orders)
     context = {
