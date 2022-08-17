@@ -13,7 +13,7 @@ def load_deliveryman(request):
 
     deliveryman = Deliveryman.objects.get(name=request.session['username'])
 
-    orders = Order.objects.filter(deliveryman=deliveryman)
+    orders = Order.objects.filter(deliveryman=deliveryman).order_by('-order_set__date')
 
     print(orders)
 

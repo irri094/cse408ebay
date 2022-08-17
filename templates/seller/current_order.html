@@ -30,6 +30,7 @@
                 <th class="text-center">Product</th>
                 <th class="text-center">Category</th>
                 <th class="text-center">Brand</th>
+                <th class="text-center">Quantity</th>
                 <th class="text-center">Customer</th>
                 <th class="text-center">Customer Phone</th>
                 <th class="text-center">Deliveryman</th>
@@ -47,12 +48,19 @@
                     <td class="text-center">{{ order.product }}</td>
                     <td class="text-center">{{ order.product.category }}</td>
                     <td class="text-center">{{ order.product.brand }}</td>
+                    <td class="text-center">{{ order.quantity }}</td>
                     <td class="text-center">{{ order.order_set.customer.name }}</td>
                     <td class="text-center">{{ order.order_set.customer.phone }}</td>
                     <td class="text-center">{{ order.deliveryman }}</td>
                     <td class="text-center">{{ order.deliveryman.phone }}</td>
-                    <td class="text-center">
-                        <span class="badge rounded-pill text-bg-primary">Pickup Requested</span>
+                    <td class="text-center" id="status_{{ order.id }}">
+                        {% if order.status.id is 1 %}
+                            <span class="badge rounded-pill text-bg-warning">{{ order.status }}</span>
+                        {% elif order.status.id is 2 %}
+                            <span class="badge rounded-pill text-bg-info">{{ order.status }}</span>
+                        {% else %}
+                            <span class="badge rounded-pill text-bg-success">{{ order.status }}</span>
+                        {% endif %}
                     </td>
                     <td class="text-center">
                         <button class="btn btn-outline-dark rounded-pill btn-order" data-order-id="{{ order.id }}" data-bs-toggle="modal" data-bs-target="#handover_form">Handover</button>

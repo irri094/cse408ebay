@@ -13,7 +13,7 @@ def load_order_history(request):
 def load_inventory(request):
     # This variable is used to display the current wallet amount of the seller.
 
-    current_wallet = Seller.objects.get(phone=request.session['phone']).wallet
+    current_wallet = Seller.objects.get(phone=request.session['phone_num']).wallet
 
     inventory = Inventory.objects.filter(seller__name=request.session['username'])
 
@@ -41,7 +41,7 @@ def current_order(request):
     seller_phone = request.session['username']
 
     # orders = Order.objects.filter(seller__phone=seller_phone)
-    orders = Order.objects.all()
+    orders = Order.objects.all().order_by('-order_set__date')
 
     print(orders)
     context = {
@@ -63,16 +63,25 @@ def auction(request):
 
 # Authenticated deliveryman for a corresponding order.
 def confirm_deliveryman(request):
+    otp = request.GET['otp']
+    order_id = request.GET['order_id']
 
-    print(request.GET)
-    stat=0
-    if (request.GET['otp'] == Order.objects.get(id=request.GET['order_id']).OTP): 
-        stat = 1 
-    else: 
-        stat = 2
 
+    # status
+    #          1 ---- otp matched
+    #          2 ---- otp did not match
+    if order.OTP == otp:
+        order_status = "Picked Up"
+        order_status_obj = Order_Status.objects.get(status=order_status)
+
+        order.status = order_status_obj
+        order.save()
+
+        status = 1
+    else:
+        status = 2
     context = {
-        'status': stat,
+        'status': status,
     }
     return JsonResponse(context)
 
