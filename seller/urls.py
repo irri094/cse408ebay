@@ -12,6 +12,7 @@ urlpatterns = [
     path("auction/", views.auction, name="auction"),
     path("wallet_to_bank/", views.wallet_to_bank, name="wallet_to_bank"),
     path("current_order/confirm_deliveryman/", views.confirm_deliveryman, name="confirm_deliveryman"),
+    path("product_register/", views.product_register, name="product_register"),
 
 
     # path('product_status/', views.load_product_status, name='product_status'),
