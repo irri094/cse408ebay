@@ -61,11 +61,27 @@ def auction(request):
 
 # Authenticated deliveryman for a corresponding order.
 def confirm_deliveryman(request):
+    otp = request.GET['otp']
+    order_id = request.GET['order_id']
 
-    print(request.GET)
+    order = Order.objects.get(id=order_id)
 
+
+    # status
+    #          1 ---- otp matched
+    #          2 ---- otp did not match
+    if order.OTP == otp:
+        order_status = "Picked Up"
+        order_status_obj = Order_Status.objects.get(status=order_status)
+
+        order.status = order_status_obj
+        order.save()
+
+        status = 1
+    else:
+        status = 2
     context = {
-        'status': 1,
+        'status': status,
     }
     return JsonResponse(context)
 
