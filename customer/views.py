@@ -80,7 +80,7 @@ def buy_product(request):
             current_quantity = current_inventory.quantity
             current_quantity -= int(quantity)
             current_inventory = Inventory(id=current_inventory.id, quantity=current_quantity, seller=seller,
-                                          product=product)
+                                          product=product, inventory_image=current_inventory.inventory_image)
             current_inventory.save()
 
         print("current inventory updated")
@@ -196,6 +196,9 @@ def recharge_wallet(request):
         'phone': '0170123456',
         'current_wallet': current_wallet,
     }
+
+    print(context)
+
     return JsonResponse(context)
 
 

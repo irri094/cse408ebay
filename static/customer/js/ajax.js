@@ -103,10 +103,11 @@ $('#btn_recharge_wallet').click(function () {
             method: 'GET',
             success: function (data) {
                 // swal("Recharge Successful " + data.amount + " taka!", "", "success");
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Recharge Successful ' + data.amount + ' taka!',
-                })
+                // Swal.fire({
+                //     icon: 'success',
+                //     title: 'Recharge Successful ' + data.amount + ' taka!',
+                // })
+                //
             }
         }
     )
@@ -114,10 +115,7 @@ $('#btn_recharge_wallet').click(function () {
 
 
 $('.recharge-method').click(function () {
-    console.log('button pressed')
-
     let method = $(this).attr('data-method')
-    console.log(method)
-
     document.getElementById('recharge_method_id').innerHTML = method
+    console.log('recharge method updated')
 })
