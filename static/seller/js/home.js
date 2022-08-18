@@ -3,11 +3,9 @@
 $('#btn_wallet_proceed').click(function () {
 
     let amount = $("#transfer_amount").val()
-
     let bank_name = $("#bank_name").val()
     let bank_acc = $("#bank_account").val()
 
-    bank_name_id
     document.getElementById('confirm_wallet_amount').innerText = amount
     document.getElementById('bank_name_id').innerText = bank_name
     document.getElementById('bank_account_id').innerText = bank_acc
@@ -104,7 +102,7 @@ $('.btn-auction').click(function () {
 
     let product_name = $(this).attr('data-product-name')
     document.getElementById('product_name_id').innerText = product_name
-
+    document.getElementById('auction_product_name_id').innerText = product_name
 })
 
 

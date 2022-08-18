@@ -28,8 +28,8 @@
                                     <!-- Product price-->
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item">Start Bid: {{ auction.base_price }} BDT</li>
-                                        <li class="list-group-item">Start_time: {{ auction.start_time }} </li>
-                                        <li class="list-group-item">End_time: {{ auction.end_time }}</li>
+                                        <li class="list-group-item">Start : {{ auction.start_time }} </li>
+                                        <li class="list-group-item">End : {{ auction.end_time }}</li>
                                       </ul>                                  
                                 </div>
                             </div>
@@ -40,10 +40,6 @@
                                        href="{% url 'auction-product-details' auction.id %}">
                                         <i class="bi bi-window-sidebar"></i> Details
                                     </a>
-                                    <a class="btn btn-outline-dark mt-auto btn-add-to-cart-global-home"
-                                       data-seller-id="{{ inventory.seller.id }}"
-                                       data-product-id="{{ inventory.product.id }}"
-                                       href="#"><i class="bi bi-bag-plus"></i></a>
                                 </div>
                             </div>
                         </div>
