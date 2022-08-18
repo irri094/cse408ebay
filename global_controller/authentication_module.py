@@ -70,7 +70,7 @@ def register(request):
         if password1 == password2 and not User.objects.filter(username=phone).exists():
             # 'username': ['sfd'], 'email': ['a@f'], 'address': ['324'], 'nid': ['12321'], 'phone': ['235523'], 'password1': ['fqwf'], 'password2': ['fsa']}
             user_type = UserType.objects.get(type="customer")
-            newUser = User(username=phone, password=password1, user_type=user_type)
+            new_user = User(username=phone, password=password1, user_type=user_type)
             # user_type = UserType.objects.get(type="customer")
             try:
                 hub = Hub.objects.get(address=address)
@@ -79,7 +79,7 @@ def register(request):
             newCustomer = Customer(name=name, address=address, NID=nid, phone=phone, wallet=0,
                                    delivery_address_hub=hub)
             newCustomer.save()
-            newUser.save()
+            new_user.save()
 
     return render(request, 'global_controller/register.html', context)
 
@@ -91,6 +91,9 @@ def seller_register(request):
     if 'username' in request.session:
         return redirect("/")
     if request.method == "POST":
+
+        print(f" post -- {request.POST}")
+
         name = request.POST['name']
         shopname = request.POST['shopname']
         email = request.POST['email']
@@ -99,6 +102,7 @@ def seller_register(request):
         phone = request.POST['phone']
         bank = request.POST['bank']
         bank_acc = request.POST['bank_acc']
+        coordinate = request.POST['coordinate']
         password1 = request.POST['password1']
         password2 = request.POST['password2']
         print(request.POST)
@@ -114,14 +118,14 @@ def seller_register(request):
                 return render(request, 'global_controller/seller_register.html', context)
             print(hub)
             user_type = UserType.objects.get(type="seller")
-            newUser = User(username=phone, password=password1, user_type=user_type)
-            newUser.save()
+            new_user = User(username=phone, password=password1, user_type=user_type)
+            new_user.save()
             print("seller register : user saved to db")
-            newSeller = Seller(name=name, address=address, NID=nid, phone=phone, wallet=0, hub=hub,
-                               shop_name=shopname, bank_name=bank, bank_acc=bank_acc)
-            newSeller.save()
+            new_seller = Seller(name=name, address=address, NID=nid, phone=phone, wallet=0, hub=hub,
+                               shop_name=shopname, bank_name=bank, bank_acc=bank_acc, coord=coordinate)
+            new_seller.save()
             print("seller register : seller saved to db")
-            print(f'{newSeller} -- successfully registered')
+            print(f'{new_seller} -- successfully registered')
     return render(request, 'global_controller/seller_register.html', context)
 
 
