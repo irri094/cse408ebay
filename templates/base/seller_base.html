@@ -67,9 +67,9 @@
                         Order History
                     </a>
 
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{% url 'seller:transaction-history' %}">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-wallet"></i></div>
-                        Wallet History
+                        Transactions
                     </a>
 
 
@@ -87,8 +87,9 @@
             <div class="container-fluid px-4 mt-4">
 
                 {% block seller_home %}
+                {% endblock %}
 
-
+                {% block transaction_history %}
                 {% endblock %}
 
             </div>

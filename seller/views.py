@@ -16,10 +16,12 @@ def load_inventory(request):
 
     current_wallet = Seller.objects.get(phone=request.session['phone_num']).wallet
     inventory = Inventory.objects.filter(seller__name=request.session['username'])
+    seller = Seller.objects.get(phone=request.session['phone_num'])
 
     context = {
         'inventories': inventory,
         'current_wallet': current_wallet,
+        'seller' : seller,
     }
     print(inventory)
     return render(request, 'seller/home.html', context)
@@ -41,7 +43,7 @@ def current_order(request):
     seller_phone = request.session['phone_num']
 
     # orders = Order.objects.filter(seller__phone=seller_phone)
-    orders = Order.objects.all().order_by('-order_set__date')
+    orders = Order.objects.filter(seller__phone=seller_phone).order_by('-order_set__date')
 
     print(orders)
     context = {
@@ -93,7 +95,15 @@ def confirm_deliveryman(request):
 def wallet_to_bank(request):
     # This is amount is used to update the wallet amount in the wallet card of
     # the seller.
-    current_wallet = 27000
+
+    amount = request.GET['amount']
+
+    # update seller wallet
+    seller = Seller.objects.get(phone=request.session['phone_num'])
+    seller.wallet = int(seller.wallet) - int(amount)
+    seller.save()
+
+    current_wallet = seller.wallet
 
     context = {
         'status': 1,
@@ -126,8 +136,6 @@ def product_register(request):
                               price=price)
         new_product.save()
 
-
-
         seller = Seller.objects.get(phone=request.session['phone_num'])
         new_inv = Inventory(seller=seller, product=new_product, quantity=quantity, inventory_image=product_image)
         new_inv.save()
@@ -135,3 +143,7 @@ def product_register(request):
         print("seller register : seller saved to db")
         print(f'{new_product} -- successfully registered')
     return redirect(reverse('seller:home'))
+
+
+def transaction_history(request):
+    return render(request, 'seller/transaction_history.html', {})

@@ -48,10 +48,23 @@ def load_order_history(request):
     else:
         status = Order_Status.objects.get(status='Picked Up')
         context = {
-            'orders' : Order.objects.filter(status=status).order_by('-order_set__date')
+            'orders': Order.objects.filter(status=status).order_by('-order_set__date')
         }
 
         return render(request, 'customer/order_history.html', context)
+
+
+def generate_otp():
+    otp = ""
+    for i in range(0, 6):
+        x = random.randint(0, 61)
+        if x < 26:
+            otp += chr(x + 97)
+        elif x < 52:
+            otp += chr(x - 26 + 65)
+        else:
+            otp += chr(x - 52 + 65)
+    return otp
 
 
 # When a product is bought from the customer module this function is invoked.
@@ -88,45 +101,54 @@ def buy_product(request):
 
         print("current inventory updated")
 
+        # Create a Transaction for buying products of customer
         transaction = Transaction(type='buy', amount=total_price)
         transaction.save()
         print(f"Transaction saved {transaction}")
 
+        #  Create an order set for a set of orders for future navigation through the orders
         customer = Customer.objects.get(name=request.session['username'])
-
         order_set = Order_Set(customer=customer, transaction=transaction, date=date.today())
         order_set.save()
         print(f"Order set created {order_set}")
 
+        # Initialize the order's status and assign a deliveryman
         status = Order_Status.objects.get(id=1)
         deliveryman = Deliveryman.objects.get(id=1)
 
-        otp = ""  # To Do -- THE OTP should be generated randomly of 6 character
-        # length. This otp is used for product validation on hand-change.
-        for i in range(0, 6):
-            x = random.randint(0, 61)
-            if x < 26:
-                otp += chr(x + 97)
-            elif x < 52:
-                otp += chr(x - 26 + 65)
-            else:
-                otp += chr(x - 52 + 65)
+        # Generate an OTP for products
+        otp = generate_otp()
 
         print("otp is " + otp)
 
         for inventory in cart:
+            # Fetch session variables by element accordingly
             seller_id = inventory[0]
             product_id = inventory[1]
             quantity = inventory[2]
 
+            # Fetch the respective objects
             seller = Seller.objects.get(id=seller_id)
             product = Product.objects.get(id=product_id)
 
+            # Create an order for a corresponding order_set
             order = Order(seller=seller, product=product, status=status, deliveryman=deliveryman, OTP=otp,
                           quantity=quantity, order_set=order_set)
             order.save()
+
+            # update seller wallet
+            seller = Seller.objects.get(id=seller_id)
+            seller.wallet = int(seller.wallet) + (int(product.price) * int(quantity))
+            seller.save()
+
             print(f"Order saved {order}")
-        # reset cart session variable for future use
+
+        # Update customer wallet
+        customer = Customer.objects.get(phone=request.session['phone_num'])
+        customer.wallet = int(customer.wallet) - int(total_price)
+        customer.save()
+
+        # reset cart session variable
         request.session['cart'] = []
 
         context = {
@@ -155,7 +177,7 @@ def generate_cart_dict(request):
         "cart": cart,
         "customer_name": request.session['username'],
         "cart_size": global_controller_views.count_cart_quantity(request),
-        "wallet" : Customer.objects.get(phone=request.session['phone_num']).wallet
+        "wallet": Customer.objects.get(phone=request.session['phone_num']).wallet
     }
     return context
 

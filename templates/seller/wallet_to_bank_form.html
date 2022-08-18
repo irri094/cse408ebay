@@ -12,11 +12,11 @@
 
                 <div class="row g-3 align-items-center">
                     <div class="col-auto">
-                        <label for="inputPassword6" class="col-form-label"> Amount </label>
+                        <label for="transfer_amount" class="col-form-label"> Amount </label>
                     </div>
                     <div class="col-auto">
 
-                        <input type="number" class="form-control" id="inputPassword6">
+                        <input type="number" class="form-control" id="transfer_amount">
                     </div>
                 </div>
 
@@ -24,7 +24,8 @@
             </div>
             <div class="modal-footer d-block">
                 <div class="text-center">
-                    <button class="btn btn-primary" data-bs-target="#bank_transfer_modal_confirmation"
+                    <button class="btn btn-primary" id="btn_wallet_proceed"
+                            data-bs-target="#bank_transfer_modal_confirmation"
                             data-bs-toggle="modal">
                         <b><i class="fa-solid fa-check"></i></b> Proceed
                     </button>
@@ -41,7 +42,7 @@
 <div class="modal fade" id="bank_transfer_modal_confirmation" aria-hidden="true"
      aria-labelledby="exampleModalToggleLabel2"
      tabindex="-1">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header d-block">
                 <h4 class="modal-title text-center" id="exampleModalLabel">Please review the following before
@@ -49,23 +50,12 @@
             </div>
 
             <div class="modal-body">
+                <div class="text-center">
+                    <p>Bank : <strong id="bank_name_id"> ABC Bank</strong></p>
+                    <p>Bank Acc. No : <strong id="bank_account_id">123456789</strong></p>
+                    <p>Transfer Amount : <strong id="confirm_wallet_amount">56000</strong></p>
+                </div>
 
-                <div class="row my-1">
-                    <div class="col">
-                        <p>Bank : <strong> ABC Bank</strong></p>
-                    </div>
-                    <div class="col">
-                        <p>Bank Acc. No : <strong>123456789</strong></p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <p>Transfer Amount : <strong>56000</strong></p>
-                    </div>
-                    <div class="col">
-                        <p>Base Price : <strong>3544</strong></p>
-                    </div>
-                </div>
             </div>
 
             <div class="modal-footer d-block">

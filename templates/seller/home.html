@@ -15,6 +15,11 @@
             -moz-appearance: textfield;
         }
     </style>
+
+    <input type="text" id="bank_name" value="{{ seller.bank_name }}" hidden>
+    <input type="text" id="bank_account" value="{{ seller.bank_acc }}" hidden>
+
+
     {% include 'seller/inventory.html' %}
 
     <script src="{% static 'seller/js/home.js' %}"></script>
