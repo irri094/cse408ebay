@@ -158,7 +158,7 @@ class Inventory(models.Model):
 
 class Auction(models.Model):
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
-    product = models.OneToOneField(Product, on_delete=models.CASCADE)
+    inventory = models.OneToOneField(Inventory, on_delete=models.CASCADE, null=True)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     quantity = models.IntegerField()

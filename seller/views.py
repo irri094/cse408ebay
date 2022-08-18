@@ -21,7 +21,7 @@ def load_inventory(request):
     context = {
         'inventories': inventory,
         'current_wallet': current_wallet,
-        'seller' : seller,
+        'seller': seller,
     }
     print(inventory)
     return render(request, 'seller/home.html', context)
@@ -58,6 +58,22 @@ def order_history(request):
 
 
 def auction(request):
+    print(request.GET)
+
+    start = request.GET['start']
+    end = request.GET['end']
+    quantity = request.GET['quantity']
+    price = request.GET['price']
+    inv_id = request.GET['inventory_id']
+
+    seller = Seller.objects.get(phone=request.session['phone_num'])
+    inventory = Inventory.objects.get(id=inv_id)
+
+    auction = Auction(seller=seller, inventory=inventory, start_time=start, end_time=end,
+                      base_price=price, quantity=quantity)
+
+    auction.save()
+
     context = {
         'status': 1,
     }
