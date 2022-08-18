@@ -1,14 +1,15 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from .models import *
-import customer.views as customer_views
-
+from django.http import JsonResponse
+from geopy.geocoders import Nominatim
+from django.core.mail import send_mail
 
 # Login Authentication Module
 def logIn(request):
     if 'username' in request.session:
-        print(request.session['username'])                                   # To Do -- the login function should work with
-    if 'username' in request.session:       # the phone number, not the first_name.
+        print(request.session['username'])  # To Do -- the login function should work with
+    if 'username' in request.session:  # the phone number, not the first_name.
         phone = request.session['phone_num']
         user = User.objects.get(username=phone)
         print(f"redirection to corresponding account")
@@ -53,6 +54,8 @@ def logIn(request):
                 return redirect(reverse('deliveryman:home'))
     print("coming down here")
     return render(request, 'global_controller/login.html')
+
+
 # The account is created and the phone number is used as the username
 def register(request):
     context = {}
@@ -76,9 +79,9 @@ def register(request):
                 hub = Hub.objects.get(address=address)
             except:
                 return render(request, 'global_controller/register.html', context)
-            newCustomer = Customer(name=name, address=address, NID=nid, phone=phone, wallet=0,
-                                   delivery_address_hub=hub)
-            newCustomer.save()
+            new_customer = Customer(name=name, address=address, NID=nid, phone=phone, wallet=0,
+                                   delivery_address_hub=hub, mail=email)
+            new_customer.save()
             new_user.save()
 
     return render(request, 'global_controller/register.html', context)
@@ -109,23 +112,26 @@ def seller_register(request):
         # 'name': ['a'], 'shopname': ['asd'], 'email': ['a@v'], 'address': ['dhaka'], 'nid': ['25351'], 'bank': ['nhnhn'], 'bank_acc': ['3233'], 'phone': ['111'], 'password1': ['plm'], 'password2': ['plm']
 
         if password1 == password2 and not User.objects.filter(username=phone).exists():
-
+            print(1)
             hub_name = address.split(',')[-1].replace(" ", "").lower()
             try:
+                print(2)
                 hub = Hub.objects.get(address=hub_name)
             except:
-                print(22)
+                print(3)
                 return render(request, 'global_controller/seller_register.html', context)
+            print(4)
             print(hub)
             user_type = UserType.objects.get(type="seller")
             new_user = User(username=phone, password=password1, user_type=user_type)
             new_user.save()
             print("seller register : user saved to db")
             new_seller = Seller(name=name, address=address, NID=nid, phone=phone, wallet=0, hub=hub,
-                               shop_name=shopname, bank_name=bank, bank_acc=bank_acc, coord=coordinate)
+                                shop_name=shopname, bank_name=bank, bank_acc=bank_acc, coord=coordinate)
             new_seller.save()
             print("seller register : seller saved to db")
             print(f'{new_seller} -- successfully registered')
+            return redirect(reverse('login'))
     return render(request, 'global_controller/seller_register.html', context)
 
 
@@ -140,6 +146,7 @@ def create_session(request, username, phonennum):
     request.session['phone_num'] = phonennum
     if 'cart' not in request.session:
         request.session['cart'] = []
+
 
 def delete_session(request):
     request.session.flush()
@@ -161,3 +168,34 @@ def go_to_corresponding_account(request):
         print("redirecting to deliveryman")
         print(f"delivery man found {u_name}")
         return redirect(reverse('deliveryman:home'))
+
+
+def get_address_from_coordinate(request):
+    print(request.GET)
+    print("here it is")
+    coordinate = request.GET['coordinate']
+    geo_loc = Nominatim(user_agent='GetLoc')
+    location = geo_loc.reverse(coordinate)
+
+    print(location.raw['display_name'])
+
+    context = {
+        'address': location.raw['display_name']
+    }
+    return JsonResponse(context)
+
+def test_mail(request):
+    print('test mail started')
+    mail_from = 'bengalbay53@gmail.com'
+    mail_to = ["1705109@ugrad.cse.buet.ac.bd"]
+    mail_body = 'You have successfully bought your product'
+    mail_name = 'Bengal Bay'
+    mail_subject = 'Product Bought'
+    # subject, mail_body, from, to
+    send_mail(mail_subject,
+              mail_body,
+              mail_from,
+              mail_to,
+              fail_silently=True)
+    print('test mail ended')
+    return redirect(reverse('global_home'))

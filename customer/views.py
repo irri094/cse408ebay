@@ -5,8 +5,9 @@ import global_controller.authentication_module
 import global_controller.views as global_controller_views
 from datetime import date
 import random
-from django.urls import reverse
+from django.core.mail import send_mail
 
+from django.urls import reverse
 from django.db.models import Q
 
 
@@ -67,6 +68,20 @@ def generate_otp():
     return otp
 
 
+def send_product_bought_confirmation_mail(request):
+    customer = Customer.objects.get(phone=request.session['phone_num'])
+    mail_to = [customer.mail]
+    mail_from = 'bengalbay53@gmail.com'
+    mail_subject = "Bengal Bay"
+    mail_body = 'Dear ' + customer.name + ",\nYou successfully bought your products. Thank you for shopping from Bengal Bay.\n\nBe safe and happy shopping 🛍\n\nRegards\nThe Bengal Bay"
+
+    send_mail(mail_subject,
+              mail_body,
+              mail_from,
+              mail_to,
+              fail_silently=True)
+
+
 # When a product is bought from the customer module this function is invoked.
 # a order is executed in the following steps sequentially
 #       1.  Update seller inventory with the new product count
@@ -80,6 +95,7 @@ def buy_product(request):
     else:
         cart = request.session['cart']
         total_price = 0
+        cnt = 1
         # Inventory update
         for inventory in cart:
             seller_id = inventory[0]
@@ -147,6 +163,10 @@ def buy_product(request):
         customer = Customer.objects.get(phone=request.session['phone_num'])
         customer.wallet = int(customer.wallet) - int(total_price)
         customer.save()
+
+        # Send a mail to customer when successfully the products are bought and
+        # backend logics are handled
+        send_product_bought_confirmation_mail(request)
 
         # reset cart session variable
         request.session['cart'] = []

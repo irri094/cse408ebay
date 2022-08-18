@@ -82,20 +82,19 @@
             </div>
             <div class="d-flex justify-content-center form_container">
 
-                <form method="POST" action="">{% csrf_token %}
-
-
+                <form method="POST" action="">
+                    {% csrf_token %}
                     <div class="input-group mb-3">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="fas fa-user"></i></span>
                         </div>
-                        <input type="text" name="username" placeholder="Username">
+                        <input type="text" name="username" placeholder="Name">
                     </div>
                     <div class="input-group mb-2">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="fas fa-envelope-square"></i></span>
                         </div>
-                        <input type="email" name="email" placeholder="Email">
+                        <input type="email" name="email" placeholder="Email" required>
                     </div>
                     <div class="input-group mb-2">
                         <div class="input-group-append">

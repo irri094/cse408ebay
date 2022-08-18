@@ -27,3 +27,26 @@ dummy_marker.on("drag", function (e) {
     console.log("position " + position)
     map.panTo(new L.LatLng(position.lat, position.lng));
 });
+
+
+$('#confirm_location').click(function () {
+    console.log("Wallet tranfer done successfully")
+
+    mydata = {
+        coordinate: $("#coordinate").val()
+    }
+
+    $.ajax(
+        {
+            url: "get_location_from_coordinate/",
+            method: 'GET',
+            data: mydata,
+            success: function (data) {
+                console.log("it came finally")
+                console.log(data)
+                $("#address_id").val(data.address)
+            }
+        }
+    )
+
+})

@@ -144,12 +144,17 @@ SESSION_COOKIE_HTTPONLY = True
 # 2 WEEKS LONGER cookies
 SESSION_COOKIE_AGE = 1209600
 
-
+# Media settings
 MEDIA_URL = '/images/'
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
-
+# Mail Settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = 'bengalbay53@gmail.com'
+EMAIL_HOST_PASSWORD = 'ieigjiurqvsxojep'
+EMAIL_USE_TLS = True
 
 
 

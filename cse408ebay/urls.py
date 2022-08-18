@@ -36,12 +36,15 @@ urlpatterns = [
     path("logout/", global_controller.authentication_module.logout_request, name="logout"),
     path("details/<slug:ids>/", global_view.product_details, name="details"),
     path("product-details/<slug:seller_id>/<slug:product_id>", global_view.product_details_rev, name="product-details"),
-    path("auction-product-details/<slug:auction_id>", global_view.auction_product_details, name="auction-product-details"),
+    path("auction-product-details/<slug:auction_id>", global_view.auction_product_details,
+         name="auction-product-details"),
     path("add_to_cart/", global_view.add_to_cart, name="add_to_cart"),
     path('auction/', global_view.auction_home, name='auction_home'),
     # customer stuffs
     path("buy_product/", customer.views.buy_product, name="buy_product"),
-
+    path("seller_register/get_location_from_coordinate/",
+         global_controller.authentication_module.get_address_from_coordinate, name='coordinate-to-address'),
+    path("send-mail", global_controller.authentication_module.test_mail, name='send-mail'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
