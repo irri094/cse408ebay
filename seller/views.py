@@ -1,8 +1,9 @@
 from itertools import product
 from unicodedata import category
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from global_controller.models import *
+from django.core.files.storage import FileSystemStorage
 
 
 # Create your views here.
@@ -104,10 +105,6 @@ def wallet_to_bank(request):
 def product_register(request):
     context = {}
     print(request)
-    # return render(request, 'seller/order_history.html', context)
-
-    # if 'username' in request.session:
-    #     return redirect("seller/add_products/")
     if request.method == "POST":
         name = request.POST['name']
         price = request.POST['price']
@@ -116,36 +113,25 @@ def product_register(request):
         br = request.POST['brand']
         cat = request.POST['category']
         desc = request.POST['description']
-        print(f'{br} --holaholabr')
-        # bank_acc = request.POST['bank_acc']
-        # password1 = request.POST['password1']
-        # password2 = request.POST['password2']
-        # print(request.POST)
+        product_image = request.FILES['image_select']
 
-        # 'name': ['a'], 'shopname': ['asd'], 'email': ['a@v'], 'address': ['dhaka'], 'nid': ['25351'], 'bank': ['nhnhn'], 'bank_acc': ['3233'], 'phone': ['111'], 'password1': ['plm'], 'password2': ['plm']
+        new_brand, created = Brand.objects.get_or_create(name=br)
 
-        # hub_name = address.split(',')[-1].replace(" ", "").lower()
-
-        if not Brand.objects.get(name=br).exists():
-            new_brand = Brand(name=br)
-            new_brand.save()
+        cat = cat.lower().capitalize()
+        new_cat, created = Category.objects.get_or_create(name=cat)
 
         brand = Brand.objects.get(name=br)
         category = Category.objects.get(name=cat)
-        new_product = Product(name=name, brand=brand, caregory=category, warranty=warranty, description=desc,
+        new_product = Product(name=name, brand=brand, category=category, warranty=warranty, description=desc,
                               price=price)
         new_product.save()
 
-        seller = Seller.objects.get(name="asd")
-        new_inv = Inventory(seller=seller, product=new_product, quantity=quantity)
+
+
+        seller = Seller.objects.get(phone=request.session['phone_num'])
+        new_inv = Inventory(seller=seller, product=new_product, quantity=quantity, inventory_image=product_image)
         new_inv.save()
-        # user_type = UserType.objects.get(type="seller")
-        # newUser = User(username=phone, password=password1, user_type=user_type)
-        # newUser.save()
-        # print("seller register : user saved to db")
-        # newSeller = Seller(name=name, address=address, NID=nid, phone=phone, wallet=0, hub=hub,
-        #                     shop_name=shopname, bank_name=bank, bank_acc=bank_acc)
-        # newSeller.save()
+
         print("seller register : seller saved to db")
         print(f'{new_product} -- successfully registered')
-    return redirect(load_inventory)
+    return redirect(reverse('seller:home'))

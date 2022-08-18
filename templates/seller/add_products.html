@@ -83,7 +83,7 @@
                 <h3 id="form-title">REGISTER A PRODUCT</h3>
             </div>
             <div class="d-flex justify-content-center form_container">
-            <form method="POST" class="row g-3" action="">
+            <form method="POST" class="row g-3" action="{%url 'seller:product_register' %}" enctype="multipart/form-data">
                 {% csrf_token %}
             <div class="col-12">
                 <label for="name" class="form-label">Product Name</label>
@@ -111,63 +111,63 @@
                 <select class="form-select" name="category">
                     <option selected disabled>Choose...</option>
                     <optgroup label="Home Utility">  
-                        <option value="1">Home Decor</option>  
-                        <option value="2">Bedding</option>  
-                        <option value="3">Furnitures</option>  
-                        <option value="4">Kitchenwear</option>
-                        <option value="5">Garden Items</option>
-                        <option value="6">Groceries</option> 
-                        <option value="7">Lamp and Lighting</option> 
-                        <option value="8">Rerigerators</option>
-                        <option value="9">washing Machine</option>
-                        <option value="10">Air Conditioner</option>
+                        <option value="Home Decor">Home Decor</option>
+                        <option value="Bedding">Bedding</option>
+                        <option value="Furnitures">Furnitures</option>
+                        <option value="Kitchenwear">Kitchenwear</option>
+                        <option value="Garden Items">Garden Items</option>
+                        <option value="Groceries">Groceries</option>
+                        <option value="Lamp and Lighting">Lamp and Lighting</option>
+                        <option value="Rerigerators">Rerigerators</option>
+                        <option value="Washing Machine">Washing Machine</option>
+                        <option value="Air Conditioner">Air Conditioner</option>
                     </optgroup>
 
                     <optgroup label="Computer Accessories">  
-                        <option value="11">Casing</option>    
-                        <option value="12">Cooler</option>
-                        <option value="13">Graphics Card</option>
-                        <option value="14">Keyboard</option>
-                        <option value="15">Monitor</option>
-                        <option value="16">Motherboard</option>
-                        <option value="17">Mouse</option>
-                        <option value="18">Power Supply</option>
-                        <option value="19">Processor</option>
-                        <option value="20">Storage</option>
+                        <option value="Casing">Casing</option>
+                        <option value="Cooler">Cooler</option>
+                        <option value="Graphics Card">Graphics Card</option>
+                        <option value="Keyboard">Keyboard</option>
+                        <option value="Monitor">Monitor</option>
+                        <option value="Motherboard">Motherboard</option>
+                        <option value="Mouse">Mouse</option>
+                        <option value="Power Supply">Power Supply</option>
+                        <option value="Processor">Processor</option>
+                        <option value="Storage">Storage</option>
                     </optgroup>
 
                     <optgroup label="Fashion">  
-                        <option value="21">Bags</option>    
-                        <option value="22">Clothing</option>
-                        <option value="23">Eyewear</option>
-                        <option value="24">Jewellery</option>       
-                        <option value="25">Luggage</option>
-                        <option value="26">Wallet</option>        
-                        <option value="27">Watches  </option>
+                        <option value="Bags">Bags</option>
+                        <option value="Clothing">Clothing</option>
+                        <option value="Eyewear">Eyewear</option>
+                        <option value="Jewellery">Jewellery</option>
+                        <option value="Luggage">Luggage</option>
+                        <option value="Wallet">Wallet</option>
+                        <option value="Watches">Watches  </option>
                     </optgroup>
 
                     <optgroup label="Electronics">  
-                        <option value="28">Camera</option>    
-                        <option value="39">Cell Phones</option>
-                        <option value="30">Console</option>
-                        <option value="31">Drones</option>
-                        <option value="32">TV</option>
-                        <option value="33">Vehicle</option>
+                        <option value="Camera">Camera</option>
+                        <option value="Cell Phones">Cell Phones</option>
+                        <option value="Console">Console</option>
+                        <option value="Drones">Drones</option>
+                        <option value="TV">TV</option>
+                        <option value="Vehicle">Vehicle</option>
                     </optgroup>
 
                     <optgroup label="Health">  
-                        <option value="34">Eyecare</option>    
-                        <option value="35">Hair and skin</option>
-                        <option value="36">Makeup</option>
-                        <option value="37">Fragrance</option>
+                        <option value="Eyecare">Eyecare</option>
+                        <option value="Hair and skin">Hair and skin</option>
+                        <option value="Makeup">Makeup</option>
+                        <option value="Fragrance">Fragrance</option>
                     </optgroup>
 
                     <optgroup label="Sports">  
-                        <option value="38">Cycling</option>    
-                        <option value="39">Fishing</option>
-                        <option value="40">Fitness</option>
-                        <option value="41">Indoor</option>
-                        <option value="42">Outdoor</option>
+                        <option value="Cycling">Cycling</option>
+                        <option value="Fishing">Fishing</option>
+                        <option value="Fitness">Fitness</option>
+                        <option value="Indoor">Indoor</option>
+                        <option value="Outdoor">Outdoor</option>
                     </optgroup>       
                 </select>
             </div>
@@ -178,14 +178,14 @@
             </div>
             <div>
                 <label for="imageselect" class="form-label">Add Images of product</label>
-                <input class="form-control" type="file" name="imageselect" multiple>
+                <input class="form-control" type="file" name="image_select">
             </div>
 
 
 
             <div class="col-12">
 
-            <button type="submit" class="btn btn-primary" href="{%url 'seller:product_register' %}"> Add Product</button>
+            <button type="submit" class="btn btn-primary"> Add Product</button>
         </div>
         </form>
 
