@@ -25,7 +25,9 @@
                     <div class="fs-6 mb-1">{{ auction.product.category }}</div>
                     <h1 class="display-5 fw-bolder">{{ auction.product.name }}</h1>
                     <div class="fs-5 mb-1">
-                        <span><h1>{{ auction.inventory.product.name }}</h1></span>
+                        <span><h1>{{ auction.inventory.product.name }}  </h1></span>
+                        <span><h2>{{ auction.quantity }} Pc  </h2></span>
+
                     </div>
                     <div class="fs-5 mb-5">
                         <span>{{ auction.seller.shop_name }}</span>
@@ -42,13 +44,11 @@
                         <span>Current Bid: <strong>{{ auction.base_price }} BDT</strong></span>
                     </div>
                     <div class="fs-5 mb-2">
-                        <span>Start : {{ auction.start_time }}</span>
-                    </div>
-                    <div class="fs-5 mb-2">
-                        <span>End : {{ auction.end_time }}</span>
+                        <span>Auction will end on <strong>{{ auction.end_time }}</strong></span>
                     </div>
                     <div class="d-flex">
-                        <input class="form-control text-center me-3" id="input_quantity" type="number" value="{{ auction.base_price }}"
+                        <input class="form-control text-center me-3" id="input_quantity" type="number"
+                               value="{{ auction.base_price }}"
                                style="max-width: 8rem"/>
                         <button class="btn btn-outline-dark flex-shrink-0"
                                 type="button"
@@ -58,7 +58,15 @@
                             <i class="bi bi-cash-stack"></i>
                             Place Bid
                         </button>
+                        <span class="mx-4">
+                            <h3 id="countdown_id">countdown</h3>
+                        </span>
+
                     </div>
+{#                    <div class="fs-5 mt-3">#}
+{#                        <h3 id="countdown_id">countdown</h3>#}
+{#                    </div>#}
+
                 </div>
             </div>
         </div>
@@ -66,44 +74,42 @@
     <!-- Related items section-->
     <section class="py-5 bg-light">
         <div class="container px-4 px-lg-5 mt-5">
-            <h2 class="fw-bolder mb-4">More Auction products</h2>
+            <h2 class="fw-bolder mb-4">Recent Auctions</h2>
             <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                 {% for inventory in inventories %}
-                <div class="col mb-5">
-                    <div class="card h-100">
-                        <!-- Product image-->
-                        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..."/>
-                        <!-- Product details-->
-                        <div class="card-body p-4">
-                            <div class="text-center">
-                                <!-- Product name-->
-                                <h5 class="fw-bolder">{{ inventory.product.name }}</h5>
-                                <!-- Product price-->
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">Start Bid: {{ inventory.base_price }} BDT</li>
-                                    <li class="list-group-item">Start_time: {{ inventory.start_time }} </li>
-                                    <li class="list-group-item">End_time: {{ inventory.end_time }}</li>
-                                  </ul>                                  
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..."/>
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder">{{ inventory.product.name }}</h5>
+                                    <!-- Product price-->
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">Bid : {{ inventory.base_price }} BDT</li>
+                                        <li class="list-group-item">{{ inventory.start_time }} </li>
+                                        <li class="list-group-item">{{ inventory.end_time }}</li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                        <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div class="text-center">
-                                <a class="btn btn-outline-dark mt-auto"
-                                   href="{% url 'auction-product-details'  inventory.id  %}">
-                                    <i class="bi bi-window-sidebar"></i> Details
-                                </a>
-                                <a class="btn btn-outline-dark mt-auto btn-add-to-cart-global-home"
-                                   data-seller-id="{{ inventory.seller.id }}"
-                                   data-product-id="{{ inventory.product.id }}"
-                                   href="#"><i class="bi bi-bag-plus"></i></a>
+                            <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                    <a class="btn btn-outline-dark mt-auto"
+                                       href="{% url 'auction-product-details'  inventory.id %}">
+                                        <i class="bi bi-window-sidebar"></i> Details
+                                    </a>
+                                    <a class="btn btn-outline-dark mt-auto btn-add-to-cart-global-home"
+                                       data-seller-id="{{ inventory.seller.id }}"
+                                       data-product-id="{{ inventory.product.id }}"
+                                       href="#"><i class="bi bi-bag-plus"></i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
-                    
-
+                {% endfor %}
 
 
             </div>
@@ -114,5 +120,6 @@
         <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
     </footer>
 
+    <script src="{% static '/global_controller/js/countdown timer.js' %}"></script>
     <script src="{% static '/global_controller/js/ajax.js' %}" rel="javascript" type="text/javascript"></script>
 {% endblock %}
