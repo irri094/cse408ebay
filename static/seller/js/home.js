@@ -1,5 +1,6 @@
 
-//
+
+
 $('#btn_wallet_proceed').click(function () {
 
     let amount = $("#transfer_amount").val()

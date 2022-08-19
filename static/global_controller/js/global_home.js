@@ -6,6 +6,21 @@
 // This file is intentionally blank
 // Use this file to add JavaScript to your project
 
+var i = 0;
+var txt = 'The easiest way to shopping is here. The mall is in your computer now. '; /* The text */
+var speed = 40; /* The speed/duration of the effect in milliseconds */
+if (i < txt.length) {
+    document.getElementById("landing-text").innerHTML += txt.charAt(i);
+    i++;
+    setTimeout(typeWriter, speed);
+  }
+function typeWriter() {
+  if (i < txt.length) {
+    document.getElementById("landing-text").innerHTML += txt.charAt(i);
+    i++;
+    setTimeout(typeWriter, speed);
+  }
+}
 
 $('.btn-add-to-cart-global-home').click(function () {
     console.log("button pressed")
