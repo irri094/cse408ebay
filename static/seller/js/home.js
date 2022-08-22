@@ -77,7 +77,6 @@ $('#btn-auction-confirmation-id').click(function () {
     )
 })
 
-
 $('#btn_auction_proceed_id').click(function () {
     console.log("Wallet tranfer done successfully")
 
@@ -93,7 +92,6 @@ $('#btn_auction_proceed_id').click(function () {
 
 })
 
-
 $('.btn-auction').click(function () {
 
     let inventory_id = $(this).attr('data-inventory-id')
@@ -104,8 +102,11 @@ $('.btn-auction').click(function () {
     document.getElementById('auction_product_name_id').innerText = product_name
 })
 
+let init_inventory_table = ""
 
 $('#auction-multiple').click(function () {
+
+    console.log('auction multiple pressed')
 
     let auction_td = document.getElementsByClassName('btn-auction-td')
     let auction_quantity_td = document.getElementsByClassName('btn-auction-quantity')
@@ -123,7 +124,106 @@ $('#auction-multiple').click(function () {
             'max="' + quantity + '" value="' + quantity + '" style="width: 75px" />'
     }
 
+    let inventory_table_body = document.getElementById('seller-inventory-table-body').innerHTML
+    init_inventory_table = inventory_table_body
+
+    inventory_table_body += '<tr><td></td><td></td><td></td><td></td><td></td><td></td><td><button class="btn btn-outline-success" onclick="test_function()" id="">Confirm</button></td></tr>'
+    document.getElementById('seller-inventory-table-body').innerHTML = inventory_table_body
 })
 
+
+$('#multiple-auction-confirm').click(function () {
+
+    console.log('multiple auction pressed')
+
+    let inventory_table_body = document.getElementById('seller-inventory-table-body').innerHTML
+    let quantity = 0
+    let inventory_id = 0
+    let quantity_list = []
+    let inventory_id_list = []
+
+    let array_len = document.getElementsByClassName('form-check-input').length
+    let check = null
+    for (i = 0; i < array_len; i++) {
+        check = document.getElementsByClassName('form-check-input')[i].checked
+        if (check) {
+            quantity = document.getElementsByClassName('form-control me-3')[i].value
+            inventory_id = document.getElementsByClassName('form-check-input')[i].value
+            quantity_list.push(quantity)
+            inventory_id_list.push(inventory_id)
+        }
+    }
+
+    mydata = {
+        quantity_lst: quantity_list,
+        inventory_id_lst: inventory_id_list,
+    }
+
+    $.ajax(
+        {
+            url: "auction-multiple-product/",
+            method: 'GET',
+            data: mydata,
+            success: function (data) {
+                if (data.status == 1) {
+                    document.getElementById('current_wallet_amount').innerHTML = data.current_wallet
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'You have successfully auctioned as a package',
+                    })
+
+                }
+            }
+        }
+    )
+})
+
+
+function test_function() {
+    console.log('multiple auction pressed')
+
+    let inventory_table_body = document.getElementById('seller-inventory-table-body').innerHTML
+    let quantity = 0
+    let inventory_id = 0
+    let quantity_list = []
+    let inventory_id_list = []
+
+    let array_len = document.getElementsByClassName('form-check-input').length
+    let check = null
+    for (i = 0; i < array_len; i++) {
+        check = document.getElementsByClassName('form-check-input')[i].checked
+        if (check) {
+            quantity = document.getElementsByClassName('form-control me-3')[i].value
+            inventory_id = document.getElementsByClassName('form-check-input')[i].value
+            quantity_list.push(quantity)
+            inventory_id_list.push(inventory_id)
+        }
+    }
+
+    mydata = {
+        quantity_lst: quantity_list,
+        inventory_id_lst: inventory_id_list,
+    }
+
+    console.log(mydata)
+
+    $.ajax(
+        {
+            url: "auction-multiple-product/",
+            method: 'GET',
+            data: mydata,
+            success: function (data) {
+                if (data.status == 1) {
+                    document.getElementById('current_wallet_amount').innerHTML = data.current_wallet
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'You have successfully auctioned as a package',
+                    })
+
+                }
+            }
+        }
+    )
+}
 
 

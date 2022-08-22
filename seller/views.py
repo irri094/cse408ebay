@@ -6,13 +6,13 @@ from global_controller.models import *
 from django.core.files.storage import FileSystemStorage
 from django.core.cache import cache
 
+
 # Create your views here.
 def load_order_history(request):
     pass
 
 
 def load_inventory(request):
-    cache_test_func(request)
     # This variable is used to display the current wallet amount of the seller.
 
     current_wallet = Seller.objects.get(phone=request.session['phone_num']).wallet
@@ -168,6 +168,9 @@ def transaction_history(request):
 
 # Package auction
 def auction_multiple_product(request):
-    inventory_id_lst = request.GET['inventory_id_lst']
-    quantity_lst = request.GET['quantity_lst']
-    pass
+    print(request.GET)
+    inventory_id_lst = request.GET['inventory_id_lst[]']
+    quantity_lst = request.GET['quantity_lst[]']
+    print(inventory_id_lst)
+    print(quantity_lst)
+    return JsonResponse({'status': 1})

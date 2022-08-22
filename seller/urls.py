@@ -15,6 +15,4 @@ urlpatterns = [
     path("product_register/", views.product_register, name="product_register"),
     path("transcation-history/", views.transaction_history, name="transaction-history"),
     path("auction-multiple-product/", views.auction_multiple_product, name="auction-multiple-product"),
-
-    # path('product_status/', views.load_product_status, name='product_status'),
 ]
