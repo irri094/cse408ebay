@@ -161,8 +161,18 @@ class Auction(models.Model):
     inventory = models.OneToOneField(Inventory, on_delete=models.CASCADE, null=True)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
-    quantity = models.IntegerField()
+    quantity = models.IntegerField(null=True)
     base_price = models.IntegerField()
+    is_package = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.seller) + " | " + str(self.quantity)
+
+
+class PackageItem(models.Model):
+    inventory = models.OneToOneField(Inventory, on_delete=models.CASCADE, null=True)
+    auction = models.OneToOneField(Auction, on_delete=models.CASCADE, null=True)
+    quantity = models.IntegerField()
 
     def __str__(self):
         return str(self.seller) + " | " + str(self.quantity)
