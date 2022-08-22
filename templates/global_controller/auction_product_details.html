@@ -2,6 +2,8 @@
 {% load static %}
 
 {% block product_details %}
+    <input type="text" id="dt_auction_time_end" value="{{ auction.end_time.isoformat }}" hidden>
+
     <style>
         /* Chrome, Safari, Edge, Opera */
         input::-webkit-outer-spin-button,
@@ -25,6 +27,8 @@
                     <div class="fs-6 mb-1">{{ auction.product.category }}</div>
                     <h1 class="display-5 fw-bolder">{{ auction.product.name }}</h1>
                     <div class="fs-5 mb-1">
+                        <span><h1 id="test-id"></h1></span>
+
                         <span><h1>{{ auction.inventory.product.name }}  </h1></span>
                         <span><h2>{{ auction.quantity }} Pc  </h2></span>
 
@@ -52,20 +56,16 @@
                                style="max-width: 8rem"/>
                         <button class="btn btn-outline-dark flex-shrink-0"
                                 type="button"
-                                id="add_to_cart"
-                                data-seller-id="{{ seller.id }}"
-                                data-product-id="{{ product.id }}">
+                                id="place-bid"
+                                data-auction-id="{{ auction.id }}">
                             <i class="bi bi-cash-stack"></i>
                             Place Bid
                         </button>
                         <span class="mx-4">
-                            <h3 id="countdown_id">countdown</h3>
+                            <h3 id="countdown_id"></h3>
                         </span>
 
                     </div>
-{#                    <div class="fs-5 mt-3">#}
-{#                        <h3 id="countdown_id">countdown</h3>#}
-{#                    </div>#}
 
                 </div>
             </div>
@@ -119,7 +119,7 @@
     <footer class="py-5 bg-dark">
         <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
     </footer>
-
+    <script src="{% static 'global_controller/js/auction-detail.js' %}"></script>
     <script src="{% static '/global_controller/js/countdown timer.js' %}"></script>
     <script src="{% static '/global_controller/js/ajax.js' %}" rel="javascript" type="text/javascript"></script>
 {% endblock %}
