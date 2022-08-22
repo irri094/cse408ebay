@@ -64,7 +64,7 @@ def generate_otp():
         elif x < 52:
             otp += chr(x - 26 + 65)
         else:
-            otp += chr(x - 52 + 65)
+            otp += chr(x - 52 + 48)
     return otp
 
 

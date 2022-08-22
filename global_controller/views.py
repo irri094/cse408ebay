@@ -50,11 +50,52 @@ def product_details_rev(request, seller_id, product_id):
     print(f'Product {product.name} -- TTL {cache.ttl(product_identifier + product_id)}')
 
     context = {
-        'seller': Seller.objects.get(id=seller_id),
-        'product': product,
+        # 'seller': Seller.objects.get(id=seller_id),
+        # 'product': product,
         'inventories': notunarray,
         "cart_size": count_cart_quantity(request),
         'current_inventory': Inventory.objects.get(seller_id=seller_id, product_id=product_id)
+    }
+    return render(request, 'global_controller/product_detail.html', context)
+
+
+def product_details_rev2(request, inventory_id):
+    total_random_products = 4
+
+    current_product_category = Inventory.objects.get(id=inventory_id).product.category
+    related_products_list = Product.objects.filter(category=current_product_category).values_list('id', flat=True)
+    index_array = related_products_list
+    notunarray = []
+    for i in range(0, len(index_array)):
+        notunarray.append(index_array[i])
+    random.shuffle(notunarray)
+    while len(notunarray) > total_random_products:
+        notunarray.pop()
+    related_products_list = Inventory.objects.filter(id__in=notunarray)
+    notunarray = list(related_products_list)
+    random.shuffle(notunarray)
+
+    # If data in cache fetch from cache. Otherwise fetch from DB
+    # CACHE TTL or product entries
+    product_ttl = 30
+    inventory_identifier = 'inv_id'
+
+    if cache.get(inventory_identifier + inventory_id):
+        inventory = cache.get(inventory_identifier + inventory_id)
+        print('product fetched from cache')
+    else:
+        inventory = Inventory.objects.get(id=inventory_id)
+        cache.set(inventory_identifier + inventory_id, inventory, timeout=product_ttl)
+        print('product fetched from db')
+
+    print(f'Product {inventory.product.name} -- TTL {cache.ttl(inventory_identifier + inventory_id)}')
+
+    context = {
+        # 'seller': Seller.objects.get(id=seller_id),
+        'product': inventory.product,
+        'inventories': notunarray,
+        "cart_size": count_cart_quantity(request),
+        'current_inventory': inventory
     }
     return render(request, 'global_controller/product_detail.html', context)
 
