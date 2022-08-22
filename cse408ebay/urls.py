@@ -34,7 +34,6 @@ urlpatterns = [
     path('register/', global_controller.authentication_module.register, name='register'),
     path('seller_register/', global_controller.authentication_module.seller_register, name='seller_register'),
     path("logout/", global_controller.authentication_module.logout_request, name="logout"),
-    path("details/<slug:ids>/", global_view.product_details, name="details"),
     path("product-details/<slug:seller_id>/<slug:product_id>", global_view.product_details_rev, name="product-details"),
     path("auction-product-details/<slug:auction_id>", global_view.auction_product_details,
          name="auction-product-details"),

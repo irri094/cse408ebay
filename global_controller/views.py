@@ -1,10 +1,9 @@
 import random
-
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.urls import reverse
 from .models import *
-import itertools
+from django.core.cache import cache
 
 
 # Renders the Home page of Bengal Bay.
@@ -19,83 +18,44 @@ def home(request):
     return render(request, 'global_controller/global_home.html', context)
 
 
-# Renders the product details of a current product
-def product_details(request, ids):
-    ids = ids.split('-')  # TO DO -- generate 4 random similary category products and send them to front end
-    seller_id = ids[0]  # The generated product should be a record of 'INVENTORY'.
-    product_id = ids[1]
-
-    total_random_products = 4
-
-    current_product_category = Product.objects.get(id=product_id).category
-    print(f"current_product_category -- {current_product_category}")
-    # values_list('id', flat=True)
-    related_products_list = Product.objects.filter(category=current_product_category).values_list('id', flat=True)
-    print(f"related_products_list -- {related_products_list}")
-    indexarray = related_products_list
-    # random.shuffle(indexarray)
-    print(indexarray)
-    notunarray = []
-    for i in range(0, len(indexarray)):
-        notunarray.append(indexarray[i])
-    print(notunarray)
-    random.shuffle(notunarray)
-    while len(notunarray) > 4:
-        notunarray.pop()
-    print(notunarray)
-    related_products_list = Inventory.objects.filter(id__in=notunarray)
-    print(f"related_products_list -- {related_products_list}")
-    notunarray = list(related_products_list)
-    random.shuffle(notunarray)
-    print(notunarray)
-    print(f"this is the current context data -- \n {Inventory.objects.get(seller_id=seller_id, product_id=product_id)}")
-
-    context = {
-        'seller': Seller.objects.get(id=seller_id),
-        'product': Product.objects.get(id=product_id),
-        'inventories': notunarray,
-        "cart_size": count_cart_quantity(request),
-        # 'current_inventory' :
-        # 'inventories': Inventory.objects.filter(product_id__in=related_products_list)
-    }
-
-    return render(request, 'global_controller/product_detail.html', context)
-
-
 def product_details_rev(request, seller_id, product_id):
     total_random_products = 4
 
     current_product_category = Product.objects.get(id=product_id).category
-    print(f"current_product_category -- {current_product_category}")
-    # values_list('id', flat=True)
     related_products_list = Product.objects.filter(category=current_product_category).values_list('id', flat=True)
-    print(f"related_products_list -- {related_products_list}")
-    indexarray = related_products_list
-    # random.shuffle(indexarray)
-    print(indexarray)
+    index_array = related_products_list
     notunarray = []
-    for i in range(0, len(indexarray)):
-        notunarray.append(indexarray[i])
-    print(notunarray)
+    for i in range(0, len(index_array)):
+        notunarray.append(index_array[i])
     random.shuffle(notunarray)
     while len(notunarray) > 4:
         notunarray.pop()
-    print(notunarray)
     related_products_list = Inventory.objects.filter(id__in=notunarray)
-    print(f"related_products_list -- {related_products_list}")
     notunarray = list(related_products_list)
     random.shuffle(notunarray)
-    print(notunarray)
+
+    # If data in cache fetch from cache. Otherwise fetch from DB
+    # CACHE TTL or product entries
+    product_ttl = 30
+    product_identifier = 'product_id'
+
+    if cache.get(product_identifier + product_id):
+        product = cache.get(product_identifier + product_id)
+        print('product fetched from cache')
+    else:
+        product = Product.objects.get(id=product_id)
+        cache.set(product_identifier + product_id, product, timeout=product_ttl)
+        print('product fetched from db')
+
+    print(f'Product {product.name} -- TTL {cache.ttl(product_identifier + product_id)}')
 
     context = {
         'seller': Seller.objects.get(id=seller_id),
-        'product': Product.objects.get(id=product_id),
+        'product': product,
         'inventories': notunarray,
         "cart_size": count_cart_quantity(request),
         'current_inventory': Inventory.objects.get(seller_id=seller_id, product_id=product_id)
-        # 'inventories': Inventory.objects.filter(product_id__in=related_products_list)
     }
-    print(f"context -- {context}")
     return render(request, 'global_controller/product_detail.html', context)
 
 
@@ -109,6 +69,7 @@ def add_to_cart(request):
     product_id = request.GET['product_id']
     quantity = request.GET['quantity']
 
+    # Accessing cart infos from cookies i.e session
     temp_cart = request.session['cart']
 
     cart_found = False
@@ -131,7 +92,6 @@ def add_to_cart(request):
 
 
 def auction_home(request):
-    print("inside auction")
 
     # To Do : Generate random objects to render the html.
     auctions = Auction.objects.all()[:8]  # The random objects must be of 'INVENTORY' record.
@@ -145,28 +105,27 @@ def auction_home(request):
 
 
 def auction_product_details(request, auction_id):
-    total_random_products = 4
-    pid = Auction.objects.get(id=auction_id).inventory.product.id
-    # auction_id=Auction.objects.get(product_id=p_id).id
-    print(auction_id)
-    # related_products_list = Auction.objects.all()[:5]
-    related_products_list = Auction.objects.exclude(id=auction_id)[:5]
-    print(f"related_products_list -- {related_products_list}")
-    # indexarray = related_products_list
-    # random.shuffle(indexarray)
-    # print(indexarray)
-    # notunarray = []
-    #
-    # del related_products_list[4:]
-    # while len(related_products_list) > 4:
-    #    related_products_list.pop()
-    seller_name = Auction.objects.get(id=auction_id).seller.name
+    # If data in cache fetch from cache. Otherwise fetch from DB
+    # CACHE TTL or product entries
+    auction_ttl = 30
+    auction_identifier = 'auction_id'
+
+    if cache.get(auction_identifier + auction_id):
+        auction = cache.get(auction_identifier + auction_id)
+        print('auction fetched from cache')
+    else:
+        auction = Auction.objects.get(id=auction_id)
+        cache.set(auction_identifier + auction_id, auction, timeout=auction_ttl)
+        print('auction fetched from db')
+
+    print(f'auction {auction.id} -- TTL {cache.ttl(auction_identifier + auction_id)}')
+
+    total_random_products = 5
+    related_products_list = Auction.objects.exclude(id=auction_id)[:total_random_products]
 
     context = {
-        # 'seller': seller_name,
-        'auction': Auction.objects.get(id=auction_id),
+        'auction': auction,
         'inventories': related_products_list,
-        # 'inventories': Inventory.objects.filter(product_id__in=related_products_list)
     }
     return render(request, 'global_controller/auction_product_details.html', context)
 

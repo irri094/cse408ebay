@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect, reverse
 from global_controller.models import *
 from django.core.files.storage import FileSystemStorage
-
+from django.core.cache import cache
 
 # Create your views here.
 def load_order_history(request):
@@ -12,6 +12,7 @@ def load_order_history(request):
 
 
 def load_inventory(request):
+    cache_test_func(request)
     # This variable is used to display the current wallet amount of the seller.
 
     current_wallet = Seller.objects.get(phone=request.session['phone_num']).wallet
@@ -163,3 +164,18 @@ def product_register(request):
 
 def transaction_history(request):
     return render(request, 'seller/transaction_history.html', {})
+
+def cache_test_func(request):
+
+    if cache.get('Mouse'):
+        product = cache.get('Mouse')
+        print("fetched from cache")
+
+    else:
+        product = Product.objects.filter(category__name='Mouse')
+        cache.set('Mouse', product, timeout=30)
+        print("fetched from db")
+    print(f"Mouse TTL -- {cache.ttl('Mouse')}")
+    print("inside cache test")
+
+
