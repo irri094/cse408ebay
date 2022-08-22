@@ -1,3 +1,5 @@
+//Timer on auction details page
+
 var i = 0;
 var txt = "Want to place bid and win an auction? You're in the right place"; /* The text */
 var speed = 40; /* The speed/duration of the effect in milliseconds */
@@ -13,3 +15,5 @@ function typeWriter() {
     setTimeout(typeWriter, speed);
   }
 }
+
+

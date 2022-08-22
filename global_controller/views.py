@@ -1,9 +1,9 @@
 import random
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, JsonResponse
-from django.urls import reverse
+from django.shortcuts import render
+from django.http import JsonResponse
 from .models import *
 from django.core.cache import cache
+import datetime
 
 
 # Renders the Home page of Bengal Bay.
@@ -133,7 +133,6 @@ def add_to_cart(request):
 
 
 def auction_home(request):
-
     # To Do : Generate random objects to render the html.
     auctions = Auction.objects.all()[:8]  # The random objects must be of 'INVENTORY' record.
     if 'cart' not in request.session:
@@ -178,3 +177,62 @@ def count_cart_quantity(request):
     for cart_element in cart:
         quantity += int(cart_element[2])
     return quantity
+
+
+def convertTime(t):
+    return (t - datetime.datetime(1970, 1, 1)).total_seconds()
+    # montharr = {}
+    # datelist = inputDate.split('-')
+    # timelist = inputDate.split(':')
+    # rettime = int(timelist[2]) + int(timelist[1]) * 60 + int(timelist[0]) * 60 * 60
+    # c = 60 * 60 * 24
+    # rettime += int(datelist[2]) * c + int(datelist[1]) * c *  + int(datelist[0]) * 60 * 60
+
+def place_bid(request):
+    print('we are now placing bid')
+    auction_id = request.GET['auction_id']
+
+    auction = Auction.objects.get(id=auction_id)
+
+    if convertTime(auction.start_time) <= convertTime(datetime.datetime.now()) and convertTime(datetime.datetime.now()) <= convertTime(auction.end_time) :
+        print("within time range")
+    else:
+        print("outside range")
+
+    print(f'actual time -- {datetime.datetime.now().strftime("%H:%M:%S")}')
+    # datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    auction_start = str(auction.start_time)
+    auction_end = str(auction.end_time)
+
+    print(f"{auction_start} -- start")
+    print(f"{auction_end} -- end")
+
+    auction_start = auction_start.split(" ")
+    auction_end = auction_end.split(" ")
+
+    auction_start_date = auction_start[0]
+    auction_end_date = auction_end[0]
+
+    auction_start_time = auction_start[1].split("+")[0]
+    auction_end_time = auction_end[1].split("+")[0]
+
+    print(f"auction start time -- {auction_start_date} {auction_start_time}")
+    print(f"auction end time -- {auction_end_date} {auction_end_time}")
+
+    current_date = str(datetime.date.today())
+    current_time = str(datetime.datetime.now().strftime("%H:%M:%S"))
+
+    print(f"current time -- {current_date} {current_time}")
+
+    print(type(current_date))
+    print(type(auction_start_date))
+
+    if current_date >= auction_start_date and current_date <= auction_end_date:
+        print('maybe auction')
+        if current_time <= auction_end_time and current_date == auction_end_date:
+            print('bid placed')
+    else:
+        print('auction ended')
+
+    return JsonResponse({})

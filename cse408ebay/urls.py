@@ -44,6 +44,7 @@ urlpatterns = [
     path("seller_register/get_location_from_coordinate/",
          global_controller.authentication_module.get_address_from_coordinate, name='coordinate-to-address'),
     path("send-mail", global_controller.authentication_module.test_mail, name='send-mail'),
+    path("place-bid", global_controller.views.place_bid, name='place-bid'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
