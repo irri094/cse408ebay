@@ -127,13 +127,14 @@ $('#auction-multiple').click(function () {
     let inventory_table_body = document.getElementById('seller-inventory-table-body').innerHTML
     init_inventory_table = inventory_table_body
 
-    inventory_table_body += '<tr><td></td><td></td><td></td><td></td><td></td><td></td><td><button class="btn btn-outline-success" onclick="test_function()" id="">Confirm</button></td></tr>'
+    inventory_table_body += '<tr><td></td><td></td><td></td><td></td><td></td><td></td><td><button class="btn btn-outline-success" id="" data-bs-toggle="modal"' +
+        ' data-bs-target="#auction_package_modal">Proceed</button></td></tr>'
     document.getElementById('seller-inventory-table-body').innerHTML = inventory_table_body
 })
 
 
-$('#multiple-auction-confirm').click(function () {
-
+$('#multiple_pacakge_confirmation').click(function () {
+    console.log('inside with identifier')
     console.log('multiple auction pressed')
 
     let inventory_table_body = document.getElementById('seller-inventory-table-body').innerHTML
@@ -154,10 +155,19 @@ $('#multiple-auction-confirm').click(function () {
         }
     }
 
+    let auc_start_time = document.getElementById('package_start_time_id').value
+    let auc_end_time = document.getElementById('package_end_time_id').value
+    let package_price = document.getElementById('package_base_price_id').value
+
     mydata = {
         quantity_lst: quantity_list,
         inventory_id_lst: inventory_id_list,
+        start_time: auc_start_time,
+        end_time: auc_end_time,
+        base_price: package_price,
     }
+
+    console.log(mydata)
 
     $.ajax(
         {
@@ -166,7 +176,8 @@ $('#multiple-auction-confirm').click(function () {
             data: mydata,
             success: function (data) {
                 if (data.status == 1) {
-                    document.getElementById('current_wallet_amount').innerHTML = data.current_wallet
+
+                    console.log("got from server")
                     Swal.fire({
                         icon: 'success',
                         title: 'You have successfully auctioned as a package',
@@ -200,9 +211,16 @@ function test_function() {
         }
     }
 
+    let auc_start_time = document.getElementById('package_start_time_id').value
+    let auc_end_time = document.getElementById('package_end_time_id').value
+    let package_price = document.getElementById('package_base_price_id').value
+
     mydata = {
         quantity_lst: quantity_list,
         inventory_id_lst: inventory_id_list,
+        start_time: auc_start_time,
+        end_time: auc_end_time,
+        base_price: package_price,
     }
 
     console.log(mydata)
