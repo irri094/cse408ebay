@@ -105,7 +105,7 @@ $('.btn-auction').click(function () {
 let init_inventory_table = ""
 
 $('#auction-multiple').click(function () {
-
+    init_inventory_table = document.getElementById('seller-inventory-table-body').innerHTML
     console.log('auction multiple pressed')
 
     let auction_td = document.getElementsByClassName('btn-auction-td')
@@ -125,8 +125,7 @@ $('#auction-multiple').click(function () {
     }
 
     let inventory_table_body = document.getElementById('seller-inventory-table-body').innerHTML
-    init_inventory_table = inventory_table_body
-
+    
     inventory_table_body += '<tr><td></td><td></td><td></td><td></td><td></td><td></td><td><button class="btn btn-outline-success" id="" data-bs-toggle="modal"' +
         ' data-bs-target="#auction_package_modal">Proceed</button></td></tr>'
     document.getElementById('seller-inventory-table-body').innerHTML = inventory_table_body
@@ -237,7 +236,7 @@ function test_function() {
                         icon: 'success',
                         title: 'You have successfully auctioned as a package',
                     })
-
+                    document.getElementById('seller-inventory-table-body').innerHTML = init_inventory_table
                 }
             }
         }
