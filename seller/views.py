@@ -165,17 +165,9 @@ def product_register(request):
 def transaction_history(request):
     return render(request, 'seller/transaction_history.html', {})
 
-def cache_test_func(request):
 
-    if cache.get('Mouse'):
-        product = cache.get('Mouse')
-        print("fetched from cache")
-
-    else:
-        product = Product.objects.filter(category__name='Mouse')
-        cache.set('Mouse', product, timeout=30)
-        print("fetched from db")
-    print(f"Mouse TTL -- {cache.ttl('Mouse')}")
-    print("inside cache test")
-
-
+# Package auction
+def auction_multiple_product(request):
+    inventory_id_lst = request.GET['inventory_id_lst']
+    quantity_lst = request.GET['quantity_lst']
+    pass

@@ -1,6 +1,3 @@
-
-
-
 $('#btn_wallet_proceed').click(function () {
 
     let amount = $("#transfer_amount").val()
@@ -51,11 +48,11 @@ $('#btn-auction-confirmation-id').click(function () {
     let auction_base_price = document.getElementById('final_auction_base_price').innerText
     let inv_id = $("#auction_product_id").val()
     mydata = {
-        start : auction_start,
-        end : auction_end,
-        quantity : auction_quantity,
-        price : auction_base_price,
-        inventory_id : inv_id,
+        start: auction_start,
+        end: auction_end,
+        quantity: auction_quantity,
+        price: auction_base_price,
+        inventory_id: inv_id,
     }
 
     console.log()
@@ -64,7 +61,7 @@ $('#btn-auction-confirmation-id').click(function () {
         {
             url: "auction/",
             method: 'GET',
-            data:mydata,
+            data: mydata,
             success: function (data) {
                 if (data.status == 1) {
 
@@ -78,8 +75,8 @@ $('#btn-auction-confirmation-id').click(function () {
             }
         }
     )
-
 })
+
 
 $('#btn_auction_proceed_id').click(function () {
     console.log("Wallet tranfer done successfully")
@@ -96,6 +93,7 @@ $('#btn_auction_proceed_id').click(function () {
 
 })
 
+
 $('.btn-auction').click(function () {
 
     let inventory_id = $(this).attr('data-inventory-id')
@@ -105,5 +103,27 @@ $('.btn-auction').click(function () {
     document.getElementById('product_name_id').innerText = product_name
     document.getElementById('auction_product_name_id').innerText = product_name
 })
+
+
+$('#auction-multiple').click(function () {
+
+    let auction_td = document.getElementsByClassName('btn-auction-td')
+    let auction_quantity_td = document.getElementsByClassName('btn-auction-quantity')
+    let td_btn_auction = document.getElementsByClassName('btn-auction')
+    let quantity
+    let inventory_id
+
+
+    for (var i = 0; i < auction_td.length; i++) {
+        quantity = document.getElementsByClassName('btn-auction-quantity')[i].innerText
+        inventory_id = td_btn_auction[0].getAttribute('data-inventory-id')
+
+        auction_td[i].innerHTML = '<input class="form-check-input" type="checkbox" value="' + inventory_id + '" id="flexCheckDefault">'
+        auction_quantity_td[i].innerHTML = '<input class="form-control me-3" id="" type="number" min="0" ' +
+            'max="' + quantity + '" value="' + quantity + '" style="width: 75px" />'
+    }
+
+})
+
 
 
