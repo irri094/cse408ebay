@@ -1,4 +1,5 @@
 {% extends 'base/global_base.html' %}
+{% load static %}
 
 {% block auction_home %}
     <!-- Header-->
@@ -6,7 +7,7 @@
         <div class="container px-4 px-lg-5 my-5">
             <div class="text-center text-white">
                 <h1 class="display-4 fw-bolder">Bengal Bay</h1>
-                <p class="lead fw-normal text-white-50 mb-0">Your mall is in your computer now</p>
+                <p class="lead fw-normal text-white-50 mb-0" id="landing-text"></p>
             </div>
         </div>
     </header>
@@ -53,4 +54,5 @@
     <footer class="py-5 bg-dark">
         <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
     </footer>
+    <script src="{% static 'global_controller/js/auction-home.js'%}"></script>
 {% endblock %}

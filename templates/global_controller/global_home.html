@@ -1,4 +1,5 @@
 {% extends 'base/global_base.html' %}
+{% load static %}
 
 {% block global_home %}
     <!-- Header-->
@@ -54,4 +55,5 @@
     <footer class="py-5 bg-dark">
         <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Bengal Bay 2022</p></div>
     </footer>
+    <script src="{% static '/global_controller/js/global_home.js' %}"></script>
 {% endblock %}
