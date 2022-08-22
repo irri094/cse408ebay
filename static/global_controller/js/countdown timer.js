@@ -12,7 +12,9 @@ var countDownDate = new Date(auction_end_time).getTime();
 var x = setInterval(function () {
 
     // Get today's date and time
-    var now = new Date().getTime();
+    // var now = new Date().getTime();
+    var now = new Date().getTime() + 6*60*60*1000;
+    // console.log(Math.floor(now/1000))
 
     // Find the distance between now and the count down date
     var distance = countDownDate - now;

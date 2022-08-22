@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from .models import *
 from django.core.cache import cache
-import datetime
+from datetime import datetime, timezone
 
 
 # Renders the Home page of Bengal Bay.
@@ -179,34 +179,39 @@ def count_cart_quantity(request):
     return quantity
 
 
-def convertTime(t):
-    return (t - datetime.datetime(1970, 1, 1)).total_seconds()
-    # montharr = {}
-    # datelist = inputDate.split('-')
-    # timelist = inputDate.split(':')
-    # rettime = int(timelist[2]) + int(timelist[1]) * 60 + int(timelist[0]) * 60 * 60
-    # c = 60 * 60 * 24
-    # rettime += int(datelist[2]) * c + int(datelist[1]) * c *  + int(datelist[0]) * 60 * 60
+def convertTime(t, ad6hour):
+    T = (t.replace(tzinfo=None) - datetime(1970, 1, 1)).total_seconds()
+    if ad6hour:
+        T -= 6*60*60
+    return T
 
 def place_bid(request):
     print('we are now placing bid')
     auction_id = request.GET['auction_id']
 
     auction = Auction.objects.get(id=auction_id)
+    A = convertTime(auction.start_time, False)
+    B = convertTime(auction.end_time, False)
+    C = convertTime(datetime.now(timezone.utc), True)
+    print(A)
+    print(B)
+    print(C)
 
-    if convertTime(auction.start_time) <= convertTime(datetime.datetime.now()) and convertTime(datetime.datetime.now()) <= convertTime(auction.end_time) :
+    if A <= C and C <= B :
         print("within time range")
     else:
         print("outside range")
 
-    print(f'actual time -- {datetime.datetime.now().strftime("%H:%M:%S")}')
+    print(f'actual time -- {datetime.now(timezone.utc).strftime("%H:%M:%S")}')
     # datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     auction_start = str(auction.start_time)
     auction_end = str(auction.end_time)
+    nowtime = str(datetime.now(timezone.utc))
 
     print(f"{auction_start} -- start")
     print(f"{auction_end} -- end")
+    print(f"{nowtime} -- current time")
 
     auction_start = auction_start.split(" ")
     auction_end = auction_end.split(" ")
@@ -220,19 +225,19 @@ def place_bid(request):
     print(f"auction start time -- {auction_start_date} {auction_start_time}")
     print(f"auction end time -- {auction_end_date} {auction_end_time}")
 
-    current_date = str(datetime.date.today())
-    current_time = str(datetime.datetime.now().strftime("%H:%M:%S"))
-
-    print(f"current time -- {current_date} {current_time}")
-
-    print(type(current_date))
-    print(type(auction_start_date))
-
-    if current_date >= auction_start_date and current_date <= auction_end_date:
-        print('maybe auction')
-        if current_time <= auction_end_time and current_date == auction_end_date:
-            print('bid placed')
-    else:
-        print('auction ended')
+    # current_date = str(datetime.date.today())
+    # current_time = str(datetime.datetime.now().strftime("%H:%M:%S"))
+    #
+    # print(f"current time -- {current_date} {current_time}")
+    #
+    # print(type(current_date))
+    # print(type(auction_start_date))
+    #
+    # if current_date >= auction_start_date and current_date <= auction_end_date:
+    #     print('maybe auction')
+    #     if current_time <= auction_end_time and current_date == auction_end_date:
+    #         print('bid placed')
+    # else:
+    #     print('auction ended')
 
     return JsonResponse({})
