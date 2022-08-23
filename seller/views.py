@@ -2,6 +2,8 @@ from itertools import product
 from unicodedata import category
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, reverse
+from django.views.decorators.csrf import csrf_protect
+import json
 from global_controller.models import *
 from django.core.files.storage import FileSystemStorage
 from django.core.cache import cache
@@ -73,11 +75,18 @@ def auction(request):
     auction = Auction(seller=seller, inventory=inventory, start_time=start, end_time=end,
                       base_price=price, quantity=quantity)
 
-    auction.save()
+    # auction.save()
 
     context = {
         'status': 1,
     }
+    if auction.start_time > auction.end_time:
+        context['status'] = 0
+        print("auction time mismatch")
+    else:
+        auction.save()
+        print("auction added")
+
     return JsonResponse(context)
 
 
@@ -169,8 +178,47 @@ def transaction_history(request):
 # Package auction
 def auction_multiple_product(request):
     print(request.GET)
-    inventory_id_lst = request.GET['inventory_id_lst[]']
-    quantity_lst = request.GET['quantity_lst[]']
+    pydict = request.GET.dict()
+    print(pydict)
+    # print(f"len of inventories -- {len(request.GET['inventoryidlst[]'])}")
+    # print(f"len of qunantities -- {len(request.GET['quantitylst[]'])}")
+
+    inventory_id_lst = json.loads(request.GET['inventoryidlst'])
+    quantity_lst = json.loads(request.GET['quantitylst'])
+    startTime = request.GET['start_time']
+    endTime = request.GET['end_time']
+    basePrice = request.GET['base_price']
     print(inventory_id_lst)
     print(quantity_lst)
-    return JsonResponse({'status': 1})
+    print(startTime)
+    print(endTime)
+    print(basePrice)
+
+    # for i in range(0, len(request.GET['inventoryidlst[]']) ):
+    #     inventory_id_lst.append( request.GET['inventoryidlst[]'][i] )
+    # print(request.GET['quantitylst[]'])
+    # print(request.GET['inventoryidlst[]'])
+    # quantity_lst = request.GET['quantitylst[]']
+    # print(inventory_id_lst)
+    # print(quantity_lst)
+
+    # assert len(inventory_id_lst) == len(quantity_lst)
+    # print(inventory_id_lst)
+    # print(quantity_lst)
+    print("aaaaaaaaa")
+
+    seller = Seller.objects.get(phone=request.session['phone_num'])
+    newAuction = Auction(seller=seller, is_package=True, start_time=startTime, end_time=endTime, base_price=basePrice)
+    newAuction.save()
+
+    for i in range(0, len(inventory_id_lst)):
+        curInventory = Inventory.objects.get(id=inventory_id_lst[i])
+        newPackageItem = PackageItem(inventory=curInventory, auction=newAuction, quantity=quantity_lst[i])
+        newPackageItem.save()
+
+    print("new package auction made")
+    context = {
+        'status': 1,
+    }
+    return JsonResponse(context)
+
