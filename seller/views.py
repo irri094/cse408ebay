@@ -207,6 +207,15 @@ def auction_multiple_product(request):
     # print(quantity_lst)
     print("aaaaaaaaa")
 
+    for i in range(0, len(quantity_lst)):
+        actualcnt = Inventory.objects.get(id=inventory_id_lst[i]).quantity
+        if int(quantity_lst[i]) >= actualcnt or int(quantity_lst[i]) <= 0:
+            context = {
+                'status': 0,
+            }
+            print("quantity is invalid")
+            return JsonResponse(context)
+
     seller = Seller.objects.get(phone=request.session['phone_num'])
     newAuction = Auction(seller=seller, is_package=True, start_time=startTime, end_time=endTime, base_price=basePrice)
     newAuction.save()
