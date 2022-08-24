@@ -20,6 +20,7 @@ def load_employee(request):
 
         # NOW deliverymenlist is a set with all deliverymen who should come to THIS hub
 
+
         context = {
             "emp_name": request.session['username'],
         }
@@ -34,3 +35,5 @@ def getAllOrders(request):
     print(myOrders)
     print("---- end different hub --------")
     return myOrders
+
+

@@ -12,6 +12,8 @@
                 <th class="text-center">Item</th>
                 <th class="text-center">Quantity</th>
                 <th class="text-center">Order Date</th>
+                <th class="text-center">Deliveryman</th>
+                <th class="text-center">OTP</th>
                 <th class="text-center">Status</th>
             </tr>
             </thead>
@@ -22,6 +24,8 @@
                     <td class="text-center">{{ order.product.name }}</td>
                     <td class="text-center">{{ order.quantity }}</td>
                     <td class="text-center">{{ order.order_set.date }}</td>
+                    <td class="text-center">{{ order.deliveryman }}</td>
+                    <td class="text-center">{{ order.OTP }}</td>
                     <td class="text-center">
                         {% if order.status.id is 1 %}
                             <span class="badge rounded-pill text-bg-warning">{{ order.status }}</span>

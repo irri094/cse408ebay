@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, reverse
 from global_controller.models import *
-import global_controller.authentication_module as a_moudle
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -25,8 +25,29 @@ def load_deliveryman(request):
         'deliveryman_name': "Deliveryman",
         'title': 'Deliveryman',
         'info': 'This is deliveryman',
-        'deliveryman_coord' : deliveryman_coord,
+        'deliveryman_coord': deliveryman_coord,
         'orders': orders,
     }
 
     return render(request, 'Deliveryman/home.html', context)
+
+
+def delivery_details_of_customer(request):
+    # order_set = Order_Set.objects.filter(order__status__status='Picked up')
+    orders = Order.objects.filter(status__status='Picked up')
+    print("these are the orders...")
+    print(orders)
+
+    context = {
+        'orders': orders
+    }
+    return render(request, 'Deliveryman/delivery-details-of-customer.html', context)
+
+
+def authenticate_customer(request):
+    print(request.GET)
+
+    context = {
+        'status': 0
+    }
+    return JsonResponse(context)

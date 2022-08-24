@@ -1,5 +1,5 @@
 venv
 *.pyc
-*.pyc
 *.jpg
 *.png
+*.rdb
