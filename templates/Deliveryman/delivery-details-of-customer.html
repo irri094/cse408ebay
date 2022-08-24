@@ -1,0 +1,52 @@
+{% extends 'base/deliveryman_base.html' %}
+
+{% load static %}
+
+{% block delivery_details_of_customer %}
+
+    {% include 'Deliveryman/customer_confirm_modal.html' %}
+    <input type="text" id="txt_order_id" hidden>
+    <h1 class="mt-4">Delivery Details</h1>
+
+    <div class="row my-4">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">Customer</th>
+                <th class="text-center">Address</th>
+                <th class="text-center">Phone</th>
+                <th class="text-center">Product</th>
+                <th class="text-center">Quantity</th>
+                <th class="text-center"></th>
+
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td class="text-center">{{ forloop.counter }}</td>
+                    <td class="text-center">{{ order.order_set.customer.name }}</td>
+                    <td class="text-center">{{ order.order_set.customer.address }}</td>
+                    <td class="text-center">{{ order.order_set.customer.phone }}</td>
+                    <td class="text-center">{{ order.product }}</td>
+                    <td class="text-center">{{ order.quantity }}</td>
+                    <td class="text-center">
+                        <button class="btn rounded-pill btn-outline-primary btn-shop-navigate btn-authenticate-customer"
+                                data-order-id="{{ order.id }}"
+                                data-bs-target="#customer_delivery_confirm_modal"
+                                data-bs-toggle="modal">
+                            <i class="bi bi-truck"></i></button>
+                        <button class="btn rounded-pill btn-outline-primary btn-shop-navigate"
+                                data-coord-id="{{ order.seller.coord }}">
+                            <i class="bi bi-geo-alt"></i></button>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="{% static 'deliveryman/js/delivery-details-of-customer.js' %}"></script>
+{% endblock %}

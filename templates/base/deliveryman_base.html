@@ -47,14 +47,14 @@
             <div class="sb-sidenav-menu">
                 <div class="nav">
 
-                    <a class="nav-link" href="">
+                    <a class="nav-link" href="{% url 'deliveryman:home' %}">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Orders
+                        Pickup Details
                     </a>
 
-                    <a class="nav-link" href="">
-                        <div class="sb-nav-link-icon"><i class="bi bi-gear-fill"></i></div>
-                        Change Account Info
+                    <a class="nav-link" href="{% url 'deliveryman:delivery-details' %}">
+                        <div class="sb-nav-link-icon"><i class="bi bi-receipt"></i></div>
+                        Delivery Details
                     </a>
 
                 </div>
@@ -70,8 +70,9 @@
             <div class="container-fluid px-4 mt-4">
 
                 {% block deliveryman_home %}
+                {% endblock %}
 
-
+                {% block delivery_details_of_customer %}
                 {% endblock %}
 
             </div>
@@ -83,7 +84,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
 <script src="{% static 'global_controller/js/base.js' %}"></script>
-{# ------ leaflet js -------- #}
+{# ------ sweet alert 2 cdn -------- #}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 </body>
 
