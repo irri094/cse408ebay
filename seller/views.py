@@ -4,10 +4,23 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect, reverse
 from django.views.decorators.csrf import csrf_protect
 import json
+import random
+import random
 from global_controller.models import *
 from django.core.files.storage import FileSystemStorage
 from django.core.cache import cache
 
+def generate_otp():
+    otp = ""
+    for i in range(0, 6):
+        x = random.randint(0, 61)
+        if x < 26:
+            otp += chr(x + 97)
+        elif x < 52:
+            otp += chr(x - 26 + 65)
+        else:
+            otp += chr(x - 52 + 48)
+    return otp
 
 # Create your views here.
 def load_order_history(request):
@@ -106,6 +119,7 @@ def confirm_deliveryman(request):
         order_status_obj = Order_Status.objects.get(status=order_status)
 
         order.status = order_status_obj
+        order.OTP = generate_otp()
         order.save()
 
         status = 1

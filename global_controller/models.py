@@ -28,7 +28,6 @@ class Hubman(models.Model):
     hub = models.ForeignKey(Hub, on_delete=models.CASCADE)
     name = models.CharField(max_length=30)
     address = models.CharField(max_length=100)
-    designation = models.CharField(max_length=100)
     NID = models.CharField(max_length=20)
     phone = models.CharField(max_length=100)
 
