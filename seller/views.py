@@ -1,13 +1,13 @@
 from itertools import product
 from unicodedata import category
 from django.http import JsonResponse
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
 import json
 from global_controller.models import *
 from django.core.files.storage import FileSystemStorage
 from django.core.cache import cache
-
+from django.urls import reverse
 
 # Create your views here.
 def load_order_history(request):
