@@ -93,8 +93,9 @@ def auction(request):
     inventory.save()
 
     # Create new auction object and save to DB
-    auction = Auction(seller=seller, inventory=inventory, start_time=start, end_time=end,
-                      base_price=price, quantity=quantity, auction_name=inventory.product.name)
+    auction = Auction(seller=seller, start_time=start, end_time=end,
+                      base_price=price, auction_name=inventory.product.name)
+
     context = {
         'status': 1,
     }
@@ -103,6 +104,8 @@ def auction(request):
         print("auction time mismatch")
     else:
         auction.save()
+        newPackageItem = PackageItem(auction=auction, inventory=inventory, quantity=quantity)
+        newPackageItem.save()
         print("auction added")
 
     return JsonResponse(context)
@@ -227,7 +230,7 @@ def auction_multiple_product(request):
             return JsonResponse(context)
 
     seller = Seller.objects.get(phone=request.session['phone_num'])
-    new_auction = Auction(seller=seller, is_package=True, start_time=start_time, end_time=end_time,
+    new_auction = Auction(seller=seller, start_time=start_time, end_time=end_time,
                           base_price=base_price, auction_name=package_name)
     new_auction.save()
 

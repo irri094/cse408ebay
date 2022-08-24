@@ -47,14 +47,14 @@
                         <span>Start Bid: {{ auction.base_price }} BDT</span>
                     </div>
                     <div class="fs-5 mb-2">
-                        <span>Current Bid: <strong>{{ auction.base_price }} BDT</strong></span>
+                        <span>Current Bid: <strong>{{ auction.bid.bid_amount }} BDT</strong></span>
                     </div>
                     <div class="fs-5 mb-2">
                         <span>Auction will end on <strong>{{ auction.end_time }}</strong></span>
                     </div>
                     <div class="d-flex">
                         <input class="form-control text-center me-3" id="input_quantity" type="number"
-                               value="{{ auction.base_price }}"
+                               value="{{ valid_low_bid }}"
                                style="max-width: 8rem"/>
                         <button class="btn btn-outline-dark flex-shrink-0"
                                 type="button"

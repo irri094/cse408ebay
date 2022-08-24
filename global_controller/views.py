@@ -130,6 +130,7 @@ def auction_product_details(request, auction_id):
 
         context = {
             'auction': auction,
+            'valid_low_bid': auction.bid.bid_amount+1,
             'inventories': related_products_list,
         }
         return render(request, 'global_controller/auction_product_details.html', context)
@@ -149,7 +150,7 @@ def count_cart_quantity(request):
 def convert_time(t, ad6hour):
     T = (t.replace(tzinfo=None) - datetime(1970, 1, 1)).total_seconds()
     if ad6hour:
-        T -= 6 * 60 * 60
+        T += 6 * 60 * 60
     return T
 
 
@@ -166,6 +167,7 @@ def place_bid(request):
         # Fetch data from GET request
         auction_id = request.GET['auction_id']
         bid_amount = request.GET['bid_amount']
+        bid_amount = int(bid_amount)
 
         # For cache variables
         customer_identifier = 'customer_id'
@@ -200,7 +202,10 @@ def place_bid(request):
         # converts time to absolute second value
         A = convert_time(auction.start_time, False)
         B = convert_time(auction.end_time, False)
-        C = convert_time(datetime.now(timezone.utc), True)
+        C = convert_time(datetime.now(timezone.utc), False)
+        print(auction.start_time)
+        print(auction.end_time)
+        print(datetime.now(timezone.utc))
 
         print(f"A -- {A}")
         print(f"B -- {B}")
@@ -223,7 +228,7 @@ def place_bid(request):
                 print(f"First bid placed {auction.bid.bid_amount}")
 
             # If current bid value is greater than auction's running bid value
-            elif auction.bid < bid_amount:
+            elif auction.bid.bid_amount < bid_amount:
                 auction.bid.bid_amount = bid_amount
                 auction.bid.customer = customer
                 auction.bid.save()
@@ -232,12 +237,13 @@ def place_bid(request):
                 print(f"Auction bid updated -- Current bid {auction.bid.bid_amount} -- customer {customer.name}")
             # Valid time for bidding
             print("within time range")
+
+            print(f"Current highest bidder -- {auction.bid.customer}")
+
         else:
             status = 0
             # Invalid time for bidding
             print("outside range")
-
-        print(f"Current highest bidder -- {auction.bid.customer}")
 
     context = {
         'status': status

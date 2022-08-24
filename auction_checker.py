@@ -5,7 +5,6 @@ import global_controller.views as gviews
 from global_controller.models import *
 from datetime import datetime, timezone
 
-
 def check_auction():
     while True:
         auctions = Auction.objects.all()
@@ -31,23 +30,11 @@ def check_auction():
                     deliveryman = Deliveryman.objects.get(id=1)
 
                     # create a new order record
-                    if not auction.is_package:
-                        order = Order(seller=auction.seller, product=auction.inventory.product, status=order_status,
+                    pkitems = PackageItem.objects.filter(auction=auction)
+                    for p in pkitems:
+                        order = Order(seller=auction.seller, product=p.inventory.product, status=order_status,
                                       deliveryman=deliveryman, OTP=customer.views.generate_otp(),
-                                      quantity=auction.quantity)
+                                      quantity=p.quantity, order_set=order_set)
                         order.save()
-                        newAuctionOrder = Auction_Order(order=order)
-                        newAuctionOrder.save()
-
-                    else:
-                        packageItems = PackageItem.objects.filter(auction=auction)
-                        for p in packageItems:
-                            order = Order(seller=auction.seller, product=p.inventory.product, status=order_status,
-                                          deliveryman=deliveryman, OTP=customer.views.generate_otp(),
-                                          quantity=p.quantity)
-                            order.save()
-                            newAuctionOrder = Auction_Order(order=order)
-                            newAuctionOrder.save()
-
         print("auctions edited")
         time.sleep(30)
