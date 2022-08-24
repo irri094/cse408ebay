@@ -45,9 +45,24 @@ def delivery_details_of_customer(request):
 
 
 def authenticate_customer(request):
-    print(request.GET)
+    otp = request.GET['otp']
+    order_id = request.GET['order_id']
+
+    order = Order.objects.get(id=order_id)
+
+    # Check the otp of the order
+    if order.OTP == otp:
+        # Update the status of the order
+        order_status = Order_Status.objects.get(status='Delivered')
+        order.status = order_status
+        order.save()
+        # set status to 1 for successful notification
+        status = 1
+    else:
+        # set status to 0 for failure notification
+        status = 0
 
     context = {
-        'status': 0
+        'status': status
     }
     return JsonResponse(context)
