@@ -7,7 +7,6 @@ from django.core.cache import cache
 from datetime import datetime, timezone
 from django.urls import reverse
 
-
 # Renders the Home page of Bengal Bay.
 def home(request):
     inventories = Inventory.objects.all()[:8]
@@ -248,7 +247,32 @@ def place_bid(request):
 
 def search_module(request):
     print(request.GET)
-    print("this is inside the search module")
-    return JsonResponse({})
 
+    searchstring = request.GET['search']
+    matchInvents = Inventory.objects.filter(product__name__icontains=searchstring)
+    print(matchInvents)
+    print("end matching string")
 
+    if 'cart' not in request.session:
+        request.session['cart'] = []
+    context = {
+        'inventories': matchInvents,
+        "cart_size": count_cart_quantity(request)
+    }
+    return render(request, 'global_controller/global_home.html', context)
+
+def category_module(request, category_name):
+    print("category called")
+    category_name = category_name.lower().capitalize()
+    Category.objects.get_or_create(name=category_name)
+    print(category_name)
+    matchInvents = Inventory.objects.filter(product__category__name=category_name)
+
+    if 'cart' not in request.session:
+        request.session['cart'] = []
+    context = {
+        'inventories': matchInvents,
+        "cart_size": count_cart_quantity(request)
+    }
+
+    return render(request, 'global_controller/global_home.html', context)
