@@ -32,7 +32,7 @@ def load_product_status(request):
         user = Customer.objects.get(name=request.session['username'])
         status = Order_Status.objects.get(id=1)
 
-        ordered_product = Order.objects.filter(order_set__customer=user).order_by('-order_set__date')
+        ordered_product = Order.objects.filter(order_set__customer=user).exclude(status__status='Delivered').order_by('-order_set__date')
 
         print(ordered_product)
 
@@ -47,7 +47,7 @@ def load_order_history(request):
     if 'username' not in request.session:
         return redirect(global_controller.authentication_module.logIn)
     else:
-        status = Order_Status.objects.get(status='Picked Up')
+        status = Order_Status.objects.get(status='Delivered')
         context = {
             'orders': Order.objects.filter(status=status).order_by('-order_set__date')
         }

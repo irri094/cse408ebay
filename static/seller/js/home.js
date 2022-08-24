@@ -72,6 +72,12 @@ $('#btn-auction-confirmation-id').click(function () {
                     )
 
                 }
+                else{
+                    Swal.fire({
+                        icon: 'error',
+                        text: 'start time and end time are incompatible',
+                    })
+                }
             }
         }
     )
@@ -190,7 +196,7 @@ $('#multiple_pacakge_confirmation').click(function () {
 
 
 function test_function() {
-    console.log('multiple auction pressed')
+    console.log('multiple auction INSIDE TEST FUNCTOIN')
 
     let inventory_table_body = document.getElementById('seller-inventory-table-body').innerHTML
     let quantity = 0
@@ -213,10 +219,13 @@ function test_function() {
     let auc_start_time = document.getElementById('package_start_time_id').value
     let auc_end_time = document.getElementById('package_end_time_id').value
     let package_price = document.getElementById('package_base_price_id').value
+    let json_text1 = JSON.stringify(quantity_list, null, quantity_list.length)
+    let json_text2 = JSON.stringify(inventory_id_list, null, inventory_id_list.length)
+
 
     mydata = {
-        quantity_lst: quantity_list,
-        inventory_id_lst: inventory_id_list,
+        quantitylst: json_text1,
+        inventoryidlst: json_text2,
         start_time: auc_start_time,
         end_time: auc_end_time,
         base_price: package_price,
@@ -227,7 +236,6 @@ function test_function() {
     $.ajax(
         {
             url: "auction-multiple-product/",
-            method: 'GET',
             data: mydata,
             success: function (data) {
                 if (data.status == 1) {

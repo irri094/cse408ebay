@@ -22,6 +22,9 @@ def logIn(request):
         elif user.user_type.type == 'deliveryman':
             print("redirecting to deliveryman")
             return redirect(reverse('deliveryman:home'))
+        elif user.user_type.type == 'employee':
+            print("redirecting to employee")
+            return redirect(reverse('employee:home'))
 
     elif request.method == "POST":
         print("processing authentication")
@@ -52,6 +55,11 @@ def logIn(request):
                 tmpname = Deliveryman.objects.get(phone=u_name).name
                 create_session(request, tmpname, u_name)
                 return redirect(reverse('deliveryman:home'))
+            elif user.user_type.type == 'employee':
+                print(4)
+                tmpname = Hubman.objects.get(phone=u_name).name
+                create_session(request, tmpname, u_name)
+                return redirect(reverse('employee:home'))
     print("coming down here")
     return render(request, 'global_controller/login.html')
 

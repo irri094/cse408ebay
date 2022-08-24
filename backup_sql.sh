@@ -1,0 +1,1 @@
+mysqldump -u root -pPassword1. ebaydb > backup-file.sql

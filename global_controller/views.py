@@ -1,10 +1,11 @@
 import random
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import JsonResponse
+import global_controller.authentication_module
 from .models import *
 from django.core.cache import cache
 from datetime import datetime, timezone
-
+from django.urls import reverse
 
 # Renders the Home page of Bengal Bay.
 def home(request):
@@ -18,48 +19,7 @@ def home(request):
     return render(request, 'global_controller/global_home.html', context)
 
 
-def product_details_rev(request, seller_id, product_id):
-    total_random_products = 4
-
-    current_product_category = Product.objects.get(id=product_id).category
-    related_products_list = Product.objects.filter(category=current_product_category).values_list('id', flat=True)
-    index_array = related_products_list
-    notunarray = []
-    for i in range(0, len(index_array)):
-        notunarray.append(index_array[i])
-    random.shuffle(notunarray)
-    while len(notunarray) > 4:
-        notunarray.pop()
-    related_products_list = Inventory.objects.filter(id__in=notunarray)
-    notunarray = list(related_products_list)
-    random.shuffle(notunarray)
-
-    # If data in cache fetch from cache. Otherwise fetch from DB
-    # CACHE TTL or product entries
-    product_ttl = 30
-    product_identifier = 'product_id'
-
-    if cache.get(product_identifier + product_id):
-        product = cache.get(product_identifier + product_id)
-        print('product fetched from cache')
-    else:
-        product = Product.objects.get(id=product_id)
-        cache.set(product_identifier + product_id, product, timeout=product_ttl)
-        print('product fetched from db')
-
-    print(f'Product {product.name} -- TTL {cache.ttl(product_identifier + product_id)}')
-
-    context = {
-        # 'seller': Seller.objects.get(id=seller_id),
-        # 'product': product,
-        'inventories': notunarray,
-        "cart_size": count_cart_quantity(request),
-        'current_inventory': Inventory.objects.get(seller_id=seller_id, product_id=product_id)
-    }
-    return render(request, 'global_controller/product_detail.html', context)
-
-
-def product_details_rev2(request, inventory_id):
+def product_details(request, inventory_id):
     total_random_products = 4
 
     current_product_category = Inventory.objects.get(id=inventory_id).product.category
@@ -134,7 +94,11 @@ def add_to_cart(request):
 
 def auction_home(request):
     # To Do : Generate random objects to render the html.
-    auctions = Auction.objects.all()[:8]  # The random objects must be of 'INVENTORY' record.
+    auctions = Auction.objects.filter(end_time__gte=datetime.now(timezone.utc))[:8]
+    # ---------------TO DO-------------------------
+    # Randomize 8 objects from the fetched auctions.
+    # ---------------------------------------------
+
     if 'cart' not in request.session:
         request.session['cart'] = []
     context = {
@@ -160,14 +124,17 @@ def auction_product_details(request, auction_id):
 
     print(f'auction {auction.id} -- TTL {cache.ttl(auction_identifier + auction_id)}')
 
-    total_random_products = 5
-    related_products_list = Auction.objects.exclude(id=auction_id)[:total_random_products]
+    if auction.end_time >= datetime.now(timezone.utc):
+        total_random_products = 5
+        related_products_list = Auction.objects.exclude(id=auction_id)[:total_random_products]
 
-    context = {
-        'auction': auction,
-        'inventories': related_products_list,
-    }
-    return render(request, 'global_controller/auction_product_details.html', context)
+        context = {
+            'auction': auction,
+            'inventories': related_products_list,
+        }
+        return render(request, 'global_controller/auction_product_details.html', context)
+    else:
+        return redirect(reverse('auction_home'))
 
 
 # Total elements of cart elements are counted
@@ -179,65 +146,133 @@ def count_cart_quantity(request):
     return quantity
 
 
-def convertTime(t, ad6hour):
+def convert_time(t, ad6hour):
     T = (t.replace(tzinfo=None) - datetime(1970, 1, 1)).total_seconds()
     if ad6hour:
-        T -= 6*60*60
+        T -= 6 * 60 * 60
     return T
 
+
+# The bid placed from the front end is greater than the current bid
+# and it is gauranteed.
 def place_bid(request):
-    print('we are now placing bid')
-    auction_id = request.GET['auction_id']
+    print(f"request.GET -- {request.GET}")
 
-    auction = Auction.objects.get(id=auction_id)
-    A = convertTime(auction.start_time, False)
-    B = convertTime(auction.end_time, False)
-    C = convertTime(datetime.now(timezone.utc), True)
-    print(A)
-    print(B)
-    print(C)
-
-    if A <= C and C <= B :
-        print("within time range")
+    if 'phone_num' not in request.session:
+        print("phone number not in request session")
+        # return render(request, 'global_controller/login.html')
+        status = 3
     else:
-        print("outside range")
+        # Fetch data from GET request
+        auction_id = request.GET['auction_id']
+        bid_amount = request.GET['bid_amount']
 
-    print(f'actual time -- {datetime.now(timezone.utc).strftime("%H:%M:%S")}')
-    # datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # For cache variables
+        customer_identifier = 'customer_id'
+        customer_ttl = 60
 
-    auction_start = str(auction.start_time)
-    auction_end = str(auction.end_time)
-    nowtime = str(datetime.now(timezone.utc))
+        if cache.get(customer_identifier + request.session['phone_num']):
+            # cache Hit  -- Customer
+            customer = cache.get(customer_identifier + request.session['phone_num'])
+            print(
+                f'Customer object for auction fetched from cache -- ttl {cache.ttl(customer_identifier + request.session["phone_num"])}')
+        else:
+            # cache Miss -- Customer
+            customer = Customer.objects.get(phone=request.session['phone_num'])
+            cache.set(customer_identifier + request.session['phone_num'], customer, timeout=customer_ttl)
+            print(f"Customer object for auction fetched from DB")
+        # ###################################################################
 
-    print(f"{auction_start} -- start")
-    print(f"{auction_end} -- end")
-    print(f"{nowtime} -- current time")
+        # Get Auction object from cache or db
+        auction_ttl = 30
+        auction_identifier = 'auction_id'
 
-    auction_start = auction_start.split(" ")
-    auction_end = auction_end.split(" ")
+        if cache.get(auction_identifier + auction_id):
+            # cache hit -- auction
+            auction = cache.get(auction_identifier + auction_id)
+            print('auction fetched from cache')
+        else:
+            # cache miss -- auction
+            auction = Auction.objects.get(id=auction_id)
+            cache.set(auction_identifier + auction_id, auction, timeout=auction_ttl)
+            print('auction fetched from db')
 
-    auction_start_date = auction_start[0]
-    auction_end_date = auction_end[0]
+        # converts time to absolute second value
+        A = convert_time(auction.start_time, False)
+        B = convert_time(auction.end_time, False)
+        C = convert_time(datetime.now(timezone.utc), True)
 
-    auction_start_time = auction_start[1].split("+")[0]
-    auction_end_time = auction_end[1].split("+")[0]
+        print(f"A -- {A}")
+        print(f"B -- {B}")
+        print(f"C -- {C}")
 
-    print(f"auction start time -- {auction_start_date} {auction_start_time}")
-    print(f"auction end time -- {auction_end_date} {auction_end_time}")
+        # variable for notification
+        status = 0
 
-    # current_date = str(datetime.date.today())
-    # current_time = str(datetime.datetime.now().strftime("%H:%M:%S"))
-    #
-    # print(f"current time -- {current_date} {current_time}")
-    #
-    # print(type(current_date))
-    # print(type(auction_start_date))
-    #
-    # if current_date >= auction_start_date and current_date <= auction_end_date:
-    #     print('maybe auction')
-    #     if current_time <= auction_end_time and current_date == auction_end_date:
-    #         print('bid placed')
-    # else:
-    #     print('auction ended')
+        # Update the bid of an auction if it is correct time range and greater than
+        # previous bid value
+        if A <= C and C <= B:
+            # If not bid is placed
+            if auction.bid is None:
+                bid = Bid(bid_amount=bid_amount, customer=customer)
+                bid.save()
+                auction.bid = bid
+                auction.save()
 
-    return JsonResponse({})
+                status = 1
+                print(f"First bid placed {auction.bid.bid_amount}")
+
+            # If current bid value is greater than auction's running bid value
+            elif auction.bid < bid_amount:
+                auction.bid.bid_amount = bid_amount
+                auction.bid.customer = customer
+                auction.bid.save()
+
+                status = 1
+                print(f"Auction bid updated -- Current bid {auction.bid.bid_amount} -- customer {customer.name}")
+            # Valid time for bidding
+            print("within time range")
+        else:
+            status = 0
+            # Invalid time for bidding
+            print("outside range")
+
+        print(f"Current highest bidder -- {auction.bid.customer}")
+
+    context = {
+        'status': status
+    }
+    return JsonResponse(context)
+
+
+def search_module(request):
+    print(request.GET)
+
+    searchstring = request.GET['search']
+    matchInvents = Inventory.objects.filter(product__name__icontains=searchstring)
+    print(matchInvents)
+    print("end matching string")
+
+    if 'cart' not in request.session:
+        request.session['cart'] = []
+    context = {
+        'inventories': matchInvents,
+        "cart_size": count_cart_quantity(request)
+    }
+    return render(request, 'global_controller/global_home.html', context)
+
+def category_module(request, category_name):
+    print("category called")
+    category_name = category_name.lower().capitalize()
+    Category.objects.get_or_create(name=category_name)
+    print(category_name)
+    matchInvents = Inventory.objects.filter(product__category__name=category_name)
+
+    if 'cart' not in request.session:
+        request.session['cart'] = []
+    context = {
+        'inventories': matchInvents,
+        "cart_size": count_cart_quantity(request)
+    }
+
+    return render(request, 'global_controller/global_home.html', context)

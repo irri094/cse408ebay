@@ -25,16 +25,18 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('', global_view.home, name='global_home'),
     path('customer/', include('customer.urls', namespace='customer')),
     path('employee/', include('employee.urls', namespace='employee')),
     path('seller/', include('seller.urls', namespace='seller')),
     path('deliveryman/', include('deliveryman.urls', namespace='deliveryman')),
+
     path('login/', global_controller.authentication_module.logIn, name='login'),
     path('register/', global_controller.authentication_module.register, name='register'),
     path('seller_register/', global_controller.authentication_module.seller_register, name='seller_register'),
     path("logout/", global_controller.authentication_module.logout_request, name="logout"),
-    path("product-details/<slug:inventory_id>", global_view.product_details_rev2, name="product-details"),
+    path("product-details/<slug:inventory_id>", global_view.product_details, name="product-details"),
     path("auction-product-details/<slug:auction_id>", global_view.auction_product_details,
          name="auction-product-details"),
     path("add_to_cart/", global_view.add_to_cart, name="add_to_cart"),
@@ -45,6 +47,10 @@ urlpatterns = [
          global_controller.authentication_module.get_address_from_coordinate, name='coordinate-to-address'),
     path("send-mail", global_controller.authentication_module.test_mail, name='send-mail'),
     path("place-bid", global_controller.views.place_bid, name='place-bid'),
+    path("search", global_controller.views.search_module, name='search'),
+
+    path("category/<slug:category_name>", global_controller.views.category_module, name='category'),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
