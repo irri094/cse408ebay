@@ -16,3 +16,5 @@ def load_employee(request):
         # Fetches the session cart variable and sends them to front-end to show current-cart
 
         return render(request, 'employee/employee_home.html', context)
+
+def receive
