@@ -77,10 +77,9 @@
                         <li><a class="dropdown-item" href="#!">Clothing</a></li>
                         <li><a class="dropdown-item" href="#!">Bags</a></li>
                         <li><a class="dropdown-item" href="#!">Luggage</a></li>
-                        <li><a class="dropdown-item" href="#!">Eyewear</a></li>
-                        <li><a class="dropdown-item" href="#!">Watches</a></li>
-                        <li><a class="dropdown-item" href="#!">Jewellery</a></li>
-                        <li><a class="dropdown-item" href="#!">Wallet</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'watches' %}">Watches</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'jewellery' %}>Jewellery</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'wallet' %}">Wallet</a></li>
                     </ul>
                 </li>
 
@@ -88,12 +87,12 @@
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">Electonics</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Cell Phones</a></li>
-                        <li><a class="dropdown-item" href="#!">TV</a></li>
-                        <li><a class="dropdown-item" href="#!">Camera</a></li>
-                        <li><a class="dropdown-item" href="#!">Vehicle</a></li>
-                        <li><a class="dropdown-item" href="#!">Drones</a></li>
-                        <li><a class="dropdown-item" href="#!">Console</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'phone' %}">Cell Phones</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'tv' %}">TV</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'camera' %}">Camera</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'vehicle' %}">Vehicle</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'drones' %}">Drones</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'console' %}">Console</a></li>
                     </ul>
                 </li>
 
@@ -101,11 +100,10 @@
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">Health</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Eyecare</a></li>
-                        <li><a class="dropdown-item" href="#!">Hair and skin</a></li>
-                        <li><a class="dropdown-item" href="#!">Fragrance</a></li>
-                        <li><a class="dropdown-item" href="#!">Makeup</a></li>
-                        <li><a class="dropdown-item" href="#!">Oral care</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'eye' %}">Eyecare</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'hair' %}">Hair and skin</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'fragrance' %}">Fragrance</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'makeup' %}">Makeup</a></li>
                     </ul>
                 </li>
 
@@ -113,11 +111,11 @@
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">Sports</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Indoor</a></li>
-                        <li><a class="dropdown-item" href="#!">Outdoor</a></li>
-                        <li><a class="dropdown-item" href="#!">Fitness</a></li>
-                        <li><a class="dropdown-item" href="#!">Cycling</a></li>
-                        <li><a class="dropdown-item" href="#!">Fishing</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'indoor' %}">Indoor</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'outdoor' %}">Outdoor</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'fitness' %}">Fitness</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'cycling' %}">Cycling</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'fish' %}">Fishing</a></li>
                     </ul>
                 </li>
 
@@ -129,7 +127,7 @@
             <form class="d-flex" role="search" action="{% url 'search' %}" method="GET">
 
                 <button class="btn btn-outline-dark " type="submit"><i class="bi bi-search"></i></button>
-                <input class="form-control mx-2" type="search" placeholder="Want to find more ..." aria-label="Search">
+                <input class="form-control mx-2" type="search" placeholder="Want to find more ..." name="search" aria-label="Search">
 
             </form>
 

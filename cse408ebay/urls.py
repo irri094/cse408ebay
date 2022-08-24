@@ -49,6 +49,8 @@ urlpatterns = [
     path("place-bid", global_controller.views.place_bid, name='place-bid'),
     path("search", global_controller.views.search_module, name='search'),
 
+    path("category/<slug:category_name>", global_controller.views.category_module, name='category'),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
