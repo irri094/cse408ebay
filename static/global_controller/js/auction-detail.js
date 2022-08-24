@@ -1,6 +1,3 @@
-
-
-
 $('#place-bid').click(function () {
 
     let auc_id = $(this).attr('data-auction-id')
@@ -24,6 +21,10 @@ $('#place-bid').click(function () {
                     document.getElementById('notification_body_id').innerHTML = "You're now the highest bidder."
                     $("#toast_id").toast("show")
 
+                } else if (data.status == 3) {
+                    document.getElementById('notification_head_strong_id').innerHTML = "Failed"
+                    document.getElementById('notification_body_id').innerHTML = "You have to login to place a bid"
+                    $("#toast_id").toast("show")
                 }
             }
         }

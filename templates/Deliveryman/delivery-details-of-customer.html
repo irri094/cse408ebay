@@ -12,7 +12,7 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th class="text-center">#</th>
+{#                <th class="text-center">#</th>#}
                 <th class="text-center">Customer</th>
                 <th class="text-center">Address</th>
                 <th class="text-center">Phone</th>
@@ -26,7 +26,7 @@
             <tbody>
             {% for order in orders %}
                 <tr>
-                    <td class="text-center">{{ forloop.counter }}</td>
+{#                    <td class="text-center">{{ forloop.counter }}</td>#}
                     <td class="text-center">{{ order.order_set.customer.name }}</td>
                     <td class="text-center">{{ order.order_set.customer.address }}</td>
                     <td class="text-center">{{ order.order_set.customer.phone }}</td>
