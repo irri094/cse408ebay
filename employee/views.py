@@ -9,7 +9,6 @@ def load_employee(request):
     if 'username' not in request.session:
         return redirect(global_controller.authentication_module.logIn)
     else:
-
         context = {
             "emp_name": request.session['username'],
         }
@@ -17,4 +16,6 @@ def load_employee(request):
 
         return render(request, 'employee/employee_home.html', context)
 
-def receive
+
+def getReceiveableData(request):
+    pass
