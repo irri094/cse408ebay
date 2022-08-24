@@ -11,6 +11,7 @@ from django.core.files.storage import FileSystemStorage
 from django.core.cache import cache
 from django.urls import reverse
 
+
 def generate_otp():
     otp = ""
     for i in range(0, 6):
@@ -22,6 +23,7 @@ def generate_otp():
         else:
             otp += chr(x - 52 + 48)
     return otp
+
 
 # Create your views here.
 def load_order_history(request):
@@ -92,7 +94,7 @@ def auction(request):
 
     # Create new auction object and save to DB
     auction = Auction(seller=seller, inventory=inventory, start_time=start, end_time=end,
-                      base_price=price, quantity=quantity)
+                      base_price=price, quantity=quantity, auction_name=inventory.product.name)
     context = {
         'status': 1,
     }
@@ -202,14 +204,16 @@ def auction_multiple_product(request):
 
     inventory_id_lst = json.loads(request.GET['inventoryidlst'])
     quantity_lst = json.loads(request.GET['quantitylst'])
-    startTime = request.GET['start_time']
-    endTime = request.GET['end_time']
-    basePrice = request.GET['base_price']
+    start_time = request.GET['start_time']
+    end_time = request.GET['end_time']
+    base_price = request.GET['base_price']
+    package_name = request.GET['package_name']
+
     print(inventory_id_lst)
     print(quantity_lst)
-    print(startTime)
-    print(endTime)
-    print(basePrice)
+    print(start_time)
+    print(end_time)
+    print(base_price)
 
     print("aaaaaaaaa")
 
@@ -223,12 +227,13 @@ def auction_multiple_product(request):
             return JsonResponse(context)
 
     seller = Seller.objects.get(phone=request.session['phone_num'])
-    newAuction = Auction(seller=seller, is_package=True, start_time=startTime, end_time=endTime, base_price=basePrice)
-    newAuction.save()
+    new_auction = Auction(seller=seller, is_package=True, start_time=start_time, end_time=end_time,
+                          base_price=base_price, auction_name=package_name)
+    new_auction.save()
 
     for i in range(0, len(inventory_id_lst)):
-        curInventory = Inventory.objects.get(id=inventory_id_lst[i])
-        newPackageItem = PackageItem(inventory=curInventory, auction=newAuction, quantity=quantity_lst[i])
+        cur_inventory = Inventory.objects.get(id=inventory_id_lst[i])
+        newPackageItem = PackageItem(inventory=cur_inventory, auction=new_auction, quantity=quantity_lst[i])
         newPackageItem.save()
 
     print("new package auction made")
@@ -236,4 +241,3 @@ def auction_multiple_product(request):
         'status': 1,
     }
     return JsonResponse(context)
-

@@ -175,6 +175,7 @@ class Auction_Order(models.Model):
 
 
 class Auction(models.Model):
+    auction_name = models.CharField(max_length=100, default='')
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
     inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE, null=True)
     start_time = models.DateTimeField()

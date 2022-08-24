@@ -25,12 +25,14 @@
                                            src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..."/></div>
                 <div class="col-md-6">
                     <div class="fs-6 mb-1">{{ auction.product.category }}</div>
-                    <h1 class="display-5 fw-bolder">{{ auction.product.name }}</h1>
                     <div class="fs-5 mb-1">
                         <span><h1 id="test-id"></h1></span>
 
-                        <span><h1>{{ auction.inventory.product.name }}  </h1></span>
-                        <span><h2>{{ auction.quantity }} Pc  </h2></span>
+                        <span><h1>{{ auction.auction_name }}  </h1></span>
+                        {% if auction.quantity is not None %}
+                            <span><h2>{{ auction.quantity }} Pc  </h2></span>
+                        {% endif %}
+
 
                     </div>
                     <div class="fs-5 mb-5">

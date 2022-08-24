@@ -221,7 +221,7 @@ function test_function() {
     let package_price = document.getElementById('package_base_price_id').value
     let json_text1 = JSON.stringify(quantity_list, null, quantity_list.length)
     let json_text2 = JSON.stringify(inventory_id_list, null, inventory_id_list.length)
-
+    let pack_name = document.getElementById('package_name_id').value
 
     mydata = {
         quantitylst: json_text1,
@@ -229,6 +229,7 @@ function test_function() {
         start_time: auc_start_time,
         end_time: auc_end_time,
         base_price: package_price,
+        package_name: pack_name
     }
 
     console.log(mydata)

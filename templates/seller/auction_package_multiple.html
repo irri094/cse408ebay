@@ -3,13 +3,20 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header d-block">
-                <h5 class="modal-title text-center" id="exampleModalToggleLabel">Package Auction Form</h5>
+                <h5 class="modal-title text-center" id="exampleModalToggleLabel">Auction Package</h5>
             </div>
             <div class="modal-body">
-                <div class="text-center">
-                    <h5 id="product_name_id">
-                        Product Name
-                    </h5>
+                <div class="row g-2">
+
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="package_name_id"
+                                   placeholder="name@example.com" required>
+                            <label for="floatingInputGrid">Package Name</label>
+                        </div>
+                    </div>
+
+
                 </div>
 
                 <div class="row g-2 my-1">
@@ -17,7 +24,7 @@
                     <div class="col-md">
                         <div class="form-floating">
                             <input type="datetime-local" class="form-control auction-date" id="package_start_time_id"
-                                   placeholder="name@example.com" min="2022-08-13">
+                                   placeholder="name@example.com" min="2022-08-13" required>
                             <label for="start_time_id">Start Time</label>
                         </div>
                     </div>
@@ -25,7 +32,7 @@
                     <div class="col-md">
                         <div class="form-floating">
                             <input type="datetime-local" class="form-control" id="package_end_time_id"
-                                   placeholder="name@example.com" value="mdo@example.com">
+                                   placeholder="name@example.com" value="mdo@example.com" required>
                             <label for="end_time_id">End Time</label>
                         </div>
                     </div>
@@ -37,7 +44,7 @@
                     <div class="col-md">
                         <div class="form-floating">
                             <input type="number" class="form-control" id="package_base_price_id"
-                                   placeholder="name@example.com">
+                                   placeholder="name@example.com" required>
                             <label for="floatingInputGrid">Base Price</label>
                         </div>
                     </div>
