@@ -166,6 +166,13 @@ class Bid(models.Model):
     def __str__(self):
         return str(self.auction) + " | " + str(self.customer) + " | " + str(self.bid_amount)
 
+class Auction_Order(models.Model):
+    # auction = models.OneToOneField(Auction, on_delete=models.CASCADE)
+    order = models.OneToOneField(Order, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.auction) + " | " + str(self.order)
+
 
 class Auction(models.Model):
     seller = models.ForeignKey(Seller, on_delete=models.CASCADE)
@@ -176,17 +183,10 @@ class Auction(models.Model):
     base_price = models.IntegerField()
     is_package = models.BooleanField(default=False)
     bid = models.OneToOneField(Bid, null=True, on_delete=models.CASCADE)
-
+    auction_order = models.OneToOneField(Auction_Order, null=True, on_delete=models.CASCADE)
     def __str__(self):
         return str(self.seller) + " | " + str(self.quantity) + " | " + str(self.base_price)
 
-
-class Auction_Order(models.Model):
-    auction = models.OneToOneField(Auction, on_delete=models.CASCADE)
-    order = models.OneToOneField(Order, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return str(self.auction) + " | " + str(self.order)
 
 
 class PackageItem(models.Model):

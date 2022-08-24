@@ -211,17 +211,6 @@ def auction_multiple_product(request):
     print(endTime)
     print(basePrice)
 
-    # for i in range(0, len(request.GET['inventoryidlst[]']) ):
-    #     inventory_id_lst.append( request.GET['inventoryidlst[]'][i] )
-    # print(request.GET['quantitylst[]'])
-    # print(request.GET['inventoryidlst[]'])
-    # quantity_lst = request.GET['quantitylst[]']
-    # print(inventory_id_lst)
-    # print(quantity_lst)
-
-    # assert len(inventory_id_lst) == len(quantity_lst)
-    # print(inventory_id_lst)
-    # print(quantity_lst)
     print("aaaaaaaaa")
 
     for i in range(0, len(quantity_lst)):

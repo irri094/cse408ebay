@@ -95,8 +95,7 @@ def add_to_cart(request):
 
 def auction_home(request):
     # To Do : Generate random objects to render the html.
-    auctions = Auction.objects.filter(start_time__lte=datetime.now(timezone.utc),
-                                      end_time__gte=datetime.now(timezone.utc))[:8]
+    auctions = Auction.objects.filter(end_time__gte=datetime.now(timezone.utc))[:8]
     # ---------------TO DO-------------------------
     # Randomize 8 objects from the fetched auctions.
     # ---------------------------------------------
@@ -126,7 +125,7 @@ def auction_product_details(request, auction_id):
 
     print(f'auction {auction.id} -- TTL {cache.ttl(auction_identifier + auction_id)}')
 
-    if auction.start_time <= datetime.now(timezone.utc) and auction.end_time >= datetime.now(timezone.utc):
+    if auction.end_time >= datetime.now(timezone.utc):
         total_random_products = 5
         related_products_list = Auction.objects.exclude(id=auction_id)[:total_random_products]
 
@@ -137,6 +136,7 @@ def auction_product_details(request, auction_id):
         return render(request, 'global_controller/auction_product_details.html', context)
     else:
         return redirect(reverse('auction_home'))
+
 
 # Total elements of cart elements are counted
 def count_cart_quantity(request):
@@ -250,3 +250,5 @@ def search_module(request):
     print(request.GET)
     print("this is inside the search module")
     return JsonResponse({})
+
+
