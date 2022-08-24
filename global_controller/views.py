@@ -179,27 +179,82 @@ def count_cart_quantity(request):
     return quantity
 
 
-def convertTime(t, ad6hour):
+def convert_time(t, ad6hour):
     T = (t.replace(tzinfo=None) - datetime(1970, 1, 1)).total_seconds()
     if ad6hour:
-        T -= 6*60*60
+        T -= 6 * 60 * 60
     return T
 
+
+# The bid placed from the front end is greater than the current bid
+# and it is gauranteed.
 def place_bid(request):
     print('we are now placing bid')
+    print(f"request.GET -- {request.GET}")
+
     auction_id = request.GET['auction_id']
+    bid_amount = request.GET['bid_amount']
 
-    auction = Auction.objects.get(id=auction_id)
-    A = convertTime(auction.start_time, False)
-    B = convertTime(auction.end_time, False)
-    C = convertTime(datetime.now(timezone.utc), True)
-    print(A)
-    print(B)
-    print(C)
+    # Fetch the specific customer from the session
+    customer = Customer.objects.get(phone=request.session['phone_num'])
+    # Fetch customer value from the cache. If cache miss then fetch from
+    # the DB. Apply it
 
-    if A <= C and C <= B :
+    customer_identifier = 'customer_id'
+    customer_ttl = 60
+
+    if cache.get(customer_identifier + request.session['phone_num']):
+        customer = cache.get(customer_identifier + request.session['phone_num'])
+        print(f'Customer object for auction fetched from cache -- ttl {cache.ttl(customer_identifier + request.session["phone_num"])}')
+    else:
+        customer = Customer.objects.get(phone=request.session['phone_num'])
+        cache.set(customer_identifier + request.session['phone_num'], customer, timeout=customer_ttl)
+        print(f"Customer object for auction fetched from DB")
+    # ###################################################################
+
+    # Get Auction object from cache or db
+    auction_ttl = 30
+    auction_identifier = 'auction_id'
+
+    if cache.get(auction_identifier + auction_id):
+        auction = cache.get(auction_identifier + auction_id)
+        print('auction fetched from cache')
+    else:
+        auction = Auction.objects.get(id=auction_id)
+        cache.set(auction_identifier + auction_id, auction, timeout=auction_ttl)
+        print('auction fetched from db')
+    # ===================================
+
+    # auction = Auction.objects.get(id=auction_id)
+    A = convert_time(auction.start_time, False)
+    B = convert_time(auction.end_time, False)
+    C = convert_time(datetime.now(timezone.utc), True)
+
+    print(f"A -- {A}")
+    print(f"B -- {B}")
+    print(f"C -- {C}")
+
+    # Update the bid of an auction if it is correct time range and greater than
+    # previous bid value
+    if A <= C and C <= B:
+        # If not bid is placed
+        if auction.bid is None:
+            bid = Bid(bid_amount=bid_amount, customer=customer)
+            bid.save()
+            auction.bid = bid
+            auction.save()
+            print(f"First bid placed {auction.bid.bid_amount}")
+
+        # If current bid value is greater than auction's running bid value
+        elif auction.bid < bid_amount:
+            auction.bid.bid_amount = bid_amount
+            auction.bid.customer = customer
+            auction.bid.save()
+            print(f"Auction bid updated -- Current bid {auction.bid.bid_amount} -- customer {customer.name}")
+        # Valid time for bidding
         print("within time range")
     else:
+        # Invalid time for bidding
         print("outside range")
 
     print(f'actual time -- {datetime.now(timezone.utc).strftime("%H:%M:%S")}')
@@ -225,19 +280,14 @@ def place_bid(request):
     print(f"auction start time -- {auction_start_date} {auction_start_time}")
     print(f"auction end time -- {auction_end_date} {auction_end_time}")
 
-    # current_date = str(datetime.date.today())
-    # current_time = str(datetime.datetime.now().strftime("%H:%M:%S"))
-    #
-    # print(f"current time -- {current_date} {current_time}")
-    #
-    # print(type(current_date))
-    # print(type(auction_start_date))
-    #
-    # if current_date >= auction_start_date and current_date <= auction_end_date:
-    #     print('maybe auction')
-    #     if current_time <= auction_end_time and current_date == auction_end_date:
-    #         print('bid placed')
-    # else:
-    #     print('auction ended')
+    context = {
+        'status': 1
+    }
 
+    return JsonResponse(context)
+
+
+def search_module(request):
+    print(request.GET)
+    print("this is inside the search module")
     return JsonResponse({})

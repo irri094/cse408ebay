@@ -44,6 +44,7 @@ class Customer(models.Model):
     phone = models.CharField(max_length=100)
     wallet = models.IntegerField()
     mail = models.EmailField(null=True)
+
     def __str__(self):
         return self.name + " | " + self.phone
 
@@ -59,6 +60,7 @@ class Seller(models.Model):
     bank_acc = models.CharField(max_length=40)
     wallet = models.IntegerField()
     coord = models.CharField(max_length=50, default="")
+
     def __str__(self):
         return self.name + " | " + self.shop_name
 
@@ -152,8 +154,18 @@ class Inventory(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     inventory_image = models.ImageField(null=True, blank=True)
+
     def __str__(self):
         return str(self.seller) + " | " + str(self.quantity)
+
+
+class Bid(models.Model):
+    # auction = models.OneToOneField(Auction, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    bid_amount = models.IntegerField()
+
+    def __str__(self):
+        return str(self.auction) + " | " + str(self.customer) + " | " + str(self.bid_amount)
 
 
 class Auction(models.Model):
@@ -164,25 +176,10 @@ class Auction(models.Model):
     quantity = models.IntegerField(null=True)
     base_price = models.IntegerField()
     is_package = models.BooleanField(default=False)
+    bid = models.OneToOneField(Bid, null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.seller) + " | " + str(self.quantity) + " | " + str(self.base_price)
-
-
-class PackageItem(models.Model):
-    inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE, null=True)
-    auction = models.ForeignKey(Auction, on_delete=models.CASCADE, null=True)
-    quantity = models.IntegerField()
-    def __str__(self):
-        return str(self.inventory) + " | " + str(self.quantity)
-
-class Bid(models.Model):
-    auction = models.OneToOneField(Auction, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    bid_amount = models.IntegerField()
-
-    def __str__(self):
-        return str(self.auction) + " | " + str(self.customer) + " | " + str(self.bid_amount)
 
 
 class Auction_Order(models.Model):
@@ -191,3 +188,12 @@ class Auction_Order(models.Model):
 
     def __str__(self):
         return str(self.auction) + " | " + str(self.order)
+
+
+class PackageItem(models.Model):
+    inventory = models.ForeignKey(Inventory, on_delete=models.CASCADE, null=True)
+    auction = models.ForeignKey(Auction, on_delete=models.CASCADE, null=True)
+    quantity = models.IntegerField()
+
+    def __str__(self):
+        return str(self.inventory) + " | " + str(self.quantity)

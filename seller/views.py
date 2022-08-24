@@ -61,22 +61,24 @@ def order_history(request):
 
 
 def auction(request):
-    print(request.GET)
-
+    # Fetch data from GET request
     start = request.GET['start']
     end = request.GET['end']
     quantity = request.GET['quantity']
     price = request.GET['price']
     inv_id = request.GET['inventory_id']
 
+    # Fetch seller from session for creating new auction object
     seller = Seller.objects.get(phone=request.session['phone_num'])
-    inventory = Inventory.objects.get(id=inv_id)
 
+    # Fetch and update inventory
+    inventory = Inventory.objects.get(id=inv_id)
+    inventory.quantity = int(inventory.quantity) - int(quantity)
+    inventory.save()
+
+    # Create new auction object and save to DB
     auction = Auction(seller=seller, inventory=inventory, start_time=start, end_time=end,
                       base_price=price, quantity=quantity)
-
-    # auction.save()
-
     context = {
         'status': 1,
     }

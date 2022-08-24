@@ -45,6 +45,8 @@ urlpatterns = [
          global_controller.authentication_module.get_address_from_coordinate, name='coordinate-to-address'),
     path("send-mail", global_controller.authentication_module.test_mail, name='send-mail'),
     path("place-bid", global_controller.views.place_bid, name='place-bid'),
+    path("search", global_controller.views.search_module, name='search'),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
