@@ -13,6 +13,7 @@ def load_employee(request):
     else:
         myOrders = getAllOrders(request)
         deliverymenlist = set()
+        deliv_order = set()
         for o in myOrders:
             deliverymenlist.add(o.deliveryman)
         print(deliverymenlist)
@@ -21,15 +22,18 @@ def load_employee(request):
         # NOW deliverymenlist is a set with all deliverymen who should come to THIS hub
         context = {
             #"emp_name": ,
-            "employees": deliverymenlist
+            "employees": deliverymenlist,
+            "inventories:": myOrders,
         }
         # Fetches the session cart variable and sends them to front-end to show current-cart
         return render(request, 'employee/employee_home.html', context)
 
 def getAllOrders(request):
     myHubid = Hubman.objects.get(phone=request.session['phone_num']).id
-    myOrders = Order.objects.exclude( order_set__customer__delivery_address_hub_id=F('seller__hub_id')).filter(Q(seller__hub_id=myHubid) | Q(order_set__customer__delivery_address_hub_id=myHubid))
+    myOrders = Order.objects.filter(Q(seller__hub_id=myHubid) | Q(order_set__customer__delivery_address_hub_id=myHubid))
+    #myOrders = Order.objects.exclude( order_set__customer__delivery_address_hub_id=F('seller__hub_id')).filter(Q(seller__hub_id=myHubid) | Q(order_set__customer__delivery_address_hub_id=myHubid))
     print("------ different hub payload -------")
+    print(myHubid)
     print(myOrders)
     print("---- end different hub --------")
     return myOrders
