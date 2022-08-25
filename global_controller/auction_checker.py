@@ -12,10 +12,20 @@ def check_auction():
     while True:
         print(f"Thread run count ----- {thread_run_count}")
         auctions = Auction.objects.all()
+        check_order = False
 
         for auction in auctions:
-            if gviews.convert_time(auction.end_time, False) <= gviews.convert_time(datetime.now(timezone.utc),
-                                                                                   True) and auction.auction_order is None:
+            if gviews.convert_time(auction.end_time, False) <= gviews.convert_time(datetime.now(timezone.utc), True):
+                print("auction order maybe placed")
+                pkitems = PackageItem.objects.filter(auction=auction)
+                for p in pkitems:
+                    if p.order is not None:
+                        check_order = True
+                        continue
+                if check_order:
+                    check_order = False
+                    continue
+                
                 # Create a transaction record for the auction order
                 if auction.bid is not None:
                     print(f"Starting new auction order")
@@ -38,18 +48,21 @@ def check_auction():
                     print(f"Processing new auction order")
 
                     # create a new order record
-                    pkitems = PackageItem.objects.filter(auction=auction)
+                    # pkitems = PackageItem.objects.filter(auction=auction)
                     for p in pkitems:
                         order = Order(seller=auction.seller, product=p.inventory.product, status=order_status,
                                       deliveryman=deliveryman, OTP=customer.views.generate_otp(),
                                       quantity=p.quantity, order_set=order_set)
                         order.save()
 
+                        p.order = order
+                        p.save()
+
                     print(f"New auciton order processed")
 
         thread_run_count += 1
         print("auctions edited")
-        time.sleep(10)
+        time.sleep(5)
 
 
 def start_auction_checker_multithreaded(request):
