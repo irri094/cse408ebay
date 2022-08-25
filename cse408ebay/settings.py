@@ -169,6 +169,7 @@ CACHES = {
     }
 }
 
-
+# Auction Checker Variable
+AUCTION_CHECKER_START = False
 
 

@@ -6,6 +6,8 @@ from .models import *
 from django.core.cache import cache
 from datetime import datetime, timezone
 from django.urls import reverse
+from . import auction_checker
+
 
 # Renders the Home page of Bengal Bay.
 def home(request):
@@ -93,6 +95,7 @@ def add_to_cart(request):
 
 
 def auction_home(request):
+    auction_checker.start_auction_checker_multithreaded(request)
     # To Do : Generate random objects to render the html.
     auctions = Auction.objects.filter(end_time__gte=datetime.now(timezone.utc))[:8]
     # ---------------TO DO-------------------------
@@ -128,10 +131,21 @@ def auction_product_details(request, auction_id):
         total_random_products = 5
         related_products_list = Auction.objects.exclude(id=auction_id)[:total_random_products]
 
+        valid_low_bid = auction.base_price + 1
+
+        if auction.bid is not None:
+            valid_low_bid = auction.bid.bid_amount + 1
+
+        if 'phone_num' in request.session:
+            user = User.objects.get(username=request.session['phone_num'])
+        else:
+            user = None
+
         context = {
             'auction': auction,
-            'valid_low_bid': auction.bid.bid_amount+1,
+            'valid_low_bid': valid_low_bid,
             'inventories': related_products_list,
+            'user': user
         }
         return render(request, 'global_controller/auction_product_details.html', context)
     else:
@@ -266,6 +280,7 @@ def search_module(request):
         "cart_size": count_cart_quantity(request)
     }
     return render(request, 'global_controller/global_home.html', context)
+
 
 def category_module(request, category_name):
     print("category called")
