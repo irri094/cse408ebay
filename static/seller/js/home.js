@@ -119,8 +119,7 @@ $('#auction-multiple').click(function () {
     let td_btn_auction = document.getElementsByClassName('btn-auction')
     let quantity
     let inventory_id
-
-
+    
     for (var i = 0; i < auction_td.length; i++) {
         quantity = document.getElementsByClassName('btn-auction-quantity')[i].innerText
         inventory_id = td_btn_auction[0].getAttribute('data-inventory-id')
@@ -135,6 +134,7 @@ $('#auction-multiple').click(function () {
     inventory_table_body += '<tr><td></td><td></td><td></td><td></td><td></td><td></td><td><button class="btn btn-outline-success" id="" data-bs-toggle="modal"' +
         ' data-bs-target="#auction_package_modal">Proceed</button></td></tr>'
     document.getElementById('seller-inventory-table-body').innerHTML = inventory_table_body
+
 })
 
 

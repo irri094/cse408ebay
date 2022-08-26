@@ -65,7 +65,7 @@ def check_auction():
         time.sleep(5)
 
 
-def start_auction_checker_multithreaded(request):
+def start_auction_checker_multithreaded():
     if not settings.AUCTION_CHECKER_START:
         settings.AUCTION_CHECKER_START = True
         auction_checker_thread = threading.Thread(target=check_auction, args=())

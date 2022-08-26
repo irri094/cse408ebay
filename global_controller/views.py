@@ -11,6 +11,7 @@ from . import auction_checker
 
 # Renders the Home page of Bengal Bay.
 def home(request):
+    auction_checker.start_auction_checker_multithreaded()
     inventories = Inventory.objects.all()[:8]
     if 'cart' not in request.session:
         request.session['cart'] = []
@@ -95,7 +96,6 @@ def add_to_cart(request):
 
 
 def auction_home(request):
-    auction_checker.start_auction_checker_multithreaded(request)
     # To Do : Generate random objects to render the html.
     auctions = Auction.objects.filter(end_time__gte=datetime.now(timezone.utc))[:8]
     # ---------------TO DO-------------------------
@@ -135,6 +135,7 @@ def auction_product_details(request, auction_id):
 
         if auction.bid is not None:
             valid_low_bid = auction.bid.bid_amount + 1
+
 
         if 'phone_num' in request.session:
             user = User.objects.get(username=request.session['phone_num'])
@@ -216,7 +217,7 @@ def place_bid(request):
         # converts time to absolute second value
         A = convert_time(auction.start_time, False)
         B = convert_time(auction.end_time, False)
-        C = convert_time(datetime.now(timezone.utc), False)
+        C = convert_time(datetime.now(timezone.utc), True)
         print(auction.start_time)
         print(auction.end_time)
         print(datetime.now(timezone.utc))

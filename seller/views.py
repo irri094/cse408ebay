@@ -5,7 +5,6 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
 import json
 import random
-import random
 from global_controller.models import *
 from django.core.files.storage import FileSystemStorage
 from django.core.cache import cache
