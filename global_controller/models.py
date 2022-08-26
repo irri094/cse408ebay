@@ -23,6 +23,9 @@ class User(models.Model):
 class Hub(models.Model):
     address = models.CharField(max_length=100)
 
+    def __str__(self):
+        return str(self.address)
+
 
 class Hubman(models.Model):
     hub = models.ForeignKey(Hub, on_delete=models.CASCADE)
