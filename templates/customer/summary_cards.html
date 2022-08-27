@@ -10,15 +10,16 @@
                         <h4>
                             <div class="text-start text-dark">
                                 <h6>
-                                    Recharge via <a href="#" class="text text-dark"> Bkash </a> / <a href="#"
-                                                                                                     class="text text-dark">Nagad</a>
+                                    Recharge via
+                                    <a data-bs-toggle="modal" href="#" data-bs-target="#recharge_modal_toggle" class="text text-dark recharge-method" data-method="Bkash"> Bkash </a> /
+                                    <a data-bs-toggle="modal" href="#" data-bs-target="#recharge_modal_toggle" class="text text-dark recharge-method" data-method="Nagad"> Nagad</a>
                                 </h6>
                             </div>
                         </h4>
                     </div>
                     <div class="col-4">
                         <div class="text-end">
-                            <h2>898</h2>
+                            <h3 id="current_wallet_amount">{{ wallet}} </h3>
                         </div>
                     </div>
 
@@ -31,7 +32,6 @@
             <div class="card bg-success text-white mb-4">
                 <div class="card-body">
                     <h3>Order Summary</h3>
-                    {#                    Summary Information #}
                     <div class="row">
                         <div class="col-4">
                             <div class="text-black-50">
@@ -39,7 +39,7 @@
                                     <div class="text-center">In Cart</div>
                                 </div>
                                 <div class="row">
-                                    <div class="text-center">{{ no_of_cart_items }}</div>
+                                    <div class="text-center" id="cart_count">{{ cart_size }}</div>
                                 </div>
                             </div>
                         </div>

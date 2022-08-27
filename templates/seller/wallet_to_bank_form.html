@@ -1,0 +1,75 @@
+<div class="modal fade" id="bank_transfer_modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-block">
+                <h4 class="modal-title text-center" id="exampleModalLabel">Bank Transfer</h4>
+            </div>
+            <div class="modal-body">
+                <p>Please enter the amount you want to transfer.</p>
+
+                <p>
+
+                <div class="row g-3 align-items-center">
+                    <div class="col-auto">
+                        <label for="transfer_amount" class="col-form-label"> Amount </label>
+                    </div>
+                    <div class="col-auto">
+
+                        <input type="number" class="form-control" id="transfer_amount">
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer d-block">
+                <div class="text-center">
+                    <button class="btn btn-primary" id="btn_wallet_proceed"
+                            data-bs-target="#bank_transfer_modal_confirmation"
+                            data-bs-toggle="modal">
+                        <b><i class="fa-solid fa-check"></i></b> Proceed
+                    </button>
+                    <button class="btn btn-danger" data-bs-dismiss="modal">
+                        <b><i class="fa-solid fa-xmark"></i></b> Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="bank_transfer_modal_confirmation" aria-hidden="true"
+     aria-labelledby="exampleModalToggleLabel2"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header d-block">
+                <h4 class="modal-title text-center" id="exampleModalLabel">Please review the following before
+                    confirmation</h4>
+            </div>
+
+            <div class="modal-body">
+                <div class="text-center">
+                    <p>Bank : <strong id="bank_name_id"> ABC Bank</strong></p>
+                    <p>Bank Acc. No : <strong id="bank_account_id">123456789</strong></p>
+                    <p>Transfer Amount : <strong id="confirm_wallet_amount">56000</strong></p>
+                </div>
+
+            </div>
+
+            <div class="modal-footer d-block">
+
+                <div class="text-center">
+                    <button class="btn btn-primary" id="btn_transfer_wallet" data-bs-dismiss="modal">
+                        <b><i class="fa-solid fa-check"></i></b> Confirm
+                    </button>
+                    <button class="btn btn-danger" data-bs-dismiss="modal">
+                        <b><i class="fa-solid fa-xmark"></i></b> Close
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

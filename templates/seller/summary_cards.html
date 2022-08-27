@@ -1,6 +1,7 @@
+{% include 'seller/wallet_to_bank_form.html' %}
+
 <div class="row">
     <div class="d-flex justify-content-between">
-
         <div class="col-xl-3 col-md-6">
             <div class="card bg-success text-white mb-4">
                 <div class="card-body">
@@ -8,27 +9,17 @@
                 </div>
                 <div class="row mx-1">
                     <div class="col-8">
-                        <h4>
-                            <div class="text-center text-dark">
-
-                                <div class="mb-3">
-                                    <label for="exampleFormControlInput1" class="form-label text-white-50">
-                                        <h5>
-                                            Transfer Amount
-                                        </h5>
-                                    </label>
-                                    <form action="">
-                                        {% csrf_token %}
-                                        <input type="number" class="form-control mb-3" id="bank_transfer_amount_id"
-                                               placeholder="Amount">
-                                        <button type="button" class="btn btn-dark" id="btn_transfer_button_id">Add
-                                        </button>
-                                    </form>
-
-                                </div>
-
-                            </div>
-                        </h4>
+                        <div class="text-start text-dark">
+                            <h6>
+                                <a href="" class="text-black" data-bs-target="#bank_transfer_modal"
+                                   data-bs-toggle="modal">Want to transfer?</a>
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-end" >
+                            <h2 id="current_wallet_amount">{{ current_wallet }}</h2>
+                        </div>
                     </div>
 
                 </div>

@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'customer',
     'employee',
     'seller',
+    'deliveryman',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +143,33 @@ SESSION_COOKIE_HTTPONLY = True
 
 # 2 WEEKS LONGER cookies
 SESSION_COOKIE_AGE = 1209600
+
+# Media settings
+MEDIA_URL = '/images/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+
+# Mail Settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '587'
+EMAIL_HOST_USER = 'bengalbay53@gmail.com'
+EMAIL_HOST_PASSWORD = 'ieigjiurqvsxojep'
+EMAIL_USE_TLS = True
+
+
+# Cache Settings
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+# Auction Checker Variable
+AUCTION_CHECKER_START = False
+
+

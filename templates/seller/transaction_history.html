@@ -1,0 +1,47 @@
+{% extends 'base/seller_base.html' %}
+{% load static %}
+
+{% block transaction_history %}
+    <style>
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+
+    <h1 class="mt-4">Transaction History</h1>
+
+    <div class="row my-4">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="text-center">#</th>
+                <th class="text-center">Type</th>
+                <th class="text-center">Amount</th>
+                <th class="text-center">Amount</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for transaction in transactions %}
+                <tr>
+                    <td class="text-center">{{ forloop.counter }}</td>
+                    <td class="text-center"></td>
+                    <td class="text-center"></td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="{% static 'seller/js/home.js' %}"></script>
+
+{% endblock %}

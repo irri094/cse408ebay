@@ -1,0 +1,49 @@
+<h1 class="mt-4">Orders</h1>
+
+<div class="row my-4">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th class="text-center">#</th>
+            <th class="text-center">Store</th>
+            <th class="text-center">Address</th>
+            <th class="text-center">Phone</th>
+            <th class="text-center">Product</th>
+            <th class="text-center">Pickup Code</th>
+            <th class="text-center">Quantity</th>
+            <th class="text-center">Status</th>
+            <th class="text-center"></th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for order in orders %}
+            <tr>
+                <td class="text-center">{{ forloop.counter }}</td>
+                <td class="text-center">{{ order.seller.shop_name }}</td>
+                <td class="text-center">{{ order.seller.address }}</td>
+                <td class="text-center">{{ order.seller.phone }}</td>
+                <td class="text-center">{{ order.product }}</td>
+                <td class="text-center">{{ order.OTP }}</td>
+                <td class="text-center">{{ order.quantity }}</td>
+                <td class="text-center">
+
+                    {% if order.status.id is 1 %}
+                        <span class="badge rounded-pill text-bg-warning">{{ order.status }}</span>
+                    {% elif order.status.id is 2 %}
+                        <span class="badge rounded-pill text-bg-success">{{ order.status }}</span>
+                    {% else %}
+                        <span class="badge rounded-pill text-bg-info">{{ order.status }}</span>
+                    {% endif %}
+                </td>
+                <td class="text-center">
+                    <button onclick="topFunction()"
+                            class="btn rounded-pill btn-primary btn-shop-navigate"
+                            data-coord-id="{{ order.seller.coord }}">
+                        <i class="bi bi-geo-alt"></i></button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
