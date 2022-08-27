@@ -14,12 +14,22 @@ def load_employee(request):
         myOrders = getAllOrders(request)
         deliverymenlist = set()
         deliv_order = set()
+        # context = {
+        #     #"emp_name": ,
+        #     "employees": deliverymenlist,
+        #     "inventories:": {
+        #         "order":deliv_order,}
+        # }
         for o in myOrders:
             deliverymenlist.add(o.deliveryman)
         print(deliverymenlist)
         print("these are the deliveryment")
-
+        for d in deliverymenlist:
+            d_order=Order.objects.filter(deliveryman = d)
+            deliv_order.add(d_order)
         # NOW deliverymenlist is a set with all deliverymen who should come to THIS hub
+        print(deliv_order)
+        print("these are the orders")
         context = {
             #"emp_name": ,
             "employees": deliverymenlist,

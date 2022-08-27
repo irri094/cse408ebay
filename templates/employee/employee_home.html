@@ -36,7 +36,7 @@
                     <td class="">{{ employee.name }}</td>
                     <td class="">{{ employee.phone }}</td>
                     <td class=" btn-auction-td">
-                        <a href="" data-product-name="{{ employee.name }}"
+                        <a href="" data-product="{{ employee.name }}"
                         class="btn btn-outline-dark rounded-pill btn-auction" data-bs-toggle="modal"
                         data-bs-target="#intake_list_modal">
                             Check
@@ -67,29 +67,29 @@
                                         </thead>
                                         <tbody id="deliveryman-table-body">
                                         {% for inventory in inventories %}
-                                            <tr>
-                                                <td class="">{{ forloop.counter }}</td>
-                                                <td class="">{{ inventory.name }}</td>
-                                                <td class="">{{ inventory.category }}</td>
-                                                <td class="">{{ inventory.brand }}</td>
-                                                <td class="">{{ inventory.amount }}</td>
-                                                <td class="">{{ inventory.quantity }}</td>
-                                                
-                                                <td class=" btn-auction-td">
-                                                    <a href="" data-product-name="{{ inventory.product.name }}"
-                                                    class="btn btn-outline-dark rounded-pill btn-auction" data-bs-toggle="modal"
-                                                    data-bs-target="#intake_list_modal_{{forloop.counter}}">
-                                                        Accept
-                                                    </a>
-                                                </td>
-                                                <td class=" btn-auction-td">
-                                                    <a href="" data-product-name="{{ inventory.product.name }}"
-                                                    class="btn btn-outline-dark rounded-pill btn-auction" data-bs-toggle="modal"
-                                                    data-bs-target="#intake_list_modal_{{forloop.counter}}">
-                                                        Reject
-                                                    </a>
-                                                </td>        
-                                            </tr>
+                                            {% if inventory.product.name == product %}
+                                                <tr>
+                                                    <td class="">{{ forloop.counter }}</td>
+                                                    <td class="">{{ inventory.product.name }}</td>
+                                                    <td class="">{{ inventory.product.amount }}</td>
+                                                    <td class="">{{ inventory.product.quantity }}</td>
+                                                    
+                                                    <td class=" btn-auction-td">
+                                                        <a href="" data-product-name="{{ inventory.product.name }}"
+                                                        class="btn btn-outline-dark rounded-pill btn-auction" data-bs-toggle="modal"
+                                                        data-bs-target="#intake_list_modal_{{forloop.counter}}">
+                                                            Accept
+                                                        </a>
+                                                    </td>
+                                                    <td class=" btn-auction-td">
+                                                        <a href="" data-product-name="{{ inventory.product.name }}"
+                                                        class="btn btn-outline-dark rounded-pill btn-auction" data-bs-toggle="modal"
+                                                        data-bs-target="#intake_list_modal_{{forloop.counter}}">
+                                                            Reject
+                                                        </a>
+                                                    </td>        
+                                                </tr>
+                                            {% endif %}
                                         {% endfor %}
                                         </tbody>
                                     </table>
