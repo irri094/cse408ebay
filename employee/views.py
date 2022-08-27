@@ -91,29 +91,13 @@ def reject_order(request):
     # print(o_name)
     o_id = request.GET['name']
     ord=Order.objects.get(id=o_id)
-    print(ord)
-    print(ord.quantity)
-    #seller= ord.seller
-    selr = Seller.objects.get(id = ord.seller.id) 
-    print('seller:')
-    print(selr)
-    prod= Product.objects.get(id = ord.product.id)
-    print('product')
-    print(prod)
-    inv = Inventory.objects.get(seller = selr, product = prod)
-    print('inv:')
-    print(inv.quantity)
-    inv.quantity = int(inv.quantity) + int(ord.quantity)
-    print('final inv')
-    print(inv.quantity)
-    inv.save()
-    #order.product.id inventory.id niye +=order.quant 
-    ord.delete()
+
+    order_status = "In Shop"
+    stat = Order_Status.objects.get(status = order_status)
+    ord.status = stat
+    ord.save()
 
     context = {
         'status': 1,
     }
-
     return JsonResponse(context)
-
-
