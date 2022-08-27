@@ -130,7 +130,7 @@ def buy_product(request):
 
         # Initialize the order's status and assign a deliveryman
         status = Order_Status.objects.get(id=1)
-        deliveryman = Deliveryman.objects.get(id=1)
+        deliveryman = Deliveryman.objects.get(id=2)
 
         # Generate an OTP for products
         otp = generate_otp()
