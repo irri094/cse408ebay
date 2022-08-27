@@ -103,20 +103,23 @@
                                             {% for order in orders %}
                                                 <tr>
                                                     <td class="text-center">{{ forloop.counter }}</td>
-                                                    <td class="text-center">{{ order.product.name }}</td>
+                                                    <td id="order_name" class="text-center">{{ order.product.name }}</td>
                                                     <td class="text-center">{{ order.product.brand }}</td>
                                                     <td class="text-center">{{ order.quantity }}</td>
+                                                    <td id="ord_id" class="text-center" hidden>{{ order.id }}</td>
 
                                                     <td class=" btn-auction-td">
-                                                        <a href="" data-product-name="{{ inventory.product.name }}"
+                                                        <a data-product-name="{{ inventory.product.name }}"
                                                            class="btn btn-outline-dark rounded-pill btn-auction"
+                                                           id="btn-accept"
                                                            data-bs-toggle="modal"
                                                            data-bs-target="#intake_list_modal_{{ forloop.counter }}">
                                                             Accept
                                                         </a>
 
-                                                        <a href="" data-product-name="{{ inventory.product.name }}"
+                                                        <a data-product-name="{{ inventory.product.name }}"
                                                            class="btn btn-outline-dark rounded-pill btn-auction"
+                                                           id="btn-reject"
                                                            data-bs-toggle="modal"
                                                            data-bs-target="#intake_list_modal_{{ forloop.counter }}">
                                                             Reject
@@ -146,7 +149,7 @@
             </div>
         {% endfor %}
     </div>
-
+    <script src="{% static 'employee/script.js' %}"></script>
     <script src="{% static 'seller/js/home.js' %}"></script>
 
 {% endblock %}
