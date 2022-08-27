@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from global_controller.models import *
 import global_controller.authentication_module
 import global_controller.views as global_controller_views
+import employee.views as employee_views
 from datetime import date
 import random
 from django.core.mail import send_mail
@@ -129,8 +130,9 @@ def buy_product(request):
         print(f"Order set created {order_set}")
 
         # Initialize the order's status and assign a deliveryman
-        status = Order_Status.objects.get(id=1)
-        deliveryman = Deliveryman.objects.get(id=2)
+        status = Order_Status.objects.get(status="In Shop")
+        # deliveryman = Deliveryman.objects.get(id=2)
+        deliveryman = employee_views.getlocaldriver(customer.delivery_address_hub_id)
 
         # Generate an OTP for products
         otp = generate_otp()
