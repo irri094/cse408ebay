@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from global_controller.models import *
 from django.http import JsonResponse
-
+from django.db.models import Q
 
 # Create your views here.
 
@@ -13,7 +13,10 @@ def load_deliveryman(request):
 
     deliveryman = Deliveryman.objects.get(name=request.session['username'])
 
-    orders = Order.objects.filter(deliveryman=deliveryman).order_by('-order_set__date')
+    if deliveryman.designation == "Local":
+        orders = Order.objects.filter(Q(status__status="Picked Up") | Q(status__status="In Shop") | Q(status__status="In Hub2") | Q(status__status="Out To Delivery"), deliveryman=deliveryman).order_by('-order_set__date')
+    else:
+        orders = Order.objects.filter(Q(status__status="On Highway") | Q(status__status="In Hub"), deliveryman=deliveryman).order_by('-order_set__date')
 
     print(orders)
 

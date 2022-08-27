@@ -134,28 +134,39 @@ def accept_order(request):
     o_id = request.GET['name']
     order=Order.objects.get(id=o_id)
     print(ord)
-    order_status = "In Hub"
-    stat = Order_Status.objects.get(status = order_status)
+    if order.status.status == "Picked Up":
+        order_status = "In Hub"
+        stat = Order_Status.objects.get(status = order_status)
+        order.status = stat
+        myHubid = Hubman.objects.get(phone=request.session['phone_num']).id
+        context = {
+            'status': 1,
+        }
+        try:
+            deliveryman = getinterdistrictdriver(myHubid)
+            order.deliveryman = deliveryman
+            order.save()
+            return JsonResponse(context)
+        except:
+            context['status'] = 0
+            return JsonResponse(context)
+    if order.status.status == "On Highway":
+        order_status = "In Hub2"
+        stat = Order_Status.objects.get(status=order_status)
+        order.status = stat
+        myHubid = Hubman.objects.get(phone=request.session['phone_num']).id
+        context = {
+            'status': 1,
+        }
+        try:
+            deliveryman = getlocaldriver(myHubid)
+            order.deliveryman = deliveryman
+            order.save()
+            return JsonResponse(context)
+        except:
+            context['status'] = 0
+            return JsonResponse(context)
 
-    order.status = stat
-
-    myHubid = Hubman.objects.get(phone=request.session['phone_num']).id
-    context = {
-        'status': 1,
-    }
-    try:
-        deliveryman = getinterdistrictdriver(myHubid)
-        order.deliveryman = deliveryman
-
-        order_status = "On Highway"
-        stat2 = Order_Status.objects.get(status=order_status)
-        order.status = stat2
-
-        order.save()
-        return JsonResponse(context)
-    except:
-        context['status'] = 0
-        return JsonResponse(context)
 
 def reject_order(request):
     # o_name = request.GET['name']
