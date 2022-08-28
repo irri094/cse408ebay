@@ -1,0 +1,69 @@
+
+<div class="modal fade" id="intake_list_modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+tabindex="-1">
+<div class="modal-dialog modal-dialog-centered modal-lg">
+   <div class="modal-content">
+       <div class="modal-header d-block">
+           <h5 class="modal-title text-center" id="exampleModalToggleLabel">Order List</h5>
+       </div>
+       <div class="modal-body">
+            <div class="row my-4">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th class="">#</th>
+                        <th class="">Poduct Name</th>
+                        <th class="">Category</th>
+                        <th class="">Brand</th>
+                        <th class="">Amount</th>
+                        <th class="">Quantity</th>
+                        <th class="" colspan="2">Accept/Reject</th>        
+                    </tr>
+                    </thead>
+                    <tbody id="deliveryman-table-body">
+                    {% for inventory in inventories %}
+                        <tr>
+                            {#<td class="">{{ forloop.counter }}</td>
+                            <td class="">{{ inventory.name }}</td>
+                            <td class="">{{ inventory.category }}</td>
+                            <td class="">{{ inventory.brand }}</td>
+                            <td class="">{{ inventory.amount }}</td>
+                            <td class="">{{ inventory.quantity }}</td>#}
+                            <td class="">1</td>
+                            <td class="">Razer Deathadder V3 pro</td>
+                            <td class="">Mouse</td>
+                            <td class="">Razer</td>
+                            <td class="">150</td>
+                            <td class="">1</td>
+                            <td class=" btn-auction-td">
+                                <a href="" data-product-name="{{ inventory.name }}"
+                                class="btn btn-outline-dark rounded-pill btn-auction" data-bs-toggle="modal"
+                                data-bs-target="#intake_list_modal">
+                                    Accept
+                                </a>
+                            </td>
+                            <td class=" btn-auction-td">
+                                <a href="" data-product-name="{{ inventory.name }}"
+                                class="btn btn-outline-dark rounded-pill btn-auction" data-bs-toggle="modal"
+                                data-bs-target="#intake_list_modal">
+                                    Reject
+                                </a>
+                            </td>        
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>  
+
+       </div>
+       <div class="modal-footer d-block">
+
+           <div class="text-center">
+               <button class="btn btn-primary" id="btn_change_done" data-bs-dismiss="modal" >Done</button>
+           </div>
+
+       </div>
+   </div>
+</div>
+</div>
+

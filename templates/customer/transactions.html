@@ -1,7 +1,7 @@
-{% extends 'base/seller_base.html' %}
+{% extends 'base/customer-base.html' %}
 {% load static %}
 
-{% block transaction_history %}
+{% block transactions %}
     <style>
         /* Chrome, Safari, Edge, Opera */
         input::-webkit-outer-spin-button,
@@ -30,12 +30,13 @@
             </tr>
             </thead>
             <tbody>
-            {% for item in list %}
+            {% for tr in list %}
                 <tr>
                     <td class="text-center">{{ forloop.counter }}</td>
-                    <td class="text-center"> </td>
-                    <td class="text-center"> </td>
-                    <td class="text-center"> </td>
+                    <td class="text-center">{{tr.transaction.type}}</td>
+                    <td class="text-center">{{tr.date}}</td>
+                    <td class="text-center">{{tr.transaction.amount}}</td>
+
                 </tr>
             {% endfor %}
             </tbody>

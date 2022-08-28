@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from global_controller.models import *
 import global_controller.authentication_module
 import global_controller.views as global_controller_views
+import employee.views as employee_views
 from datetime import date
 import random
 from django.core.mail import send_mail
@@ -19,6 +20,9 @@ def load_customer(request):
         customer = Customer.objects.get(phone=request.session['phone_num'])
         print(customer)
         # Fetches the session cart variable and sends them to front-end to show current-cart
+        # process= Order.objects.get(status__status = "In Shop")
+        # deliv= Order.objects.get(status__status = "Delivered")
+
         context = generate_cart_dict(request)
 
         return render(request, 'customer/home.html', context)
@@ -32,7 +36,8 @@ def load_product_status(request):
         user = Customer.objects.get(name=request.session['username'])
         status = Order_Status.objects.get(id=1)
 
-        ordered_product = Order.objects.filter(order_set__customer=user).exclude(status__status='Delivered').order_by('-order_set__date')
+        ordered_product = Order.objects.filter(order_set__customer=user).exclude(status__status='Delivered').order_by(
+            '-order_set__date')
 
         print(ordered_product)
 
@@ -49,7 +54,9 @@ def load_order_history(request):
     else:
         status = Order_Status.objects.get(status='Delivered')
         context = {
-            'orders': Order.objects.filter(status=status).order_by('-order_set__date')
+            'orders': Order.objects.filter(status=status,
+                                           order_set__customer__phone=request.session["phone_num"]).order_by(
+                '-order_set__date')
         }
 
         return render(request, 'customer/order_history.html', context)
@@ -141,8 +148,8 @@ def buy_product(request):
         print(f"Order set created {order_set}")
 
         # Initialize the order's status and assign a deliveryman
-        status = Order_Status.objects.get(id=1)
-        deliveryman = Deliveryman.objects.get(id=1)
+        status = Order_Status.objects.get(status="In Shop")
+        # deliveryman = Deliveryman.objects.get(id=2)
 
         # Generate an OTP for products
         otp = generate_otp()
@@ -160,6 +167,7 @@ def buy_product(request):
             product = Product.objects.get(id=product_id)
 
             # Create an order for a corresponding order_set
+            deliveryman = employee_views.getlocaldriver(seller.hub.id)
             order = Order(seller=seller, product=product, status=status, deliveryman=deliveryman, OTP=otp,
                           quantity=quantity, order_set=order_set)
             order.save()
@@ -191,6 +199,9 @@ def buy_product(request):
 
 
 def generate_cart_dict(request):
+    print('username')
+    print(request.session['username'])
+    customer = Customer.objects.get(phone=request.session['phone_num'])
     cart = []
     for data in request.session['cart']:
         seller_id = data[0]
@@ -198,6 +209,8 @@ def generate_cart_dict(request):
         quantity = data[2]
 
         inventory = Inventory.objects.get(seller_id=seller_id, product_id=product_id)
+        # process = Order.objects.get()
+        # delivered
 
         cart.append({
             'inventory': inventory,
@@ -205,11 +218,45 @@ def generate_cart_dict(request):
             'amount': int(quantity) * int(inventory.product.price)
         })
 
+    process = Order.objects.filter(order_set__customer=customer, status__status="In Shop").count()
+    deliv = Order.objects.filter(order_set__customer=customer, status__status="Delivered").count()
+    buy = 0
+    rcgrg = 0
+    buylst = Order_Set.objects.filter(customer=customer)
+    # for b in buylst:
+    #     buy+=b.transaction.amount
+    # print(buy)
+
+    # for b in buylst:
+    #     type=b.transaction.type
+    #     if type == "RECHARGE":
+    #         rcgrg+=b.transaction.amount
+
+    # for b in buylst:
+
+    #     buy+=b.transaction.amount
+    # print(buy)
+
+    # spntlst= Order_Set.objects.filter(customer=customer)
+    for b in buylst:
+        type = b.transaction.type
+        if type == "BUY":
+            buy += b.transaction.amount
+        elif type == "RECHARGE":
+            rcgrg += b.transaction.amount
+    print(buy)
+    print(rcgrg)
+    print(process)
+
     context = {
         "cart": cart,
         "customer_name": request.session['username'],
         "cart_size": global_controller_views.count_cart_quantity(request),
-        "wallet": Customer.objects.get(phone=request.session['phone_num']).wallet
+        "wallet": Customer.objects.get(phone=request.session['phone_num']).wallet,
+        "processing": process,
+        "delivered": deliv,
+        "spent": buy,
+        "recharge": rcgrg
     }
     return context
 
@@ -265,6 +312,16 @@ def recharge_wallet(request):
     cust.wallet = current_wallet
     cust.save()
 
+    transaction = Transaction(type='RECHARGE', amount=addedtaka)
+    transaction.save()
+    print(f"Transaction saved {transaction}")
+
+    #  Create an order set for a set of orders for future navigation through the orders
+    customer = Customer.objects.get(phone=request.session['phone_num'])
+    order_set = Order_Set(customer=customer, transaction=transaction, date=date.today())
+    order_set.save()
+    print(f"Order set created {order_set}")
+
     context = {
         'amount': addedtaka,
         'phone': phone,
@@ -279,3 +336,17 @@ def recharge_wallet(request):
 def change_info(request):
     context = {}
     return render(request, 'customer/change_account_info.html', context)
+
+def transactions(request):
+    print(request.session['username'])
+    customer = Customer.objects.get(phone=request.session['phone_num'])
+    t_list = Order_Set.objects.filter(customer=customer).order_by('-date')
+    print(t_list)
+    # transaction=[]
+    # for t in t_list:
+    #     transaction.add(t.transactions)
+    context={
+        'list': t_list
+        #'list': transaction
+    }
+    return render(request, 'customer/transactions.html', context)

@@ -1,8 +1,112 @@
-kon commit koi jay
-ami nasif
+{% extends 'base/employee_base.html' %} {% load static %} {% block employee_home %}
+<style>
+    /* Chrome, Safari, Edge, Opera */
+    
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    /* Firefox */
+    
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
 
-terminal theke marbo
+{# {% for key, value in info.items %}#} {# {{ value.deliveryman.phone }}#} {# {% for nested_key, nested_value in value.items %}#} {# {{ nested_value }}#} {# {% if nested_key == 'deliveryman' %}#} {# {{ nested_key }} -- {{ nested_value }}#} {#
+<p></p>#} {# {% elif nested_key == 'orders' %}#} {# {{ nested_key }} -- {{ nested_value }}#} {##} {# {% for order in nested_value %}#} {##} {# {{ order.id }}#} {##} {# {% endfor %}#} {##} {#
+<p><strong>Found it</strong></p>#} {# {% endif %}#} {# {% endfor %}#} {# {% endfor %}#} {# #} {# #}
+<h1 class="mt-4">Deliveryman List</h1>
+<div class="row my-4">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                {#
+                <th class="">#</th>#}
+                <th class="text-center">Name</th>
+                <th class="text-center">Phone</th>
+                <th class="text-center">Check Orders</th>
 
-arekta commit from nasif 1997 gmail
+            </tr>
+        </thead>
+        <tbody id="deliveryman-table-body">
+            {% for key, value in info.items %} {% for nested_key, deliveryman in value.items %} {% if nested_key == 'deliveryman' %}
+            <tr>
+                {#
+                <td class="text-center">{{ forloop.counter }}</td>#}
+                <td class="text-center">{{ deliveryman.name }}</td>
+                <td class="text-center">{{ deliveryman.phone }}</td>
+                <td class="text-center btn-auction-td">
+                    <button class="btn btn-outline-dark rounded-pill btn-auction" data-bs-toggle="modal" data-bs-target="#intake_list_modal_{{ deliveryman.phone }}">
+                                    Check
+                                </button>
+                </td>
+            </tr>
+            {% endif %} {% endfor %} {% endfor %}
+        </tbody>
+    </table>
 
-eibar hobei
+
+    {% for key, value in info.items %}
+    <div class="modal fade" id="intake_list_modal_{{ value.deliveryman.phone }}" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header d-block">
+                    <h5 class="modal-title text-center" id="exampleModalToggleLabel">Order List</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="row my-4">
+                        <table class="table table-striped">
+                            <thead>
+
+                                <tr>
+                                    <th class="">#</th>
+                                    <th class="">Product Name</th>
+                                    <th class="">Brand</th>
+                                    <th class="">Quantity</th>
+                                    <th class="" colspan="2">Accept/Reject</th>
+                                </tr>
+                            </thead>
+                            <tbody id="deliveryman-table-body">
+
+                                {% for nested_key, orders in value.items %} {% if nested_key == 'orders' %} {% for order in orders %}
+                                <tr>
+                                    <td class="text-center">{{ forloop.counter }}</td>
+                                    <td id="order_name" class="text-center">{{ order.product.name }}</td>
+                                    <td class="text-center">{{ order.product.brand }}</td>
+                                    <td class="text-center">{{ order.quantity }}</td>
+                                    <td id="ord_id" class="text-center" hidden>{{ order.id }}</td>
+
+                                    <td class="btn-auction-td">
+                                        <a data-product-name="{{ inventory.product.name }}" class="btn btn-outline-dark rounded-pill btn-hub-accept" data-order-id="{{ order.id }}" {# data-bs-toggle="modal" #} data-bs-target="#intake_list_modal_{{ forloop.counter }}">
+                                                            Accept
+                                                        </a>
+
+                                        <a data-product-name="{{ inventory.product.name }}" class="btn btn-outline-dark rounded-pill btn-hub-reject" data-order-id="{{ order.id }}" {# data-bs-toggle="modal" #} data-bs-target="#intake_list_modal_{{ forloop.counter }}">
+                                                            Reject
+                                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %} {% endif %} {% endfor %}
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer d-block">
+
+                    <div class="text-center">
+                        <button class="btn btn-primary" id="btn_change_done" data-bs-dismiss="modal">Done
+                                </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<script src="{% static 'employee/script.js' %}"></script>
+
+{% endblock %}
