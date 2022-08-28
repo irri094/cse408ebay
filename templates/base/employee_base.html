@@ -50,12 +50,19 @@
 
                     <a class="nav-link" href="{% url 'employee:home' %}">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Product Recieve
+                        Product Recieve local
                     </a>
-
-                    <a class="nav-link" href="{% url 'employee:home' %}">
+                    <a class="nav-link" href="{% url 'employee:shipmentreceive' %}">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                        Pickup Details
+                        Product Recieve global
+                    </a>
+                    <a class="nav-link" href="{% url 'employee:shipmentsend' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Product Shipment global
+                    </a>
+                    <a class="nav-link" href="{% url 'employee:localdelivery' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Product Shipment local
                     </a>
 
                 </div>
@@ -82,8 +89,6 @@
         crossorigin="anonymous"></script>
 
 {#<script src="{% static 'seller/js/home.js' %}"></script>#}
-<script src="{% static 'employee/script.js' %}"></script>
-<script src="{% static 'seller/js/current_order.js' %}"></script>
 {#<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>#}
 
 {# sweetalert 2#}

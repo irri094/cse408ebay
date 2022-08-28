@@ -25,11 +25,8 @@ $('#btn-accept').click(function () {
                     )
 
                 }
-                else{
-                    Swal.fire({
-                        icon: 'error',
-                        text: 'start time and end time are incompatible',
-                    })
+                else if(data.status == 0) {
+
                 }
             }
         }
@@ -64,10 +61,7 @@ $('#btn-reject').click(function () {
 
                 }
                 else{
-                    Swal.fire({
-                        icon: 'error',
-                        text: 'start time and end time are incompatible',
-                    })
+
                 }
             }
         }
