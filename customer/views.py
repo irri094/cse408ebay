@@ -36,7 +36,8 @@ def load_product_status(request):
         user = Customer.objects.get(name=request.session['username'])
         status = Order_Status.objects.get(id=1)
 
-        ordered_product = Order.objects.filter(order_set__customer=user).exclude(status__status='Delivered').order_by('-order_set__date')
+        ordered_product = Order.objects.filter(order_set__customer=user).exclude(status__status='Delivered').order_by(
+            '-order_set__date')
 
         print(ordered_product)
 
@@ -53,7 +54,9 @@ def load_order_history(request):
     else:
         status = Order_Status.objects.get(status='Delivered')
         context = {
-            'orders': Order.objects.filter(status=status).order_by('-order_set__date')
+            'orders': Order.objects.filter(status=status,
+                                           order_set__customer__phone=request.session["phone_num"]).order_by(
+                '-order_set__date')
         }
 
         return render(request, 'customer/order_history.html', context)
@@ -194,8 +197,8 @@ def generate_cart_dict(request):
         quantity = data[2]
 
         inventory = Inventory.objects.get(seller_id=seller_id, product_id=product_id)
-        process= Order.objects.get()
-        #delivered
+        # process = Order.objects.get()
+        # delivered
 
         cart.append({
             'inventory': inventory,
@@ -203,32 +206,32 @@ def generate_cart_dict(request):
             'amount': int(quantity) * int(inventory.product.price)
         })
 
-    process= Order.objects.filter(order_set__customer=customer,status__status = "In Shop").count()
-    deliv= Order.objects.filter(order_set__customer=customer,status__status = "Delivered").count()
-    buy=0
-    rcgrg=0
+    process = Order.objects.filter(order_set__customer=customer, status__status="In Shop").count()
+    deliv = Order.objects.filter(order_set__customer=customer, status__status="Delivered").count()
+    buy = 0
+    rcgrg = 0
     buylst = Order_Set.objects.filter(customer=customer)
     # for b in buylst:
     #     buy+=b.transaction.amount
     # print(buy)
-    
+
     # for b in buylst:
     #     type=b.transaction.type
     #     if type == "RECHARGE":
     #         rcgrg+=b.transaction.amount
 
     # for b in buylst:
-        
+
     #     buy+=b.transaction.amount
     # print(buy)
-    
-    #spntlst= Order_Set.objects.filter(customer=customer)
+
+    # spntlst= Order_Set.objects.filter(customer=customer)
     for b in buylst:
-        type=b.transaction.type
+        type = b.transaction.type
         if type == "BUY":
-            buy+=b.transaction.amount
+            buy += b.transaction.amount
         elif type == "RECHARGE":
-            rcgrg+=b.transaction.amount
+            rcgrg += b.transaction.amount
     print(buy)
     print(rcgrg)
     print(process)
