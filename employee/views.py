@@ -56,6 +56,39 @@ def load_employee(request):
         return render(request, 'employee/employee_home.html', context)
 
 
+def load_employee2(request):
+    if 'username' not in request.session:
+        return redirect(global_controller.authentication_module.logIn)
+    else:
+        print(request.session['username'])
+        my_orders = getAllOrders2(request)
+
+        deliveryman_distinct = my_orders.values('deliveryman').distinct()
+
+        # print(my_orders)
+        # print(f"distict -- \n\n {deliveryman_distinct}\n\n")
+
+        lst = []
+        context = {}
+        context['info'] = {}
+        print(deliveryman_distinct)
+        for data in deliveryman_distinct:
+
+            deliveryman = Deliveryman.objects.get(id=data['deliveryman'])
+
+
+            context['info'][deliveryman.name] = {
+                'deliveryman' : deliveryman,
+            }
+            context['info'][deliveryman.name]['deliveryman'] = deliveryman
+            context['info'][deliveryman.name]['orders'] = Order.objects.filter(deliveryman=deliveryman, status__status="On Highway")
+
+
+        print(f'Payload -- \n {context}')
+        # Fetches the session cart variable and sends them to front-end to show current-cart
+        return render(request, 'employee/employee_home.html', context)
+
+
 def getAllOrders(request):
     myHubid = Hubman.objects.get(phone=request.session['phone_num']).id
     # myOrders = Order.objects.filter(Q(seller__hub_id=myHubid) | Q(order_set__customer__delivery_address_hub_id=myHubid),
@@ -68,52 +101,79 @@ def getAllOrders(request):
     # print("---- end different hub --------")
     return myOrders
 
+def getAllOrders2(request):
+    myHubid = Hubman.objects.get(phone=request.session['phone_num']).id
+    myOrders = Order.objects.filter(order_set__customer__delivery_address_hub_id=myHubid,status__status="On Highway")
+    return myOrders
+
+
+def getinterdistrictdriver(currenthubid):
+    try:
+        driver = Deliveryman.objects.filter(current_hub__id=currenthubid, designation="Inter District").order_by("?").first()
+        return driver
+    except:
+        print("no inter district driver currently at this location")
+
+def getlocaldriver(currenthubid):
+    try:
+        driver = Deliveryman.objects.filter(current_hub__id=currenthubid, designation="Local").order_by("?").first()
+        return driver
+    except:
+        print("no inter district driver currently at this location")
+
+
 def accept_order(request):
     # o_name = request.GET['name']
     # print(o_name)
     o_id = request.GET['name']
     order=Order.objects.get(id=o_id)
     print(ord)
-    order_status = "In Hub"
-    stat = Order_Status.objects.get(status = order_status)
+    if order.status.status == "Picked Up":
+        order_status = "In Hub"
+        stat = Order_Status.objects.get(status = order_status)
+        order.status = stat
+        myHubid = Hubman.objects.get(phone=request.session['phone_num']).id
+        context = {
+            'status': 1,
+        }
+        try:
+            deliveryman = getinterdistrictdriver(myHubid)
+            order.deliveryman = deliveryman
+            order.save()
+            return JsonResponse(context)
+        except:
+            context['status'] = 0
+            return JsonResponse(context)
+    elif order.status.status == "On Highway":
+        order_status = "In Hub2"
+        stat = Order_Status.objects.get(status=order_status)
+        order.status = stat
+        myHubid = Hubman.objects.get(phone=request.session['phone_num']).id
+        context = {
+            'status': 1,
+        }
+        try:
+            deliveryman = getlocaldriver(myHubid)
+            order.deliveryman = deliveryman
+            order.save()
+            return JsonResponse(context)
+        except:
+            context['status'] = 0
+            return JsonResponse(context)
 
-    order.status = stat
-    order.save()
-
-    context = {
-        'status': 1,
-    }
-
-    return JsonResponse(context)
 
 def reject_order(request):
     # o_name = request.GET['name']
     # print(o_name)
     o_id = request.GET['name']
     ord=Order.objects.get(id=o_id)
-    print(ord)
-    print(ord.quantity)
-    #seller= ord.seller
-    selr = Seller.objects.get(id = ord.seller.id) 
-    print('seller:')
-    print(selr)
-    prod= Product.objects.get(id = ord.product.id)
-    print('product')
-    print(prod)
-    inv = Inventory.objects.get(seller = selr, product = prod)
-    print('inv:')
-    print(inv.quantity)
-    inv.quantity = int(inv.quantity) + int(ord.quantity)
-    print('final inv')
-    print(inv.quantity)
-    inv.save()
-    #order.product.id inventory.id niye +=order.quant 
-    ord.delete()
+
+    order_status = "In Shop"
+    stat = Order_Status.objects.get(status = order_status)
+    ord.status = stat
+    ord.save()
 
     context = {
         'status': 1,
     }
-
     return JsonResponse(context)
-
-
