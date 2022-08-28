@@ -125,7 +125,7 @@ def getlocaldriver(currenthubid):
 def accept_order(request):
     # o_name = request.GET['name']
     # print(o_name)
-    o_id = request.GET['name']
+    o_id = request.GET['order_id']
     order=Order.objects.get(id=o_id)
     print(order)
     print("in accpet function")

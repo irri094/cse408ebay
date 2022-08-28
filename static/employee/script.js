@@ -1,14 +1,20 @@
-$('#btn-accept').click(function () {
-    console.log("accept confirmation button pressed")
+$('.btn-hub-accept').click(function () {
 
-    let o_name = document.getElementById('ord_id').innerText
-    
+    let ord_id = $(this).attr('data-order-id')
+    // console.log("print hoitese")
+    // // console.log(x)
+    // console.log("print holo")
+    // console.log("accept confirmation button pressed")
+
+    $(this).closest("tr").fadeOut()
+
+
+
+
     // let inv_id = $("#auction_product_id").val()
     mydata = {
-        name: o_name,
+        order_id: ord_id,
     }
-
-    console.log()
 
     $.ajax(
         {
