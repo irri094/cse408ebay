@@ -130,15 +130,19 @@
                                                 </tr>
                                             {% endfor %}
                                         {% endif %}
-
                                     {% endfor %}
-
-
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                         <div class="modal-footer d-block">
+                            <div class="text-center">
+                                <button class="btn btn-outline-dark rounded-pill btn-auction" id="btn-accept-all" data-bs-dismiss="modal" 
+                                data-bs-target="#intake_list_modal_{{ forloop.counter }}" >Accept all</button>
+                            
+                                <button class="btn btn-outline-dark rounded-pill btn-auction" id="btn-reject-all" data-bs-dismiss="modal" 
+                                data-bs-target="#intake_list_modal_{{ forloop.counter }}" >Reject all</button>
+                            </div>
 
                             <div class="text-center">
                                 <button class="btn btn-primary" id="btn_change_done" data-bs-dismiss="modal">Done
