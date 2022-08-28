@@ -98,14 +98,26 @@ def buy_product(request):
         cnt = 1
         # Inventory update
         for inventory in cart:
+            product_id = inventory[1]
+            quantity = inventory[2]
+            product = Product.objects.get(id=product_id)
+            total_price += int(product.price) * int(quantity)
+
+        customer = Customer.objects.get(phone=request.session['phone_num'])
+
+        if total_price > customer.wallet:
+            context = {
+                'status': 0,
+            }
+            return JsonResponse(context)
+
+        for inventory in cart:
             seller_id = inventory[0]
             product_id = inventory[1]
             quantity = inventory[2]
 
             seller = Seller.objects.get(id=seller_id)
             product = Product.objects.get(id=product_id)
-
-            total_price += int(product.price) * int(quantity)
 
             # update the inventory after product purchase
             current_inventory = Inventory.objects.get(seller_id=seller_id, product_id=product_id)
