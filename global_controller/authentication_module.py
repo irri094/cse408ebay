@@ -86,7 +86,7 @@ def register(request):
             try:
                 hub = Hub.objects.get(address=address)
             except:
-                return render(request, 'global_controller/register.html', context)
+                return render(request, 'global_controller/customer_register.html', context)
             new_customer = Customer(name=name, address=address, NID=nid, phone=phone, wallet=0,
                                    delivery_address_hub=hub, mail=email)
             new_customer.save()
