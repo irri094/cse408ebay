@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
 import json
 import random
-import random
+from datetime import date
 from global_controller.models import *
 from django.core.files.storage import FileSystemStorage
 from django.core.cache import cache
@@ -71,6 +71,7 @@ def current_order(request):
 
     # orders = Order.objects.filter(seller__phone=seller_phone)
     orders = Order.objects.filter(seller__phone=seller_phone).order_by('-order_set__date')
+    #orders = Order.objects.filter(seller__phone=seller_phone, status__status == 'In Shop').order_by('-order_set__date')
 
     print(orders)
     context = {
@@ -80,7 +81,12 @@ def current_order(request):
 
 
 def order_history(request):
-    context = {}
+    seller = Seller.objects.get(phone=request.session['phone_num'])
+    orders = Order.objects.filter(seller=seller).exclude(status__status='In Shop').order_by('-order_set__date')
+    print(orders)
+    context = {
+        'orders': orders
+    }
     return render(request, 'seller/order_history.html', context)
 
 
@@ -156,6 +162,12 @@ def wallet_to_bank(request):
     seller.wallet = int(seller.wallet) - int(amount)
     seller.save()
 
+    # transaction = Transaction(type='RECHARGE', amount=amount)
+    # transaction.save()
+    # print(f"Transaction saved {transaction}")
+
+    # ord_set = Order_Set(customer=seller,date=date.todya(), transaction=transaction)
+    # ord_set.save()
     current_wallet = seller.wallet
 
     context = {
