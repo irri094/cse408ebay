@@ -1,27 +1,45 @@
-
+{% include 'seller/summary_cards.html' %}
+{% include 'seller/auction_form.html' %}
+{% include 'seller/auction_package_multiple.html' %}
 <h1 class="mt-4">Inventory</h1>
 
 <div class="row my-4">
     <table class="table table-striped">
         <thead>
         <tr>
-            <th class="text-center">#</th>
-            <th class="text-center">Product</th>
-            <th class="text-center">Category</th>
-            <th class="text-center">Brand</th>
-            <th class="text-center">Amount</th>
-            <th class="text-center">Quantity</th>
+            <th class="">#</th>
+            <th class="">Product</th>
+            <th class="">Category</th>
+            <th class="">Brand</th>
+            <th class="">Amount</th>
+            <th class="">Quantity</th>
+            <th class="">
+                <button class="btn btn-outline-primary rounded-pill" id="auction-multiple">
+                    Auction Multiple
+                </button>
+            </th>
+
         </tr>
         </thead>
-        <tbody>
+        <tbody id="seller-inventory-table-body">
         {% for inventory in inventories %}
             <tr>
-                <td class="text-center">{{ forloop.counter }}</td>
-                <td class="text-center">{{ inventory.product.name }}</td>
-                <td class="text-center">{{ inventory.product.category }}</td>
-                <td class="text-center">{{ inventory.product.brand }}</td>
-                <td class="text-center">{{ inventory.product.price }}</td>
-                <td class="text-center">{{ inventory.quantity }}</td>
+                <td class="">{{ forloop.counter }}</td>
+                <td class="">{{ inventory.product.name }}</td>
+                <td class="">{{ inventory.product.category }}</td>
+                <td class="">{{ inventory.product.brand }}</td>
+                <td class="">{{ inventory.product.price }}</td>
+                <td class=" btn-auction-quantity">{{ inventory.quantity }}</td>
+                <td class=" btn-auction-td">
+                    <a href="" data-inventory-id="{{ inventory.id }}" data-product-name="{{ inventory.product.name }}"
+                       class="btn btn-outline-dark rounded-pill btn-auction" data-bs-toggle="modal"
+                       data-bs-target="#auction_form_modal">
+                        Auction
+                    </a>
+
+{#                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">#}
+                </td>
+
             </tr>
         {% endfor %}
         </tbody>

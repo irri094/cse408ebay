@@ -1,0 +1,70 @@
+<div class="modal fade" id="auction_package_modal" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header d-block">
+                <h5 class="modal-title text-center" id="exampleModalToggleLabel">Auction Package</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row g-2">
+
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="package_name_id"
+                                   placeholder="name@example.com" required>
+                            <label for="floatingInputGrid">Package Name</label>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="row g-2 my-1">
+
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input type="datetime-local" class="form-control auction-date" id="package_start_time_id"
+                                   placeholder="name@example.com" min="2022-08-13" required>
+                            <label for="start_time_id">Start Time</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input type="datetime-local" class="form-control" id="package_end_time_id"
+                                   placeholder="name@example.com" value="mdo@example.com" required>
+                            <label for="end_time_id">End Time</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row g-2">
+
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <input type="number" class="form-control" id="package_base_price_id"
+                                   placeholder="name@example.com" required>
+                            <label for="floatingInputGrid">Base Price</label>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer d-block">
+
+                <div class="text-center">
+                    <button class="btn btn-primary" onclick="test_function()"
+                            id="btn_auction_proceed_id"
+                            data-bs-toggle="modal"
+                            data-bs-dismiss="modal"
+                            data-bs-target="#auction_package_confirmation">Confirm
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

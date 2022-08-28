@@ -2,75 +2,158 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
-    <title>Shop Homepage - Start Bootstrap Template</title>
+    <title>Bengal Bay</title>
     <!-- Favicon-->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    {#        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />#}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
 
     <!-- Bootstrap icons-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="{% static '/global_controller/css/global_home.css' %}" rel="stylesheet"/>
 </head>
+
 <body>
 
 {% include 'base/popup_notification.html' %}
 
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="#!">Bengal Bay</a>
+    <div class="container-fluid px-4 px-lg-5">
+        <a class="navbar-brand" href="{% url 'global_home' %}">Bengal Bay</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
                 class="navbar-toggler-icon"></span></button>
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
+                       data-bs-toggle="dropdown" aria-expanded="false">Home Utility</a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">All Products</a></li>
-                        <li>
-                            <hr class="dropdown-divider"/>
-                        </li>
-                        <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                        <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
+                        <li><a class="dropdown-item" href="#!">Home Decor</a></li>
+                        <li><a class="dropdown-item" href="#!">Bedding</a></li>
+                        <li><a class="dropdown-item" href="#!">Furnitures</a></li>
+                        <li><a class="dropdown-item" href="#!">Kitchenwear</a></li>
+                        <li><a class="dropdown-item" href="#!">Garden Items</a></li>
+                        <li><a class="dropdown-item" href="#!">Groceries</a></li>
+                        <li><a class="dropdown-item" href="#!">Lamp and Lighting</a></li>
+                        <li><a class="dropdown-item" href="#!">Rerigerators</a></li>
+                        <li><a class="dropdown-item" href="#!">washing Machine</a></li>
+                        <li><a class="dropdown-item" href="#!">Air Conditioner</a></li>
+
                     </ul>
                 </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">Computer Accessories</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{% url 'category' 'keyboard' %}">Keyboard</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'mouse' %}">Mouse</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'motherboard' %}">Motherboard</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'graphics_card' %}">Graphics Card</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'processor' %}">Processor</a></li>
+                        <li><a class="dropdown-item" href="#!">Monitor</a></li>
+                        <li><a class="dropdown-item" href="#!">Casing</a></li>
+                        <li><a class="dropdown-item" href="#!">Cooler</a></li>
+                        <li><a class="dropdown-item" href="#!">Power Supply</a></li>
+                        <li><a class="dropdown-item" href="#!">Storage</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">Fashion</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">Clothing</a></li>
+                        <li><a class="dropdown-item" href="#!">Bags</a></li>
+                        <li><a class="dropdown-item" href="#!">Luggage</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'watches' %}">Watches</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'jewellery' %}>Jewellery</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'wallet' %}">Wallet</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">Electonics</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{% url 'category' 'phone' %}">Cell Phones</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'tv' %}">TV</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'camera' %}">Camera</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'vehicle' %}">Vehicle</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'drones' %}">Drones</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'console' %}">Console</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">Health</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{% url 'category' 'eye' %}">Eyecare</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'hair' %}">Hair and skin</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'fragrance' %}">Fragrance</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'makeup' %}">Makeup</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">Sports</a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="{% url 'category' 'indoor' %}">Indoor</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'outdoor' %}">Outdoor</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'fitness' %}">Fitness</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'cycling' %}">Cycling</a></li>
+                        <li><a class="dropdown-item" href="{% url 'category' 'fish' %}">Fishing</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'auction_home' %}">Auction</a>
+                </li>
+
             </ul>
 
-            <button class="btn btn-outline-dark mx-1">
-                <i class="bi-cart-fill me-1"></i>
-                Cart
+            <form class="d-flex" role="search" action="{% url 'search' %}" method="GET">
+
+                <button class="btn btn-outline-dark " type="submit"><i class="bi bi-search"></i></button>
+                <input class="form-control mx-2" type="search" placeholder="Want to find more ..." name="search" aria-label="Search">
+
+            </form>
+
+
+            <a class="btn btn-outline-dark mx-1" href="{% url 'login' %}">
+                <i class="bi-cart-fill me-1"></i> Cart
                 <span class="badge bg-dark text-white ms-1 rounded-pill" id="cartCount">
-                    1
+                    {{ cart_size }}
                 </span>
-            </button>
+            </a>
 
             <a class="btn btn-outline-dark" href="{% url 'login' %}">
-                <i class="bi bi-person-circle"></i>
-                My Account
+                <i class="bi bi-person-circle"></i> My Account
             </a>
         </div>
     </div>
 </nav>
 
-{% block global_home %}
-{% endblock %}
-
-{% block product_details %}
-{% endblock %}
+{% block global_home %} {% endblock %} {% block product_details %} {% endblock %} {% block login %} {% endblock %}
+{% block auction_home %} {% endblock %} {% block auction_product_details %} {% endblock %}
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core theme JS-->
-<script src="{% static '/global_controller/js/global_home.js' %}"></script>
+
+
 </body>
+
 </html>

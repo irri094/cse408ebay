@@ -1,0 +1,134 @@
+{% extends 'base/global_base.html' %}
+{% load static %}
+
+{% block product_details %}
+    <input type="text" id="dt_auction_time_end" value="{{ auction.end_time.isoformat }}" hidden>
+
+    <style>
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+    <!-- Product section-->
+
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="row gx-4 gx-lg-5 align-items-center">
+                <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0"
+                                           src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..."/></div>
+                <div class="col-md-6">
+                    <div class="fs-6 mb-1">{{ auction.product.category }}</div>
+                    <div class="fs-5 mb-1">
+                        <span><h1 id="test-id"></h1></span>
+
+                        <span><h1>{{ auction.auction_name }}  </h1></span>
+                        {% if auction.quantity is not None %}
+                            <span><h2>{{ auction.quantity }} Pc  </h2></span>
+                        {% endif %}
+
+
+                    </div>
+                    <div class="fs-5 mb-5">
+                        <span>{{ auction.seller.shop_name }}</span>
+                    </div>
+                    <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem
+                        quidem
+                        modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis delectus
+                        ipsam minima ea iste laborum vero? {{ auction.product.description }}</p>
+
+                    <div class="fs-5 mb-2">
+                        <span>Start Bid: {{ auction.base_price }} BDT</span>
+                    </div>
+                    <div class="fs-5 mb-2">
+                        <span>Current Bid: <strong>{{ auction.bid.bid_amount }} BDT</strong></span>
+                    </div>
+                    <div class="fs-5 mb-2">
+                        <span>Auction will end on <strong>{{ auction.end_time }}</strong></span>
+                    </div>
+                    <div class="d-flex">
+                        <input class="form-control text-center me-3" id="input_quantity" type="number"
+                               value="{{ valid_low_bid }}"
+                               style="max-width: 8rem"/>
+                        <button class="btn btn-outline-dark flex-shrink-0"
+                                type="button"
+                                id="place-bid"
+                                data-auction-id="{{ auction.id }}"
+
+                                {% if user.user_type.type != 'customer' %}
+                                disabled
+                                {% endif %}
+                        >
+
+                            <i class="bi bi-cash-stack"></i>
+                            Place Bid
+                        </button>
+                        <span class="mx-4">
+                            <h3 id="countdown_id"></h3>
+                        </span>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Related items section-->
+    <section class="py-5 bg-light">
+        <div class="container px-4 px-lg-5 mt-5">
+            <h2 class="fw-bolder mb-4">Recent Auctions</h2>
+            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                {% for inventory in inventories %}
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image-->
+                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..."/>
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder">{{ inventory.product.name }}</h5>
+                                    <!-- Product price-->
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">Bid : {{ inventory.base_price }} BDT</li>
+                                        <li class="list-group-item">{{ inventory.start_time }} </li>
+                                        <li class="list-group-item">{{ inventory.end_time }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Product actions-->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                    <a class="btn btn-outline-dark mt-auto"
+                                       href="{% url 'auction-product-details'  inventory.id %}">
+                                        <i class="bi bi-window-sidebar"></i> Details
+                                    </a>
+                                    <a class="btn btn-outline-dark mt-auto btn-add-to-cart-global-home"
+                                       data-seller-id="{{ inventory.seller.id }}"
+                                       data-product-id="{{ inventory.product.id }}"
+                                       href="#"><i class="bi bi-bag-plus"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+
+            </div>
+        </div>
+    </section>
+    <!-- Footer-->
+    <footer class="py-5 bg-dark">
+        <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2022</p></div>
+    </footer>
+    <script src="{% static 'global_controller/js/auction-detail.js' %}"></script>
+    <script src="{% static '/global_controller/js/countdown timer.js' %}"></script>
+    <script src="{% static '/global_controller/js/ajax.js' %}" rel="javascript" type="text/javascript"></script>
+{% endblock %}
