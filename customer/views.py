@@ -337,6 +337,7 @@ def change_info(request):
     context = {}
     return render(request, 'customer/change_account_info.html', context)
 
+
 def transactions(request):
     print(request.session['username'])
     customer = Customer.objects.get(phone=request.session['phone_num'])
@@ -345,8 +346,8 @@ def transactions(request):
     # transaction=[]
     # for t in t_list:
     #     transaction.add(t.transactions)
-    context={
+    context = {
         'list': t_list
-        #'list': transaction
+        # 'list': transaction
     }
     return render(request, 'customer/transactions.html', context)

@@ -82,6 +82,7 @@ def register(request):
         phone = request.POST['phone']
         password1 = request.POST['password1']
         password2 = request.POST['password2']
+        coordinate = request.POST['coordinate']
         print(request.POST)
         if password1 == password2 and not User.objects.filter(username=phone).exists():
             # 'username': ['sfd'], 'email': ['a@f'], 'address': ['324'], 'nid': ['12321'], 'phone': ['235523'], 'password1': ['fqwf'], 'password2': ['fsa']}
@@ -91,14 +92,15 @@ def register(request):
             try:
                 hub = Hub.objects.get(address=address)
             except:
-                return render(request, 'global_controller/customer_register.html', context)
+                return render(request, 'global_controller/register.html', context)
+                # return render(request, 'global_controller/customer_register.html', context)
             new_customer = Customer(name=name, address=address, NID=nid, phone=phone, wallet=0,
-                                   delivery_address_hub=hub, mail=email)
+                                   delivery_address_hub=hub, mail=email, coord=coordinate)
             new_customer.save()
             new_user.save()
 
-    # return render(request, 'global_controller/register.html', context)
-    return render(request, 'global_controller/customer_register.html', context)
+    return render(request, 'global_controller/register.html', context)
+    # return render(request, 'global_controller/customer_register.html', context)
 
 
 # The account is created and the phone number is used as the username.

@@ -119,6 +119,11 @@ $('#btn_recharge_wallet').click(function () {
                 console.log(data)
                 // swal("Recharge Successful " + data.amount + " taka!", "", "success");
                 document.getElementById('current_wallet_amount').innerText = data.current_wallet
+
+                let current_amount = document.getElementById('total-recharge-id').innerText
+                current_amount = parseInt(current_amount) + parseInt(data.amount)
+                document.getElementById('total-recharge-id').innerText = current_amount
+
                 Swal.fire({
                     icon: 'success',
                     title: 'Recharge Successful ' + data.amount + ' taka!',

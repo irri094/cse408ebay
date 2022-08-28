@@ -47,6 +47,8 @@ class Customer(models.Model):
     wallet = models.IntegerField()
     mail = models.EmailField(null=True)
 
+    coord = models.CharField(max_length=50, default="", null=True)
+
     def __str__(self):
         return self.name + " | " + self.phone
 
