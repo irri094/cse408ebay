@@ -8,9 +8,6 @@ $('.btn-hub-accept').click(function () {
 
     $(this).closest("tr").fadeOut()
 
-
-
-
     // let inv_id = $("#auction_product_id").val()
     mydata = {
         order_id: ord_id,
@@ -18,7 +15,7 @@ $('.btn-hub-accept').click(function () {
 
     $.ajax(
         {
-            url: "accept/",
+            url: "/employee/accept/",
             method: 'GET',
             data: mydata,
             success: function (data) {
@@ -39,21 +36,24 @@ $('.btn-hub-accept').click(function () {
     )
 })
 
-$('#btn-reject').click(function () {
-    console.log("reject confirmation button pressed")
+$('.btn-hub-reject').click(function () {
 
-    let o_name = document.getElementById('ord_id').innerText
-    
+    let ord_id = $(this).attr('data-order-id')
+    // console.log("print hoitese")
+    // // console.log(x)
+    // console.log("print holo")
+    // console.log("accept confirmation button pressed")
+
+    $(this).closest("tr").fadeOut()
+
     // let inv_id = $("#auction_product_id").val()
     mydata = {
-        name: o_name,
+        order_id: ord_id,
     }
-
-    console.log()
 
     $.ajax(
         {
-            url: "reject/",
+            url: "/employee/reject/",
             method: 'GET',
             data: mydata,
             success: function (data) {
