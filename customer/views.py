@@ -20,6 +20,9 @@ def load_customer(request):
         customer = Customer.objects.get(phone=request.session['phone_num'])
         print(customer)
         # Fetches the session cart variable and sends them to front-end to show current-cart
+        # process= Order.objects.get(status__status = "In Shop")
+        # deliv= Order.objects.get(status__status = "Delivered")
+
         context = generate_cart_dict(request)
 
         return render(request, 'customer/home.html', context)
@@ -181,6 +184,9 @@ def buy_product(request):
 
 
 def generate_cart_dict(request):
+    print('username')
+    print(request.session['username'])
+    customer = Customer.objects.get(phone=request.session['phone_num'])
     cart = []
     for data in request.session['cart']:
         seller_id = data[0]
@@ -188,6 +194,8 @@ def generate_cart_dict(request):
         quantity = data[2]
 
         inventory = Inventory.objects.get(seller_id=seller_id, product_id=product_id)
+        process= Order.objects.get()
+        #delivered
 
         cart.append({
             'inventory': inventory,
@@ -195,11 +203,45 @@ def generate_cart_dict(request):
             'amount': int(quantity) * int(inventory.product.price)
         })
 
+    process= Order.objects.filter(order_set__customer=customer,status__status = "In Shop").count()
+    deliv= Order.objects.filter(order_set__customer=customer,status__status = "Delivered").count()
+    buy=0
+    rcgrg=0
+    buylst = Order_Set.objects.filter(customer=customer)
+    # for b in buylst:
+    #     buy+=b.transaction.amount
+    # print(buy)
+    
+    # for b in buylst:
+    #     type=b.transaction.type
+    #     if type == "RECHARGE":
+    #         rcgrg+=b.transaction.amount
+
+    # for b in buylst:
+        
+    #     buy+=b.transaction.amount
+    # print(buy)
+    
+    #spntlst= Order_Set.objects.filter(customer=customer)
+    for b in buylst:
+        type=b.transaction.type
+        if type == "BUY":
+            buy+=b.transaction.amount
+        elif type == "RECHARGE":
+            rcgrg+=b.transaction.amount
+    print(buy)
+    print(rcgrg)
+    print(process)
+
     context = {
         "cart": cart,
         "customer_name": request.session['username'],
         "cart_size": global_controller_views.count_cart_quantity(request),
-        "wallet": Customer.objects.get(phone=request.session['phone_num']).wallet
+        "wallet": Customer.objects.get(phone=request.session['phone_num']).wallet,
+        "processing": process,
+        "delivered": deliv,
+        "spent": buy,
+        "recharge": rcgrg
     }
     return context
 
@@ -254,6 +296,16 @@ def recharge_wallet(request):
     cust = Customer.objects.get(phone=phone)
     cust.wallet = current_wallet
     cust.save()
+
+    transaction = Transaction(type='RECHARGE', amount=addedtaka)
+    transaction.save()
+    print(f"Transaction saved {transaction}")
+
+    #  Create an order set for a set of orders for future navigation through the orders
+    customer = Customer.objects.get(phone=request.session['phone_num'])
+    order_set = Order_Set(customer=customer, transaction=transaction, date=date.today())
+    order_set.save()
+    print(f"Order set created {order_set}")
 
     context = {
         'amount': addedtaka,
