@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>RegistrationForm_v10 by Colorlib</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- LINEARICONS -->
+    {#		<link rel="stylesheet" href="fonts/linearicons/style.css">#}
+    <link rel="stylesheet" href="{% static 'fonts/linearicons/style.css' %}">
+
+    <!-- STYLE CSS -->
+    <link rel="stylesheet" href="{% static 'global_controller/css/customer_register/style.css' %}">
+</head>
+
+
+    <style>
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+
+<body>
+
+<div class="wrapper">
+    <div class="inner">
+        <img src="{% static 'images/image-1.png' %}" alt="" class="image-1">
+        <form action="{% url 'register' %}">
+            <h3>Bengal Bay</h3>
+            <div class="form-holder">
+                <span class="lnr lnr-user"></span>
+                <input type="text" class="form-control" name="username" placeholder="Name">
+            </div>
+            <div class="form-holder">
+                <span class="lnr lnr-phone-handset"></span>
+                <input type="text" class="form-control" name="phone" placeholder="Phone Number">
+            </div>
+            <div class="form-holder">
+                <span class="lnr lnr-envelope"></span>
+                <input type="text" class="form-control" name="email" placeholder="Mail">
+            </div>
+            <div class="form-holder">
+                <span class="lnr lnr-home"></span>
+                <input type="text" class="form-control" name="address" placeholder="Address">
+            </div>
+            <div class="form-holder">
+                <span class="lnr lnr-flag"></span>
+                <input type="number" class="form-control" name="nid" placeholder="NID">
+            </div>
+
+            <div class="form-holder">
+                <span class="lnr lnr-lock"></span>
+                <input type="password" class="form-control" name="password1" placeholder="Password">
+            </div>
+            <div class="form-holder">
+                <span class="lnr lnr-lock"></span>
+                <input type="password" class="form-control" name="password2" placeholder="Confirm Password">
+            </div>
+            <button type="submit">
+                <span>Register</span>
+            </button>
+        </form>
+        <img src="{% static 'images/image-2.png' %}" alt="" class="image-2">
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+{#		<script src="js/main.js"></script>#}
+<script src="{% static 'global_controller/js/customer_register/customer_register.js' %}"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>

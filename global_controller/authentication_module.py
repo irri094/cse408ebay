@@ -92,7 +92,8 @@ def register(request):
             new_customer.save()
             new_user.save()
 
-    return render(request, 'global_controller/register.html', context)
+    # return render(request, 'global_controller/register.html', context)
+    return render(request, 'global_controller/customer_register.html', context)
 
 
 # The account is created and the phone number is used as the username.
