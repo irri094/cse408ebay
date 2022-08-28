@@ -30,15 +30,25 @@ def load_order_history(request):
 
 def load_inventory(request):
     # This variable is used to display the current wallet amount of the seller.
-
-    current_wallet = Seller.objects.get(phone=request.session['phone_num']).wallet
+    seller= Seller.objects.get(phone=request.session['phone_num'])
+    print(seller)
+    current_wallet = seller.wallet
     inventory = Inventory.objects.filter(seller__name=request.session['username'])
-    seller = Seller.objects.get(phone=request.session['phone_num'])
-
+    #seller = Seller.objects.get(phone=request.session['phone_num'])
+    ordered = Order.objects.filter(seller=seller, status__status="In Shop").count()
+    delivered = Order.objects.filter(seller=seller, status__status="Delivered").count()
+    returned =Order.objects.filter(seller=seller, status__status="Returned").count()
+    auction = Auction.objects.filter(seller=seller).count()
+    #spent = 
+    # wallet
     context = {
         'inventories': inventory,
         'current_wallet': current_wallet,
         'seller': seller,
+        'ordered': ordered,
+        'delivered': delivered,
+        'returned': returned,
+        'auction': auction
     }
     print(inventory)
     return render(request, 'seller/home.html', context)
