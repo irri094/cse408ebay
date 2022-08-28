@@ -11,5 +11,6 @@ urlpatterns = [
     path('update_to_cart/', views.update_to_cart, name='update_to_cart'),
     path('recharge_wallet/', views.recharge_wallet, name='recharge_wallet'),
     path('change-info/', views.change_info, name='change_info'),
+    path('transactions/', views.transactions, name='transactions'),
 
 ]

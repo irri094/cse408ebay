@@ -321,3 +321,17 @@ def recharge_wallet(request):
 def change_info(request):
     context = {}
     return render(request, 'customer/change_account_info.html', context)
+
+def transactions(request):
+    print(request.session['username'])
+    customer = Customer.objects.get(phone=request.session['phone_num'])
+    t_list = Order_Set.objects.filter(customer=customer).order_by('-date')
+    print(t_list)
+    # transaction=[]
+    # for t in t_list:
+    #     transaction.add(t.transactions)
+    context={
+        'list': t_list
+        #'list': transaction
+    }
+    return render(request, 'customer/transactions.html', context)
