@@ -81,7 +81,7 @@ def load_employee2(request):
                 'deliveryman' : deliveryman,
             }
             context['info'][deliveryman.name]['deliveryman'] = deliveryman
-            context['info'][deliveryman.name]['orders'] = Order.objects.filter(deliveryman=deliveryman, status__status="Picked Up")
+            context['info'][deliveryman.name]['orders'] = Order.objects.filter(deliveryman=deliveryman, status__status="On Highway")
 
 
         print(f'Payload -- \n {context}')
@@ -103,13 +103,7 @@ def getAllOrders(request):
 
 def getAllOrders2(request):
     myHubid = Hubman.objects.get(phone=request.session['phone_num']).id
-
     myOrders = Order.objects.filter(order_set__customer__delivery_address_hub_id=myHubid,status__status="On Highway")
-    # myOrders = Order.objects.exclude( order_set__customer__delivery_address_hub_id=F('seller__hub_id')).filter(Q(seller__hub_id=myHubid) | Q(order_set__customer__delivery_address_hub_id=myHubid))
-    # print("------ different hub payload -------")
-    # print(myHubid)
-    # print(myOrders)
-    # print("---- end different hub --------")
     return myOrders
 
 
@@ -150,7 +144,7 @@ def accept_order(request):
         except:
             context['status'] = 0
             return JsonResponse(context)
-    if order.status.status == "On Highway":
+    elif order.status.status == "On Highway":
         order_status = "In Hub2"
         stat = Order_Status.objects.get(status=order_status)
         order.status = stat
