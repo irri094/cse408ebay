@@ -106,7 +106,7 @@
                                                     <td id="order_name" class="text-center">{{ order.product.name }}</td>
                                                     <td class="text-center">{{ order.product.brand }}</td>
                                                     <td class="text-center">{{ order.quantity }}</td>
-                                                    <td id="ord_id" class="text-center">{{ order.id }}</td>
+                                                    <td id="ord_id" class="text-center" hidden>{{ order.id }}</td>
 
                                                     <td class="btn-auction-td">
                                                         <a data-product-name="{{ inventory.product.name }}"
@@ -118,9 +118,9 @@
                                                         </a>
 
                                                         <a data-product-name="{{ inventory.product.name }}"
-                                                           class="btn btn-outline-dark rounded-pill btn-auction"
-                                                           id="btn-reject"
-                                                           data-bs-toggle="modal"
+                                                           class="btn btn-outline-dark rounded-pill btn-hub-reject"
+                                                           data-order-id="{{ order.id }}"
+{#                                                           data-bs-toggle="modal"#}
                                                            data-bs-target="#intake_list_modal_{{ forloop.counter }}">
                                                             Reject
                                                         </a>
@@ -142,7 +142,6 @@
                                 <button class="btn btn-primary" id="btn_change_done" data-bs-dismiss="modal">Done
                                 </button>
                             </div>
-
                         </div>
                     </div>
                 </div>

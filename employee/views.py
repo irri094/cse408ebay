@@ -103,7 +103,8 @@ def getAllOrders(request):
 
 def getAllOrders2(request):
     myHubid = Hubman.objects.get(phone=request.session['phone_num']).hub_id
-    myOrders = Order.objects.filter(Q(order_set__customer__delivery_address_hub_id=myHubid),status__status="In Highway")
+    print(Hubman.objects.get(phone=request.session['phone_num']).hub.address + " is my address hubman")
+    myOrders = Order.objects.filter(Q(order_set__customer__delivery_address_hub_id=myHubid),status__status="On Highway")
     return myOrders
 
 
@@ -166,6 +167,13 @@ def accept_order(request):
         stat = Order_Status.objects.get(status=order_status)
         order.status = stat
         order.save()
+        deliveryman = order.deliveryman
+        qset = Order.objects.filter(status__status="In Hub", deliveryman=deliveryman)
+        if not qset.exists():
+            deliveryman.current_hub = order.order_set.customer.delivery_address_hub
+            deliveryman.save()
+            print("changed current hub of " + str(deliveryman.name))
+
         context = {
             'status': 1,
         }

@@ -92,7 +92,7 @@
                                         <th class="">Product Name</th>
                                         <th class="">Brand</th>
                                         <th class="">Quantity</th>
-                                        <th class="" colspan="2">Accept/Reject</th>
+                                        <th class="" colspan="2">Accept</th>
                                     </tr>
                                     </thead>
                                     <tbody id="deliveryman-table-body">
@@ -108,21 +108,13 @@
                                                     <td class="text-center">{{ order.quantity }}</td>
                                                     <td id="ord_id" class="text-center" hidden>{{ order.id }}</td>
 
-                                                    <td class=" btn-auction-td">
+                                                    <td class="btn-auction-td">
                                                         <a data-product-name="{{ inventory.product.name }}"
-                                                           class="btn btn-outline-dark rounded-pill btn-auction"
-                                                           id="btn-accept"
-                                                           data-bs-toggle="modal"
+                                                           class="btn btn-outline-dark rounded-pill btn-hub-accept"
+                                                           data-order-id="{{ order.id }}"
+{#                                                           data-bs-toggle="modal"#}
                                                            data-bs-target="#intake_list_modal_{{ forloop.counter }}">
-                                                            Accept
-                                                        </a>
-
-                                                        <a data-product-name="{{ inventory.product.name }}"
-                                                           class="btn btn-outline-dark rounded-pill btn-auction"
-                                                           id="btn-reject"
-                                                           data-bs-toggle="modal"
-                                                           data-bs-target="#intake_list_modal_{{ forloop.counter }}">
-                                                            Reject
+                                                            OK
                                                         </a>
                                                     </td>
                                                 </tr>
