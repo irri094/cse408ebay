@@ -138,7 +138,6 @@ def buy_product(request):
         # Initialize the order's status and assign a deliveryman
         status = Order_Status.objects.get(status="In Shop")
         # deliveryman = Deliveryman.objects.get(id=2)
-        deliveryman = employee_views.getlocaldriver(customer.delivery_address_hub_id)
 
         # Generate an OTP for products
         otp = generate_otp()
@@ -156,6 +155,7 @@ def buy_product(request):
             product = Product.objects.get(id=product_id)
 
             # Create an order for a corresponding order_set
+            deliveryman = employee_views.getlocaldriver(seller.hub.id)
             order = Order(seller=seller, product=product, status=status, deliveryman=deliveryman, OTP=otp,
                           quantity=quantity, order_set=order_set)
             order.save()
