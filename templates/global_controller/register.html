@@ -127,6 +127,17 @@
 
                     </div>
 
+                    <div class="form-floating">
+                <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="hub">
+                    <option selected>What is your nearest hub?</option>
+
+                    {% for hub in hubs %}
+                        <option value="{{ hub.id }}">{{ hub }}</option>
+                    {% endfor %}
+                </select>
+                <label for="floatingSelect">Hub</label>
+            </div>
+
                     <div class="input-group mb-2">
                         <div class="input-group-append">
                             <span class="input-group-text"><i class="fas fa-address-card"></i></span>

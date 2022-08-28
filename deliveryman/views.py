@@ -22,7 +22,8 @@ def load_deliveryman(request):
 
     print(' [*] deliveryman is loading ... ')
 
-    deliveryman_coord = "23.725515, 90.390601"
+    # deliveryman_coord = "23.725515, 90.390601"
+    deliveryman_coord = deliveryman.current_hub.coord
 
     context = {
         'deliveryman_name': "Deliveryman",
@@ -43,10 +44,15 @@ def delivery_details_of_customer(request):
     orders = Order.objects.filter(Q(status__status='Picked up') | Q(status__status='Out To Delivery')).filter(order_set__customer__delivery_address_hub=deliveryman.current_hub)
     print("these are the orders...")
     print(orders)
+
+    # deliveryman_coord = "23.725515, 90.390601"
+    deliveryman_coord = deliveryman.current_hub.coord
+
     if deliveryman.designation != "Local":
         orders = Order.objects.none()
     context = {
-        'orders': orders
+        'orders': orders,
+        'deliveryman_coord': deliveryman_coord,
     }
     return render(request, 'Deliveryman/delivery-details-of-customer.html', context)
 

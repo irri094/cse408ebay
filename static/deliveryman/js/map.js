@@ -16,6 +16,12 @@ var shop_icon = L.icon({
     iconAnchor: [10, 20],
 });
 
+var human_icon = L.icon({
+    iconUrl: '../../static/icons/icon-human.png',
+    iconSize: [40, 40],
+    iconAnchor: [10, 20],
+});
+
 // sets the coordinates of the deliveryman and shop
 
 shop_corrd = ['23.727361', '90.389549'] // lat , lng
@@ -62,7 +68,7 @@ $('.btn-shop-navigate').click(function () {
     }
 
     let shop_cordinate = $(this).attr('data-coord-id').split(',')
-    shop_marker = L.marker(shop_cordinate, {icon: shop_icon}).addTo(map)
+    shop_marker = L.marker(shop_cordinate, {icon: human_icon}).addTo(map)
 
     // recenters the map to the shops coordinate
     map.setView(shop_cordinate, 16);

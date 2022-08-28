@@ -22,6 +22,7 @@ class User(models.Model):
 
 class Hub(models.Model):
     address = models.CharField(max_length=100)
+    coord = models.CharField(max_length=50, default="", null=True)
 
     def __str__(self):
         return str(self.address)

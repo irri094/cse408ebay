@@ -1,11 +1,13 @@
 {% extends 'base/deliveryman_base.html' %}
-
 {% load static %}
 
 {% block delivery_details_of_customer %}
 
     {% include 'Deliveryman/customer_confirm_modal.html' %}
+    {% include 'Deliveryman/map.html' %}
+
     <input type="text" id="txt_order_id" hidden>
+    <input type="hidden" id="deliveryman_cord_hidden" data-coord-id="{{ deliveryman_coord }}">
     <h1 class="mt-4">Delivery Details</h1>
 
     <div class="row my-4">
@@ -39,7 +41,7 @@
                                 data-bs-toggle="modal">
                             <i class="bi bi-truck"></i></button>
                         <button class="btn rounded-pill btn-outline-primary btn-shop-navigate"
-                                data-coord-id="{{ order.seller.coord }}">
+                                data-coord-id="{{ order.order_set.customer.coord }}">
                             <i class="bi bi-geo-alt"></i></button>
                     </td>
                 </tr>
@@ -49,4 +51,5 @@
     </div>
 
     <script src="{% static 'deliveryman/js/delivery-details-of-customer.js' %}"></script>
+    <script src="{% static '/deliveryman/js/map.js' %}"></script>
 {% endblock %}

@@ -16,19 +16,19 @@
 </head>
 
 
-    <style>
-        /* Chrome, Safari, Edge, Opera */
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
+<style>
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 
-        /* Firefox */
-        input[type=number] {
-            -moz-appearance: textfield;
-        }
-    </style>
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
 
 <body>
 
@@ -52,8 +52,22 @@
             </div>
             <div class="form-holder">
                 <span class="lnr lnr-home"></span>
-                <input type="text" class="form-control" name="address" placeholder="Address">
+                <input type="text" class="form-control" name="address" placeholder="Hub">
             </div>
+
+            <div class="form-floating">
+                <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                    <option selected>What is your nearest hub?</option>
+
+                    {% for hub in hubs %}
+                        <option value="{{ hub.id }}">{{ hub }}</option>
+
+
+                    {% endfor %}
+                </select>
+                <label for="floatingSelect">Hub</label>
+            </div>
+
             <div class="form-holder">
                 <span class="lnr lnr-flag"></span>
                 <input type="number" class="form-control" name="nid" placeholder="NID">

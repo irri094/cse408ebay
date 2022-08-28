@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from geopy.geocoders import Nominatim
 from django.core.mail import send_mail
 
+
 # Login Authentication Module
 def logIn(request):
     if 'username' in request.session:
@@ -71,10 +72,15 @@ def logIn(request):
 
 # The account is created and the phone number is used as the username
 def register(request):
-    context = {}
+    context = {
+        'hubs': Hub.objects.all()
+    }
     if 'username' in request.session:
-        return redirect("/")
+        return redirect(reverse('login'))
     if request.method == "POST":
+
+        print(request.POST)
+
         name = request.POST['username']
         email = request.POST['email']
         address = request.POST['address']
@@ -83,19 +89,18 @@ def register(request):
         password1 = request.POST['password1']
         password2 = request.POST['password2']
         coordinate = request.POST['coordinate']
-        print(request.POST)
+        hub_id = request.POST['hub']
+        # print(request.POST)
         if password1 == password2 and not User.objects.filter(username=phone).exists():
             # 'username': ['sfd'], 'email': ['a@f'], 'address': ['324'], 'nid': ['12321'], 'phone': ['235523'], 'password1': ['fqwf'], 'password2': ['fsa']}
             user_type = UserType.objects.get(type="customer")
             new_user = User(username=phone, password=password1, user_type=user_type)
             # user_type = UserType.objects.get(type="customer")
-            try:
-                hub = Hub.objects.get(address=address)
-            except:
-                return render(request, 'global_controller/register.html', context)
+
+            hub = Hub.objects.get(id=hub_id)
                 # return render(request, 'global_controller/customer_register.html', context)
             new_customer = Customer(name=name, address=address, NID=nid, phone=phone, wallet=0,
-                                   delivery_address_hub=hub, mail=email, coord=coordinate)
+                                    delivery_address_hub=hub, mail=email, coord=coordinate)
             new_customer.save()
             new_user.save()
 
@@ -199,6 +204,7 @@ def get_address_from_coordinate(request):
         'address': location.raw['display_name']
     }
     return JsonResponse(context)
+
 
 def test_mail(request):
     print('test mail started')
