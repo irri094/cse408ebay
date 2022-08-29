@@ -72,7 +72,7 @@ def current_order(request):
     seller_phone = request.session['phone_num']
 
     # orders = Order.objects.filter(seller__phone=seller_phone)
-    orders = Order.objects.filter(seller__phone=seller_phone).order_by('-order_set__date')
+    orders = Order.objects.filter(seller__phone=seller_phone, status__status='In Shop').order_by('-order_set__date')
     # orders = Order.objects.filter(seller__phone=seller_phone, status__status == 'In Shop').order_by('-order_set__date')
 
     print(orders)

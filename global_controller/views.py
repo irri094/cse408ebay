@@ -146,7 +146,8 @@ def auction_product_details(request, auction_id):
             'auction': auction,
             'valid_low_bid': valid_low_bid,
             'inventories': related_products_list,
-            'user': user
+            'user': user,
+            'package_details': PackageItem.objects.filter(auction=auction)
         }
         return render(request, 'global_controller/auction_product_details.html', context)
     else:

@@ -39,10 +39,13 @@
                     <div class="fs-5 mb-5">
                         <span>{{ auction.seller.shop_name }}</span>
                     </div>
-                    <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem
-                        quidem
-                        modi. Nam sequi consequatur obcaecati excepturi alias magni, accusamus eius blanditiis delectus
-                        ipsam minima ea iste laborum vero? {{ auction.product.description }}</p>
+
+{#                    <p class="lead">{{ auction.product.description }}#}
+                        {% for p in package_details %}
+                            <p><h5> {{ p.inventory.product.name }} {{ p.quantity }} pc </h5></p>
+                        {% endfor %}
+{#                    </p>#}
+                    <br>
 
                     <div class="fs-5 mb-2">
                         <span>Start Bid: {{ auction.base_price }} BDT</span>
