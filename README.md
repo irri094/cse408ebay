@@ -1,6 +1,6 @@
 # Bengal Bay
 
-Bengal Bay Bengal Bay is our academic project of level 4.Term 1 . We tried to implement the features of an e-commerce site. The motivation for our project is to povide an effiecient and faster platform for customer and seller interaction. Our major features include 
+Bengal Bay is our academic project of level 4/Term 1 . We tried to implement the features of an e-commerce site. The motivation for our project is to provide an effiecient and faster platform for customer and seller interaction. Our major features include: 
  
   - Order a product
   - Sell a product 
