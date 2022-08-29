@@ -5,30 +5,33 @@ import global_controller.views as gviews
 from global_controller.models import *
 from datetime import datetime, timezone
 import threading
+import employee.views as eviews
 
 
 def check_auction():
     thread_run_count = 0
     while True:
-        print(f"Thread run count ----- {thread_run_count}")
+        # print(f"Thread run count ----- {thread_run_count}")
         auctions = Auction.objects.all()
         check_order = False
 
         for auction in auctions:
             if gviews.convert_time(auction.end_time, False) <= gviews.convert_time(datetime.now(timezone.utc), True):
-                print("auction order maybe placed")
+                # print("auction order maybe placed")
                 pkitems = PackageItem.objects.filter(auction=auction)
+
+                faka = False
                 for p in pkitems:
-                    if p.order is not None:
-                        check_order = True
-                        continue
-                if check_order:
-                    check_order = False
+                    if p.order is None:
+                        faka = True
+
+                if not faka:
                     continue
-                
+
+                print("starting to make order")
                 # Create a transaction record for the auction order
                 if auction.bid is not None:
-                    print(f"Starting new auction order")
+                    # print(f"Starting new auction order")
 
                     # make transaction
                     transaction = Transaction(type='buy', amount=auction.bid.bid_amount)
@@ -43,26 +46,25 @@ def check_auction():
                     order_status = Order_Status.objects.get(status='In Shop')
 
                     # fetch a deliveryman
-                    deliveryman = Deliveryman.objects.get(id=1)
 
-                    print(f"Processing new auction order")
+                    # print(f"Processing new auction order")
 
                     # create a new order record
                     # pkitems = PackageItem.objects.filter(auction=auction)
                     for p in pkitems:
+                        deliveryman = eviews.getlocaldriver(auction.seller.hub.id)
                         order = Order(seller=auction.seller, product=p.inventory.product, status=order_status,
                                       deliveryman=deliveryman, OTP=customer.views.generate_otp(),
                                       quantity=p.quantity, order_set=order_set)
                         order.save()
-
                         p.order = order
                         p.save()
 
-                    print(f"New auciton order processed")
+                    print(f"New auction order processed")
 
         thread_run_count += 1
-        print("auctions edited")
-        time.sleep(5)
+        # print("auctions edited")
+        time.sleep(15)
 
 
 def start_auction_checker_multithreaded():

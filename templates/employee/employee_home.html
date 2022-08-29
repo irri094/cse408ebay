@@ -29,8 +29,7 @@
         <tbody id="deliveryman-table-body">
             {% for key, value in info.items %} {% for nested_key, deliveryman in value.items %} {% if nested_key == 'deliveryman' %}
             <tr>
-                {#
-                <td class="text-center">{{ forloop.counter }}</td>#}
+                <td class="text-center">{{ forloop.counter }}</td>
                 <td class="text-center">{{ deliveryman.name }}</td>
                 <td class="text-center">{{ deliveryman.phone }}</td>
                 <td class="text-center btn-auction-td">
