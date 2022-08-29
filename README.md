@@ -26,12 +26,16 @@ After ordering a product, it can be tracked. It will be picked up from the selle
 When customer and seller are under the same hub:
 
 Seller &rarr Local Deliveryman &rarr Customer
-(Status) : In Shop &rarr Picked Up &rarr Delivered
 
-When customer and seller are under differnt hub:
 
-Seller &rarr Local Deliveryman &rarr Hub Employee &rarr Inter-District Deliveryman &rarr Hub Employee &rarr Local Deliveryman &rarr Customer
-(Status) : In Shop &rarr Picked Up &rarr In Hub &rarr On Highway &rarr In Hub2 &rarr Out To Delivery &rarr Delivered
+(Status) : In Shop --> Picked Up --> Delivered
+
+When customer and seller are under different hub:
+
+Seller --> Local Deliveryman --> Hub Employee --> Inter-District Deliveryman --> Hub Employee --> Local Deliveryman --> Customer
+
+
+(Status) : In Shop --> Picked Up --> In Hub --> On Highway --> In Hub2 --> Out To Delivery --> Delivered
 
  
 ## Bidding in an Auction
