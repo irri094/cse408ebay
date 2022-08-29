@@ -192,13 +192,13 @@ def accept_order(request):
 def reject_order(request):
     # o_name = request.GET['name']
     # print(o_name)
-    o_id = request.GET['name']
-    ord=Order.objects.get(id=o_id)
+    o_id = request.GET['order_id']
+    order=Order.objects.get(id=o_id)
 
     order_status = "In Shop"
     stat = Order_Status.objects.get(status = order_status)
-    ord.status = stat
-    ord.save()
+    order.status = stat
+    order.save()
 
     context = {
         'status': 1,
