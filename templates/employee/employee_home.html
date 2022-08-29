@@ -14,16 +14,12 @@
     }
 </style>
 
-{# {% for key, value in info.items %}#} {# {{ value.deliveryman.phone }}#} {# {% for nested_key, nested_value in value.items %}#} {# {{ nested_value }}#} {# {% if nested_key == 'deliveryman' %}#} {# {{ nested_key }} -- {{ nested_value }}#} {#
-<p></p>#} {# {% elif nested_key == 'orders' %}#} {# {{ nested_key }} -- {{ nested_value }}#} {##} {# {% for order in nested_value %}#} {##} {# {{ order.id }}#} {##} {# {% endfor %}#} {##} {#
-<p><strong>Found it</strong></p>#} {# {% endif %}#} {# {% endfor %}#} {# {% endfor %}#} {# #} {# #}
 <h1 class="mt-4">Deliveryman List</h1>
 <div class="row my-4">
     <table class="table table-striped">
         <thead>
             <tr>
-                {#
-                <th class="">#</th>#}
+                {#<th class="">#</th>#}
                 <th class="text-center">Name</th>
                 <th class="text-center">Phone</th>
                 <th class="text-center">Check Orders</th>

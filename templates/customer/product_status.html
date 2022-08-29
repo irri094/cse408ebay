@@ -25,7 +25,19 @@
                     <td class="text-center">{{ order.quantity }}</td>
                     <td class="text-center">{{ order.order_set.date }}</td>
                     <td class="text-center">{{ order.deliveryman }}</td>
-                    <td class="text-center">{{ order.OTP }}</td>
+                    <td class="text-center">
+                        {% if order.status.status == "In Shop" %}
+                        {% elif order.status.status == "In Hub2" %}
+                        {% else %}
+                            {% if order.deliveryman.current_hub == order.order_set.customer.delivery_address_hub %}
+                                {% if order.deliveryman.designation == "Local" %}
+                                    {{ order.OTP }}
+                                {% endif %}
+                            {% endif %}
+
+                        {% endif %}
+
+                    </td>
                     <td class="text-center">
                         {% if order.status.id is 1 %}
                             <span class="badge rounded-pill text-bg-warning">{{ order.status }}</span>

@@ -22,8 +22,7 @@ $('.btn-hub-accept').click(function () {
                 if (data.status == 1) {
 
                     Swal.fire(
-                        'Order Accepted!',
-                        'Order is now in Hub',
+                        'Successful!',
                         'success'
                     )
 
@@ -60,8 +59,7 @@ $('.btn-hub-reject').click(function () {
                 if (data.status == 1) {
 
                     Swal.fire(
-                        'Order Rejected!',
-                        'Order returned to Seller',
+                        'Done!',
                         'success'
                     )
 
