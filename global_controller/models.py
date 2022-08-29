@@ -22,6 +22,10 @@ class User(models.Model):
 
 class Hub(models.Model):
     address = models.CharField(max_length=100)
+    coord = models.CharField(max_length=50, default="", null=True)
+
+    def __str__(self):
+        return str(self.address)
 
 
 class Hubman(models.Model):
@@ -44,6 +48,8 @@ class Customer(models.Model):
     wallet = models.IntegerField()
     mail = models.EmailField(null=True)
 
+    coord = models.CharField(max_length=50, default="", null=True)
+
     def __str__(self):
         return self.name + " | " + self.phone
 
@@ -61,7 +67,7 @@ class Seller(models.Model):
     coord = models.CharField(max_length=50, default="")
 
     def __str__(self):
-        return self.name + " | " + self.shop_name
+        return self.name + " | " + self.shop_name + " | " + str(self.hub.address)
 
 
 class Brand(models.Model):
@@ -91,7 +97,7 @@ class Product(models.Model):
 
 
 class Deliveryman(models.Model):
-    current_hub = models.ManyToManyField(Hub)
+    current_hub = models.ForeignKey(Hub, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=30)
     address = models.CharField(max_length=100)
     designation = models.CharField(max_length=100)
@@ -100,7 +106,7 @@ class Deliveryman(models.Model):
     vehicle_no = models.CharField(max_length=20)
 
     def __str__(self):
-        return self.name + " | " + self.vehicle_no
+        return self.name + " | " + self.designation + " | " + str(self.current_hub)
 
 
 class Order_Status(models.Model):
@@ -124,7 +130,7 @@ class Order_Set(models.Model):
     transaction = models.OneToOneField(Transaction, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.customer) + " | " + str(self.date)
+        return str(self.customer.name) + " | " + str(self.date) + " | " + str(self.customer.delivery_address_hub.address)
 
 
 class Order(models.Model):
@@ -137,7 +143,7 @@ class Order(models.Model):
     order_set = models.ForeignKey(Order_Set, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.seller) + " | " + str(self.product) + " | " + str(self.quantity)
+        return str(self.seller) + " | " + str(self.product) + " | " + str(self.quantity) + " | " + str(self.status)
 
 
 class Return(models.Model):

@@ -119,7 +119,7 @@ $('#auction-multiple').click(function () {
     let td_btn_auction = document.getElementsByClassName('btn-auction')
     let quantity
     let inventory_id
-    
+
     for (var i = 0; i < auction_td.length; i++) {
         quantity = document.getElementsByClassName('btn-auction-quantity')[i].innerText
         inventory_id = td_btn_auction[0].getAttribute('data-inventory-id')
@@ -130,7 +130,7 @@ $('#auction-multiple').click(function () {
     }
 
     let inventory_table_body = document.getElementById('seller-inventory-table-body').innerHTML
-    
+
     inventory_table_body += '<tr><td></td><td></td><td></td><td></td><td></td><td></td><td><button class="btn btn-outline-success" id="" data-bs-toggle="modal"' +
         ' data-bs-target="#auction_package_modal">Proceed</button></td></tr>'
     document.getElementById('seller-inventory-table-body').innerHTML = inventory_table_body
@@ -253,3 +253,56 @@ function test_function() {
 }
 
 
+$('.btn-restock').click(function () {
+
+    let inventory_id = $(this).attr('data-inventory-id')
+    $("#auction_product_id").val(inventory_id)
+
+    console.log("inventory id " + inventory_id)
+
+    let product_name = $(this).attr('data-product-name')
+
+    console.log("product name " + product_name)
+
+    document.getElementById('product_name_id').innerText = product_name
+    document.getElementById('restock_product_name_id').innerText = product_name
+})
+
+
+
+
+
+$('#btn_restock').click(function () {
+
+    let stock_quantity = document.getElementById('restock_quantity').value
+    let inv_id = document.getElementById('auction_product_id').value
+    document.getElementById('restock_quantity').value = ""
+
+
+
+    mydata = {
+        restock : stock_quantity,
+        inventory_id: inv_id
+    }
+
+    console.log()
+
+    $.ajax(
+        {
+            url: "restock-inventory/",
+            method: 'GET',
+            data: mydata,
+            success: function (data) {
+
+                let restocked_quantity = data.restocked_quantity
+
+                document.getElementById("inventory_quantity_" + inv_id).innerText = restocked_quantity
+                Swal.fire({
+                        icon: 'success',
+                        title: 'Product restock successful',
+                    })
+
+            }
+        }
+    )
+})

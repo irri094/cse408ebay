@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_protect
 import json
 import random
+from datetime import date
 from global_controller.models import *
 from django.core.files.storage import FileSystemStorage
 from django.core.cache import cache
@@ -31,15 +32,25 @@ def load_order_history(request):
 
 def load_inventory(request):
     # This variable is used to display the current wallet amount of the seller.
-
-    current_wallet = Seller.objects.get(phone=request.session['phone_num']).wallet
-    inventory = Inventory.objects.filter(seller__name=request.session['username'])
     seller = Seller.objects.get(phone=request.session['phone_num'])
-
+    print(seller)
+    current_wallet = seller.wallet
+    inventory = Inventory.objects.filter(seller__name=request.session['username'])
+    # seller = Seller.objects.get(phone=request.session['phone_num'])
+    ordered = Order.objects.filter(seller=seller, status__status="In Shop").count()
+    delivered = Order.objects.filter(seller=seller, status__status="Delivered").count()
+    returned = Order.objects.filter(seller=seller, status__status="Returned").count()
+    auction = Auction.objects.filter(seller=seller).count()
+    # spent =
+    # wallet
     context = {
         'inventories': inventory,
         'current_wallet': current_wallet,
         'seller': seller,
+        'ordered': ordered,
+        'delivered': delivered,
+        'returned': returned,
+        'auction': auction
     }
     print(inventory)
     return render(request, 'seller/home.html', context)
@@ -62,6 +73,7 @@ def current_order(request):
 
     # orders = Order.objects.filter(seller__phone=seller_phone)
     orders = Order.objects.filter(seller__phone=seller_phone).order_by('-order_set__date')
+    # orders = Order.objects.filter(seller__phone=seller_phone, status__status == 'In Shop').order_by('-order_set__date')
 
     print(orders)
     context = {
@@ -71,7 +83,12 @@ def current_order(request):
 
 
 def order_history(request):
-    context = {}
+    seller = Seller.objects.get(phone=request.session['phone_num'])
+    orders = Order.objects.filter(seller=seller).exclude(status__status='In Shop').order_by('-order_set__date')
+    print(orders)
+    context = {
+        'orders': orders
+    }
     return render(request, 'seller/order_history.html', context)
 
 
@@ -150,6 +167,12 @@ def wallet_to_bank(request):
     seller.wallet = int(seller.wallet) - int(amount)
     seller.save()
 
+    # transaction = Transaction(type='RECHARGE', amount=amount)
+    # transaction.save()
+    # print(f"Transaction saved {transaction}")
+
+    # ord_set = Order_Set(customer=seller,date=date.todya(), transaction=transaction)
+    # ord_set.save()
     current_wallet = seller.wallet
 
     context = {
@@ -241,5 +264,21 @@ def auction_multiple_product(request):
     print("new package auction made")
     context = {
         'status': 1,
+    }
+    return JsonResponse(context)
+
+
+def restock_inventory(request):
+    quantity = request.GET['restock']
+    inventory_id = request.GET['inventory_id']
+
+    inventory = Inventory.objects.get(id=inventory_id)
+
+    # update inventory
+    inventory.quantity = int(inventory.quantity) + int(quantity)
+    inventory.save()
+
+    context = {
+        'restocked_quantity': inventory.quantity
     }
     return JsonResponse(context)

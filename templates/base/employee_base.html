@@ -8,8 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <meta name="description" content=""/>
     <meta name="author" content=""/>
-    <title>Seller</title>
+    <title>Hub Activity</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet"/>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
@@ -47,38 +48,28 @@
             <div class="sb-sidenav-menu">
                 <div class="nav">
 
-                    <a class="nav-link" href="{% url 'seller:home' %}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-boxes-stacked"></i></div>
-                        Inventory
+                    <a class="nav-link" href="{% url 'employee:home' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Product Recieve local
                     </a>
-
-                    <a class="nav-link" href="{% url 'seller:add_products' %}">
-                        <div class="sb-nav-link-icon"><i class="fas fa-plus"></i></div>
-                        Add a Product
+                    <a class="nav-link" href="{% url 'employee:shipmentreceive' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Product Recieve global
                     </a>
-
-                    <a class="nav-link" href="{% url 'seller:current_order' %}">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-tachometer-alt"></i></div>
-                        Current Order
+                    <a class="nav-link" href="{% url 'employee:shipmentsend' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Product Shipment global
                     </a>
-
-                    <a class="nav-link" href="{% url 'seller:order_history' %}">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
-                        Order History
+                    <a class="nav-link" href="{% url 'employee:localdelivery' %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Product Shipment local
                     </a>
-
-                    <!-- <a class="nav-link" href="{% url 'seller:transaction-history' %}">
-                        <div class="sb-nav-link-icon"><i class="fa-solid fa-wallet"></i></div>
-                        Transactions
-                    </a> -->
-
-
 
                 </div>
             </div>
             <div class="sb-sidenav-footer">
                 <div class="small">Logged in as:</div>
-                {{ seller_name }}
+                {{ employee_name }}
             </div>
         </nav>
     </div>
@@ -86,10 +77,9 @@
         <main>
             <div class="container-fluid px-4 mt-4">
 
-                {% block seller_home %}
+                {% block employee_home %}
                 {% endblock %}
-
-                {% block transaction_history %}
+                {% block employee_home2 %}
                 {% endblock %}
 
             </div>
@@ -101,7 +91,6 @@
         crossorigin="anonymous"></script>
 
 {#<script src="{% static 'seller/js/home.js' %}"></script>#}
-<script src="{% static 'seller/js/current_order.js' %}"></script>
 {#<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>#}
 
 {# sweetalert 2#}

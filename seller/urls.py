@@ -15,4 +15,6 @@ urlpatterns = [
     path("product_register/", views.product_register, name="product_register"),
     path("transcation-history/", views.transaction_history, name="transaction-history"),
     path("auction-multiple-product/", views.auction_multiple_product, name="auction-multiple-product"),
+    path("restock-inventory/", views.restock_inventory, name="restock-inventory"),
+
 ]

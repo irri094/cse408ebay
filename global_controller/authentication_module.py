@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from geopy.geocoders import Nominatim
 from django.core.mail import send_mail
 
+
 # Login Authentication Module
 def logIn(request):
     if 'username' in request.session:
@@ -21,6 +22,7 @@ def logIn(request):
             return redirect(reverse('seller:home'))
         elif user.user_type.type == 'deliveryman':
             print("redirecting to deliveryman")
+
             return redirect(reverse('deliveryman:home'))
         elif user.user_type.type == 'employee':
             print("redirecting to employee")
@@ -30,8 +32,11 @@ def logIn(request):
         print("processing authentication")
         u_name = request.POST['username']
         p_word = request.POST['password']
-        print('ioasdoiasud')
-        user = User.objects.get(username=u_name)
+        try:
+            user = User.objects.get(username=u_name)
+        except:
+            request.session.clear()
+            return render(request, 'global_controller/login.html')
         print(user)
         print("192739187238917")
         print(f"user_username -- {user.username}  || {u_name}")
@@ -60,16 +65,22 @@ def logIn(request):
                 tmpname = Hubman.objects.get(phone=u_name).name
                 create_session(request, tmpname, u_name)
                 return redirect(reverse('employee:home'))
+
     print("coming down here")
     return render(request, 'global_controller/login.html')
 
 
 # The account is created and the phone number is used as the username
 def register(request):
-    context = {}
+    context = {
+        'hubs': Hub.objects.all()
+    }
     if 'username' in request.session:
-        return redirect("/")
+        return redirect(reverse('login'))
     if request.method == "POST":
+
+        print(request.POST)
+
         name = request.POST['username']
         email = request.POST['email']
         address = request.POST['address']
@@ -77,22 +88,24 @@ def register(request):
         phone = request.POST['phone']
         password1 = request.POST['password1']
         password2 = request.POST['password2']
-        print(request.POST)
+        coordinate = request.POST['coordinate']
+        hub_id = request.POST['hub']
+        # print(request.POST)
         if password1 == password2 and not User.objects.filter(username=phone).exists():
             # 'username': ['sfd'], 'email': ['a@f'], 'address': ['324'], 'nid': ['12321'], 'phone': ['235523'], 'password1': ['fqwf'], 'password2': ['fsa']}
             user_type = UserType.objects.get(type="customer")
             new_user = User(username=phone, password=password1, user_type=user_type)
             # user_type = UserType.objects.get(type="customer")
-            try:
-                hub = Hub.objects.get(address=address)
-            except:
-                return render(request, 'global_controller/register.html', context)
+
+            hub = Hub.objects.get(id=hub_id)
+                # return render(request, 'global_controller/customer_register.html', context)
             new_customer = Customer(name=name, address=address, NID=nid, phone=phone, wallet=0,
-                                   delivery_address_hub=hub, mail=email)
+                                    delivery_address_hub=hub, mail=email, coord=coordinate)
             new_customer.save()
             new_user.save()
 
     return render(request, 'global_controller/register.html', context)
+    # return render(request, 'global_controller/customer_register.html', context)
 
 
 # The account is created and the phone number is used as the username.
@@ -191,6 +204,7 @@ def get_address_from_coordinate(request):
         'address': location.raw['display_name']
     }
     return JsonResponse(context)
+
 
 def test_mail(request):
     print('test mail started')
