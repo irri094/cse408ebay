@@ -38,6 +38,7 @@ def load_employee(request):
         lst = []
         context = {}
         context['info'] = {}
+        context['employee_name'] = Hubman.objects.get(phone=request.session['phone_num']).name
         print(deliveryman_distinct)
         for data in deliveryman_distinct:
 
@@ -71,6 +72,7 @@ def load_employee2(request):
         lst = []
         context = {}
         context['info'] = {}
+        context['employee_name'] = Hubman.objects.get(phone=request.session['phone_num']).name
         print(deliveryman_distinct)
         for data in deliveryman_distinct:
 

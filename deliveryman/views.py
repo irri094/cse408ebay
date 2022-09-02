@@ -26,7 +26,7 @@ def load_deliveryman(request):
     deliveryman_coord = deliveryman.current_hub.coord
 
     context = {
-        'deliveryman_name': "Deliveryman",
+        'deliveryman_name': deliveryman.name,
         'title': 'Deliveryman',
         'info': 'This is deliveryman',
         'deliveryman_coord': deliveryman_coord,
