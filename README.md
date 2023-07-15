@@ -55,3 +55,10 @@ After an auction is placed, it will have an end time. After that time the auctio
 
 ## Mail Automation
 Whenever a customer buys a product, a real-time mail is sent to the customer. 
+
+#### Execution steps
+1. Install the required dependencies:
+   ```pip install -r requirements.txt```
+2. Create database in MySQL and update `settings.py`.
+3. Run the application:
+ ```python3 manage.py runserver```
